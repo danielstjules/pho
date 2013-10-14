@@ -88,7 +88,7 @@ class Runner
         self::runRunnable($suite->after);
     }
 
-    private static function runSpecs($suite)
+    private static function runSpecs(Suite $suite)
     {
         foreach ($suite->specs as $spec) {
             self::runRunnable($suite->beforeEach);

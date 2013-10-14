@@ -10,5 +10,7 @@ class Spec extends Runnable
     {
         $this->title = $title;
         $this->context = $context;
+        $this->errors = [];
+        $this->exceptions = [];
     }
 }

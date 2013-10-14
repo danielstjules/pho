@@ -6,11 +6,21 @@ use pho;
 
 class CLIFormatter implements FormatterInterface
 {
+    private $startTime;
+
     private $depth;
 
-    public function construct()
+    private $totalSpecs;
+
+    private $failedSpecs;
+
+    public function __construct()
     {
+        $this->startTime = microtime(true);
+
         $this->depth = 0;
+        $this->totalSpecs = 0;
+        $this->failedSpecs = 0;
     }
 
     public function beforeRun()
@@ -20,7 +30,13 @@ class CLIFormatter implements FormatterInterface
 
     public function afterRun()
     {
-        // TODO: List number of passed tests
+        if ($this->startTime) {
+            $endTime = microtime(true);
+            $runningTime = round($endTime - $this->startTime, 5);
+            echo "\nFinished in $runningTime seconds\n";
+        }
+
+        echo "\n{$this->totalSpecs} specs, {$this->failedSpecs} failures\n";
     }
 
     public function beforeSuite(pho\Suite $suite)
@@ -39,13 +55,22 @@ class CLIFormatter implements FormatterInterface
     public function beforeSpec(pho\Spec $spec)
     {
         $leftPad = str_repeat('    ', $this->depth);
-        echo "$leftPad{$spec->title}\n";
+        echo "$leftPad{$spec->title}";
 
         $this->depth += 1;
     }
 
     public function afterSpec(pho\Spec $spec)
     {
+        if (count($spec->errors) || count($spec->exceptions)) {
+            $this->failedSpecs += 1;
+            echo ' ✖';
+        } else {
+            echo ' ✓';
+        }
+
+        $this->totalSpecs += 1;
         $this->depth -= 1;
+        echo "\n";
     }
 }

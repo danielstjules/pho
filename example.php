@@ -32,9 +32,17 @@ describe('MyClass', function() {
             // echo "spec 2\n";
         });
 
+        it('should throw an exception', function() {
+            throw new Exception('Something went wrong');
+        });
+
         describe('Third-level nested suite', function() {
             it('Testing deeply nested', function() {
                 // echo "deeply nested";
+            });
+
+            it('Should throw an error', function() {
+                trigger_error('Some error', E_USER_ERROR);
             });
         });
 
