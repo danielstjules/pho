@@ -2,13 +2,13 @@
 
 namespace pho;
 
+use pho\Error as Error;
+
 abstract class Runnable
 {
     public $context;
 
-    public $errors;
-
-    public $exceptions;
+    public $error;
 
     public function run()
     {
@@ -29,15 +29,14 @@ abstract class Runnable
 
     public function handleError($level, $string, $file = null, $line = null)
     {
-        // TODO: Define an error handler class
-        $this->errors[] = [$string, $file, $line];
+        $this->error = new Error\RunnableError($level, $string, $file, $line);
 
         return true;
     }
 
     public function handleException($exception)
     {
-        $this->exceptions[] = $exception;
+        $this->error = new Error\RunnableException($exception);
 
         return true;
     }

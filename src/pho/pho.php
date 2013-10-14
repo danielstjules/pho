@@ -3,11 +3,14 @@
 require_once('Formatter/FormatterInterface.php');
 require_once('Formatter/CLIFormatter.php');
 
+require_once('Error/Error.php');
+require_once('Error/RunnableError.php');
+require_once('Error/RunnableException.php');
+
 require_once('Runnable.php');
 require_once('Suite.php');
 require_once('Hook.php');
 require_once('Spec.php');
-
 require_once('Runner.php');
 
 pho\Runner::$formatter = new pho\Formatter\CLIFormatter();

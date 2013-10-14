@@ -29,4 +29,13 @@ class Suite
         $this->specs = [];
         $this->suites = [];
     }
+
+    public function __toString()
+    {
+        if ($this->parent) {
+            return "{$this->parent} {$this->title}";
+        }
+
+        return $this->title;
+    }
 }

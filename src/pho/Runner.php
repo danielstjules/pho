@@ -30,7 +30,7 @@ class Runner
 
     public static function it($title, callable $context)
     {
-        $spec = new Spec($title, $context);
+        $spec = new Spec($title, $context, self::$current);
         self::$current->specs[] = $spec;
     }
 

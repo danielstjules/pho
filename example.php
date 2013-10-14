@@ -2,7 +2,7 @@
 
 require('src/pho/pho.php');
 
-describe('MyClass', function() {
+describe('Some Object', function() {
     before(function() {
         // echo "Before\n";
     });
@@ -19,7 +19,7 @@ describe('MyClass', function() {
         // echo "Top AfterEach\n";
     });
 
-    describe('When my class is created', function() {
+    describe('when created', function() {
         beforeEach(function() {
             // echo "beforeEach\n";
         });
@@ -32,16 +32,16 @@ describe('MyClass', function() {
             // echo "spec 2\n";
         });
 
-        it('should throw an exception', function() {
+        it('should echo a third number', function() {
             throw new Exception('Something went wrong');
         });
 
-        describe('Third-level nested suite', function() {
-            it('Testing deeply nested', function() {
+        describe('and user meets some condition', function() {
+            it('should do something', function() {
                 // echo "deeply nested";
             });
 
-            it('Should throw an error', function() {
+            it('should do something else', function() {
                 trigger_error('Some error', E_USER_ERROR);
             });
         });
@@ -51,7 +51,7 @@ describe('MyClass', function() {
         });
     });
 
-    it('Last spec, within the first suite', function() {
+    it('should be customizable', function() {
         // echo "Last spec\n";
     });
 });

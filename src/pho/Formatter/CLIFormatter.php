@@ -2,7 +2,7 @@
 
 namespace pho\Formatter;
 
-use pho;
+use pho, pho\Error;
 
 class CLIFormatter implements FormatterInterface
 {
@@ -10,7 +10,7 @@ class CLIFormatter implements FormatterInterface
 
     private $depth;
 
-    private $totalSpecs;
+    private $specCount;
 
     private $failedSpecs;
 
@@ -19,8 +19,8 @@ class CLIFormatter implements FormatterInterface
         $this->startTime = microtime(true);
 
         $this->depth = 0;
-        $this->totalSpecs = 0;
-        $this->failedSpecs = 0;
+        $this->specCount = 0;
+        $this->failedSpecs = [];
     }
 
     public function beforeRun()
@@ -30,13 +30,22 @@ class CLIFormatter implements FormatterInterface
 
     public function afterRun()
     {
+        if (count($this->failedSpecs)) {
+            echo "\nFailures:\n";
+        }
+
+        foreach ($this->failedSpecs as $spec) {
+            echo "\n\"$spec\" FAILED\n{$spec->error}\n";
+        }
+
         if ($this->startTime) {
             $endTime = microtime(true);
             $runningTime = round($endTime - $this->startTime, 5);
             echo "\nFinished in $runningTime seconds\n";
         }
 
-        echo "\n{$this->totalSpecs} specs, {$this->failedSpecs} failures\n";
+        $failedCount = count($this->failedSpecs);
+        echo "\n{$this->specCount} specs, $failedCount failures\n";
     }
 
     public function beforeSuite(pho\Suite $suite)
@@ -62,8 +71,8 @@ class CLIFormatter implements FormatterInterface
 
     public function afterSpec(pho\Spec $spec)
     {
-        if (count($spec->errors) || count($spec->exceptions)) {
-            $this->failedSpecs += 1;
+        if ($spec->error instanceof Error\Error) {
+            $this->failedSpecs[] = $spec;
             echo ' ✖';
         } else {
             echo ' ✓';
