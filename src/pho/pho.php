@@ -14,32 +14,32 @@ pho\Runner::$formatter = new pho\Formatter\CLIFormatter();
 
 // Please forgive, for I have polluted the global namespace
 
-function describe($title, $context)
+function describe($title, callable $context)
 {
     pho\Runner::describe($title, $context);
 }
 
-function it($title, $context)
+function it($title, callable $context)
 {
     pho\Runner::it($title, $context);
 }
 
-function before($context)
+function before(callable $context)
 {
     pho\Runner::before($context);
 }
 
-function after($context)
+function after(callable $context)
 {
     pho\Runner::after($context);
 }
 
-function beforeEach($context)
+function beforeEach(callable $context)
 {
     pho\Runner::beforeEach($context);
 }
 
-function afterEach($context)
+function afterEach(callable $context)
 {
     pho\Runner::afterEach($context);
 }

@@ -16,6 +16,8 @@ class Suite
 
     public $afterEach;
 
+    public $parent;
+
     public $suites;
 
     public $specs;
