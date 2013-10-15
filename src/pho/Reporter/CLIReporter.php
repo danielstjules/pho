@@ -78,7 +78,7 @@ class CLIReporter implements ReporterInterface
             echo ' ✓';
         }
 
-        $this->totalSpecs += 1;
+        $this->specCount += 1;
         $this->depth -= 1;
         echo "\n";
     }
