@@ -1,10 +1,10 @@
 <?php
 
-namespace pho\Formatter;
+namespace pho\Reporter;
 
 use pho, pho\Error;
 
-class CLIFormatter implements FormatterInterface
+class CLIReporter implements ReporterInterface
 {
     private $startTime;
 

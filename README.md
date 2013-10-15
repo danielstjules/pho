@@ -5,7 +5,7 @@ BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
 ```
 danielstjules:~/GitHub/pho (master =)
-$ php -f example.php
+$ bin/pho example.php
 pho by Daniel St. Jules
 
 Some Object
@@ -21,12 +21,12 @@ Some Object
 Failures:
 
 "Some Object when created and user meets some condition should do something else" FAILED
-E_USER_ERROR with message 'Some error' in /Users/danielstjules/GitHub/pho/example.php:45
+E_USER_ERROR with message 'Some error' in /Users/danielstjules/GitHub/pho/example.php:43
 
 "Some Object when created should echo a third number" FAILED
-Exception with message 'Something went wrong' in /Users/danielstjules/GitHub/pho/example.php:36
+Exception with message 'Something went wrong' in /Users/danielstjules/GitHub/pho/example.php:34
 
-Finished in 0.00029 seconds
+Finished in 0.00114 seconds
 
 0 specs, 2 failures
 ```

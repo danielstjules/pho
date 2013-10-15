@@ -1,19 +1,6 @@
 <?php
 
-require_once('Formatter/FormatterInterface.php');
-require_once('Formatter/CLIFormatter.php');
-
-require_once('Error/Error.php');
-require_once('Error/RunnableError.php');
-require_once('Error/RunnableException.php');
-
-require_once('Runnable.php');
-require_once('Suite.php');
-require_once('Hook.php');
-require_once('Spec.php');
-require_once('Runner.php');
-
-pho\Runner::$formatter = new pho\Formatter\CLIFormatter();
+pho\Runner::$reporter = new pho\Reporter\CLIReporter();
 
 // Please forgive, for I have polluted the global namespace
 
@@ -46,3 +33,7 @@ function afterEach(callable $context)
 {
     pho\Runner::afterEach($context);
 }
+
+// Need to write a command line option parser
+require_once($argv[1]);
+pho\Runner::run();

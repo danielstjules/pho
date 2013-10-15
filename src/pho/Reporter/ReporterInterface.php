@@ -1,10 +1,10 @@
 <?php
 
-namespace pho\Formatter;
+namespace pho\Reporter;
 
 use pho;
 
-interface FormatterInterface
+interface ReporterInterface
 {
     public function beforeRun();
 

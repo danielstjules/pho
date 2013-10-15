@@ -1,7 +1,5 @@
 <?php
 
-require('src/pho/pho.php');
-
 describe('Some Object', function() {
     before(function() {
         // echo "Before\n";
@@ -26,10 +24,12 @@ describe('Some Object', function() {
 
         it('should echo a number', function() {
             // echo "spec 1\n";
+            sleep(1);
         });
 
         it('should echo a second number', function() {
             // echo "spec 2\n";
+            sleep(1);
         });
 
         it('should echo a third number', function() {
@@ -39,6 +39,7 @@ describe('Some Object', function() {
         describe('and user meets some condition', function() {
             it('should do something', function() {
                 // echo "deeply nested";
+                sleep(1);
             });
 
             it('should do something else', function() {
@@ -55,5 +56,3 @@ describe('Some Object', function() {
         // echo "Last spec\n";
     });
 });
-
-pho\Runner::run();

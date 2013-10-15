@@ -4,7 +4,7 @@ namespace pho;
 
 class Runner
 {
-    public static $formatter;
+    public static $reporter;
 
     private static $suites = [];
 
@@ -60,19 +60,19 @@ class Runner
 
     public static function run()
     {
-        self::$formatter->beforeRun();
+        self::$reporter->beforeRun();
 
         foreach (self::$suites as $suite) {
             self::runSuite($suite);
         }
 
-        self::$formatter->afterRun();
+        self::$reporter->afterRun();
     }
 
     private static function runSuite(Suite $suite)
     {
         self::runRunnable($suite->before);
-        self::$formatter->beforeSuite($suite);
+        self::$reporter->beforeSuite($suite);
 
         // Run nested suites
         foreach ($suite->suites as $nestedSuite) {
@@ -84,7 +84,7 @@ class Runner
         // Run the specs
         self::runSpecs($suite);
 
-        self::$formatter->afterSuite($suite);
+        self::$reporter->afterSuite($suite);
         self::runRunnable($suite->after);
     }
 
@@ -92,11 +92,11 @@ class Runner
     {
         foreach ($suite->specs as $spec) {
             self::runRunnable($suite->beforeEach);
-            self::$formatter->beforeSpec($spec);
+            self::$reporter->beforeSpec($spec);
 
             self::runRunnable($spec);
 
-            self::$formatter->afterSpec($spec);
+            self::$reporter->afterSpec($spec);
             self::runRunnable($suite->afterEach);
         }
     }

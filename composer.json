@@ -18,5 +18,6 @@
     },
     "autoload": {
         "psr-0": { "pho": "src/" }
-    }
+    },
+    "bin": ["bin/pho"]
 }
