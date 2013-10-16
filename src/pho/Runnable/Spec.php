@@ -15,6 +15,11 @@ class Spec extends Runnable
         $this->suite = $suite;
     }
 
+    public function passed()
+    {
+        return (!$this->exception instanceof \Exception);
+    }
+
     public function __toString()
     {
         return "{$this->suite} {$this->title}";

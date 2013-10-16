@@ -4,7 +4,6 @@ namespace pho\Reporter;
 
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
-use pho\Exception\Exception;
 
 class CLIReporter implements ReporterInterface
 {
@@ -73,7 +72,7 @@ class CLIReporter implements ReporterInterface
 
     public function afterSpec(Spec $spec)
     {
-        if ($spec->exception instanceof Exception) {
+        if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
             echo ' ✖';
         } else {
