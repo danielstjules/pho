@@ -1,6 +1,6 @@
 <?php
 
-use pho\Runner;
+use pho\Runner\Runner;
 use pho\Reporter\CLIReporter;
 
 Runner::$reporter = new CLIReporter();

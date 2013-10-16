@@ -1,7 +1,8 @@
 <?php
 
-namespace pho;
+namespace pho\Runner;
 
+use pho\Suite\Suite;
 use pho\Runnable\Runnable;
 use pho\Runnable\Spec;
 use pho\Runnable\Hook;

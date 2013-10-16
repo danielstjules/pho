@@ -2,7 +2,7 @@
 
 namespace pho\Reporter;
 
-use pho\Suite;
+use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
 interface ReporterInterface

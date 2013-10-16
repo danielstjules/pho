@@ -1,6 +1,6 @@
 <?php
 
-namespace pho;
+namespace pho\Suite;
 
 class Suite
 {
