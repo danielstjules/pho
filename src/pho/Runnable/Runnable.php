@@ -1,14 +1,15 @@
 <?php
 
-namespace pho;
+namespace pho\Runnable;
 
-use pho\Error as Error;
+use pho\Exception\ErrorException;
+use pho\Exception\RunnableException;
 
 abstract class Runnable
 {
     public $context;
 
-    public $error;
+    public $exception;
 
     public function run()
     {
@@ -29,14 +30,14 @@ abstract class Runnable
 
     public function handleError($level, $string, $file = null, $line = null)
     {
-        $this->error = new Error\RunnableError($level, $string, $file, $line);
+        $this->exception = new ErrorException($level, $string, $file, $line);
 
         return true;
     }
 
     public function handleException($exception)
     {
-        $this->error = new Error\RunnableException($exception);
+        $this->exception = new RunnableException($exception);
 
         return true;
     }

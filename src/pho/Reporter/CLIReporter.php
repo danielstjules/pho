@@ -2,7 +2,9 @@
 
 namespace pho\Reporter;
 
-use pho, pho\Error;
+use pho\Suite;
+use pho\Runnable\Spec;
+use pho\Exception\Exception;
 
 class CLIReporter implements ReporterInterface
 {
@@ -35,7 +37,7 @@ class CLIReporter implements ReporterInterface
         }
 
         foreach ($this->failedSpecs as $spec) {
-            echo "\n\"$spec\" FAILED\n{$spec->error}\n";
+            echo "\n\"$spec\" FAILED\n{$spec->exception}\n";
         }
 
         if ($this->startTime) {
@@ -48,7 +50,7 @@ class CLIReporter implements ReporterInterface
         echo "\n{$this->specCount} specs, $failedCount failures\n";
     }
 
-    public function beforeSuite(pho\Suite $suite)
+    public function beforeSuite(Suite $suite)
     {
         $leftPad = str_repeat('    ', $this->depth);
         echo "$leftPad{$suite->title}\n";
@@ -56,12 +58,12 @@ class CLIReporter implements ReporterInterface
         $this->depth += 1;
     }
 
-    public function afterSuite(pho\Suite $suite)
+    public function afterSuite(Suite $suite)
     {
         $this->depth -= 1;
     }
 
-    public function beforeSpec(pho\Spec $spec)
+    public function beforeSpec(Spec $spec)
     {
         $leftPad = str_repeat('    ', $this->depth);
         echo "$leftPad{$spec->title}";
@@ -69,9 +71,9 @@ class CLIReporter implements ReporterInterface
         $this->depth += 1;
     }
 
-    public function afterSpec(pho\Spec $spec)
+    public function afterSpec(Spec $spec)
     {
-        if ($spec->error instanceof Error\Error) {
+        if ($spec->exception instanceof Exception) {
             $this->failedSpecs[] = $spec;
             echo ' ✖';
         } else {

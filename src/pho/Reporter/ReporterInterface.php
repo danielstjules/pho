@@ -2,7 +2,8 @@
 
 namespace pho\Reporter;
 
-use pho;
+use pho\Suite;
+use pho\Runnable\Spec;
 
 interface ReporterInterface
 {
@@ -10,11 +11,11 @@ interface ReporterInterface
 
     public function afterRun();
 
-    public function beforeSuite(pho\Suite $suite);
+    public function beforeSuite(Suite $suite);
 
-    public function afterSuite(pho\Suite $suite);
+    public function afterSuite(Suite $suite);
 
-    public function beforeSpec(pho\Spec $spec);
+    public function beforeSpec(Spec $spec);
 
-    public function afterSpec(pho\Spec $spec);
+    public function afterSpec(Spec $spec);
 }

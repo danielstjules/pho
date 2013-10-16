@@ -1,6 +1,6 @@
 <?php
 
-namespace pho;
+namespace pho\Runnable;
 
 class Spec extends Runnable
 {

@@ -2,6 +2,10 @@
 
 namespace pho;
 
+use pho\Runnable\Runnable;
+use pho\Runnable\Spec;
+use pho\Runnable\Hook;
+
 class Runner
 {
     public static $reporter;
