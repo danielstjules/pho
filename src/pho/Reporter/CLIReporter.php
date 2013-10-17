@@ -15,6 +15,10 @@ class CLIReporter implements ReporterInterface
 
     private $failedSpecs;
 
+    /**
+     * Creates the CLIReporter object, used in generating console output when
+     * pho is ran using the command line.
+     */
     public function __construct()
     {
         $this->startTime = microtime(true);
@@ -24,11 +28,18 @@ class CLIReporter implements ReporterInterface
         $this->failedSpecs = [];
     }
 
+    /**
+     * The method is ran prior the test suite execution.
+     */
     public function beforeRun()
     {
         echo "pho by Daniel St. Jules\n\n";
     }
 
+    /**
+     * Invoked after the test suite has ran, allowing for the display of test
+     * results and related statistics.
+     */
     public function afterRun()
     {
         if (count($this->failedSpecs)) {
@@ -49,6 +60,11 @@ class CLIReporter implements ReporterInterface
         echo "\n{$this->specCount} specs, $failedCount failures\n";
     }
 
+    /**
+     * Ran before the containing test suite is invoked.
+     *
+     * @param Suite $suite The test suite before which to run this method
+     */
     public function beforeSuite(Suite $suite)
     {
         $leftPad = str_repeat('    ', $this->depth);
@@ -57,11 +73,21 @@ class CLIReporter implements ReporterInterface
         $this->depth += 1;
     }
 
+    /**
+     * Ran after the containing test suite is invoked.
+     *
+     * @param Suite $suite The test suite after which to run this method
+     */
     public function afterSuite(Suite $suite)
     {
         $this->depth -= 1;
     }
 
+    /**
+     * Ran before an individual spec.
+     *
+     * @param Spec $spec The spec before which to run this method
+     */
     public function beforeSpec(Spec $spec)
     {
         $leftPad = str_repeat('    ', $this->depth);
@@ -70,6 +96,12 @@ class CLIReporter implements ReporterInterface
         $this->depth += 1;
     }
 
+    /**
+     * Ran after an individual spec. May be used to display the results of that
+     * particular spec.
+     *
+     * @param Spec $spec The spec after which to run this method
+     */
     public function afterSpec(Spec $spec)
     {
         if (!$spec->passed()) {

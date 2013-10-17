@@ -24,6 +24,16 @@ class ErrorException extends Exception
         E_USER_DEPRECATED   => 'E_USER_DEPRECATED'
     ];
 
+    /**
+     * Creates an ErrorException, given the same parameters used by an error
+     * handler used with set_error_handler(). The class only handles the default
+     * PHP constant error levels.
+     *
+     * @param int    $level  The error level corresponding to the PHP error
+     * @param string $string Error message itself
+     * @param string $file   The name of the file from which the error was raised
+     * @param int    $line   The line number from which the error was raised
+     */
     public function __construct($level, $string, $file = null, $line = null)
     {
         parent::__construct($string, 0);
