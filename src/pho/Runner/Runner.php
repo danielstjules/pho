@@ -15,6 +15,15 @@ class Runner
 
     private static $current;
 
+    /**
+     * Constructs a test Suite, assigning it the given title and anonymous
+     * function. If it's a child of another suite, a reference to the parent
+     * suite is stored. This is done by tracking the current and previously
+     * defined suites.
+     *
+     * @param string   $title   A title to be associated with the suite
+     * @param callable $context The closure to invoke when the suite is ran
+     */
     public static function describe($title, callable $context)
     {
         $previous = self::$current;
@@ -33,36 +42,71 @@ class Runner
         self::$current = $previous;
     }
 
+    /**
+     * Constructs a new Spec, adding it to the list of specs in the current suite.
+     *
+     * @param string   $title   A title to be associated with the spec
+     * @param callable $context The closure to invoke when the spec is ran
+     */
     public static function it($title, callable $context)
     {
         $spec = new Spec($title, $context, self::$current);
         self::$current->specs[] = $spec;
     }
 
+    /**
+     * Constructs a new Hook, defining a closure to be ran prior to the parent
+     * suite's context.
+     *
+     * @param callable $context The closure to be ran before the suite
+     */
     public static function before(callable $context)
     {
         $before = new Hook($context);
         self::$current->before = $before;
     }
 
+    /**
+     * Constructs a new Hook, defining a closure to be ran after the parent
+     * suite's context.
+     *
+     * @param callable $context The closure to be ran after the suite
+     */
     public static function after(callable $context)
     {
         $after = new Hook($context);
         self::$current->after = $after;
     }
 
+    /**
+     * Constructs a new Hook, defining a closure to be ran prior to each of
+     * the parent suite's nested suites and specs.
+     *
+     * @param callable $context The closure to be ran before each spec
+     */
     public static function beforeEach(callable $context)
     {
         $beforeEach = new Hook($context);
         self::$current->beforeEach = $beforeEach;
     }
 
+    /**
+     * Constructs a new Hook, defining a closure to be ran prior to each of
+     * the parent suite's nested suites and specs.
+     *
+     * @param callable $context The closure to be ran after each spec
+     */
     public static function afterEach(callable $context)
     {
         $afterEach = new Hook($context);
         self::$current->afterEach = $afterEach;
     }
 
+    /**
+     * Starts the test runner by first invoking the associated reporter's
+     * beforeRun() method, then iterating over all defined suites and running
+     * their specs, and calling the reporter's afterRun() when complete.
+     */
     public static function run()
     {
         self::$reporter->beforeRun();
@@ -74,6 +118,13 @@ class Runner
         self::$reporter->afterRun();
     }
 
+    /**
+     * Runs a particular suite by running the associated hooks and reporter,
+     * methods, iterating over its child suites and recursively calling itself,
+     * followed by running its specs.
+     *
+     * @param Suite $suite The suite to run
+     */
     private static function runSuite(Suite $suite)
     {
         self::runRunnable($suite->before);
@@ -93,6 +144,11 @@ class Runner
         self::runRunnable($suite->after);
     }
 
+    /**
+     * Runs the specs associated with the provided test suite. It iterates
+     * over and runs each spec, calling the reporters beforeSpec and afterSpec
+     * methods, as well as the suite's beforeEach and aferEach hooks.
+     */
     private static function runSpecs(Suite $suite)
     {
         foreach ($suite->specs as $spec) {
@@ -106,6 +162,10 @@ class Runner
         }
     }
 
+    /**
+     * A short helper method that calls an object's run() method only if it's
+     * an instance of Runnable.
+     */
     private static function runRunnable($runnable)
     {
         if ($runnable instanceof Runnable) {
