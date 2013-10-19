@@ -1,9 +1,10 @@
 <?php
 
 use pho\Runner\Runner;
-use pho\Reporter\CLIReporter;
+use pho\Reporter\SpecReporter;
+use pho\Reporter\DotReporter;
 
-Runner::$reporter = new CLIReporter();
+Runner::$reporter = new SpecReporter();
 
 // Please forgive, for I have polluted the global namespace
 
