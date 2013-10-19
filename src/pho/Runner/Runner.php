@@ -11,6 +11,8 @@ class Runner
 {
     public static $reporter;
 
+    public static $console;
+
     private static $suites = [];
 
     private static $current;
@@ -109,6 +111,11 @@ class Runner
      */
     public static function run()
     {
+        // Parse the command line options and instantiate the reporter
+        self::$console->parseOptions();
+        $reporterClass = self::$console->getReporterClass();
+        self::$reporter = new $reporterClass();
+
         self::$reporter->beforeRun();
 
         foreach (self::$suites as $suite) {

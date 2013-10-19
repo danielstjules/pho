@@ -1,10 +1,7 @@
 <?php
 
 use pho\Runner\Runner;
-use pho\Reporter\SpecReporter;
-use pho\Reporter\DotReporter;
-
-Runner::$reporter = new SpecReporter();
+use pho\Console\Console;
 
 // Please forgive, for I have polluted the global namespace
 
@@ -76,6 +73,6 @@ function afterEach(callable $context)
     Runner::afterEach($context);
 }
 
-// Need to write a command line option parser
-require_once($argv[1]);
+// Create a new Console and start the runner
+Runner::$console = new Console(array_slice($argv, 1));
 Runner::run();
