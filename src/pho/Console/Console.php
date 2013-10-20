@@ -25,6 +25,13 @@ class Console
 
     private $defaultDirs = ['test', 'spec'];
 
+    /**
+     * The constructor creates a ConsoleOption object for each option the
+     * application exposes as a command line argument. Also, if either a test
+     * or spec directory exists, they are set as the default paths to traverse.
+     *
+     * @param array $arguments An array of argument strings
+     */
     public function __construct($arguments)
     {
         $this->arguments = $arguments;
@@ -49,17 +56,35 @@ class Console
         }
     }
 
+    /**
+     * Outputs a single line, replacing all occurrences of the newline character
+     * in the string with PHP_EOL for cross-platform support.
+     *
+     * @param string $string The string to print
+     */
     public function write($string)
     {
         echo str_replace("\n", PHP_EOL, $string);
     }
 
+    /**
+     * Outputs a line, followed by a newline, while replacing all occurrences of
+     * '\n' in the string with PHP_EOL for cross-platform support.
+     *
+     * @param string $string The string to print
+     */
     public function writeLn($string)
     {
         $this->write($string);
         echo PHP_EOL;
     }
 
+    /**
+     * Returns the namespaced name of the reporter class requested via the
+     * command line arguments, defaulting to SpecReporter if not specified.
+     *
+     * @return string The namespaced class name of the reporter
+     */
     public function getReporterClass()
     {
         $option = $this->options['--reporter'];
@@ -73,11 +98,24 @@ class Console
         return "pho\\Reporter\\$reporter";
     }
 
+    /**
+     * Returns an array of strings corresponding to file and directory paths
+     * to be traversed.
+     *
+     * @return array An array of paths
+     */
     public function getPaths()
     {
         return $this->paths;
     }
 
+    /**
+     * Parses the arguments originally supplied via the constructor, assigning
+     * values to the ConsoleOptions in the $options array. If the arguments
+     * included the --help/-h option, help text is printed and the application
+     * exits. Furthermore, if the arguments included a non-valid flag or option,
+     * an error is printed and the application terminates.
+     */
     public function parseArguments()
     {
         $args = $this->arguments;
@@ -90,7 +128,7 @@ class Console
         for ($i = 0; $i < count($args); $i++) {
             if (!array_key_exists($args[$i], $this->options)) {
                 // The option isn't defined
-                if (strpos('-', $args[$i]) === 0) {
+                if (strpos($args[$i], '-') === 0) {
                     $this->writeLn("{$args[$i]} is not a valid option");
                     exit();
                 } else {
@@ -117,6 +155,10 @@ class Console
         }
     }
 
+    /**
+     * Outputs the help text, as required when the --help/-h flag is used. It's
+     * done by iterating over $this->optionsInfo.
+     */
     private function showHelp()
     {
         $this->writeLn("Usage: bin/pho [options] [files]\n");
@@ -132,6 +174,10 @@ class Console
         }
     }
 
+    /**
+     * Verifies that all paths set in $this-Paths exist, and if not, it writes
+     * an error and exits.
+     */
     private function verifyPaths()
     {
         foreach ($this->paths as $path) {
