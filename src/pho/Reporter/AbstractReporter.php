@@ -2,11 +2,14 @@
 
 namespace pho\Reporter;
 
+use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
 abstract class AbstractReporter
 {
+    protected $console;
+
     protected $startTime;
 
     protected $specCount;
@@ -16,11 +19,13 @@ abstract class AbstractReporter
     /**
      * Inherited by Reporter classes to generate console output when pho is
      * ran using the command line.
+     *
+     * @param Console $console A console for writing output
      */
-    public function __construct()
+    public function __construct(Console $console)
     {
+        $this->console = $console;
         $this->startTime = microtime(true);
-
         $this->specCount = 0;
         $this->failedSpecs = [];
     }
@@ -30,7 +35,7 @@ abstract class AbstractReporter
      */
     public function beforeRun()
     {
-        echo "pho by Daniel St. Jules\n\n";
+        $this->console->writeLn("pho by Daniel St. Jules\n");
     }
 
     /**
@@ -40,21 +45,22 @@ abstract class AbstractReporter
     public function afterRun()
     {
         if (count($this->failedSpecs)) {
-            echo "\nFailures:\n";
+            $this->console->writeLn("\nFailures:");
         }
 
         foreach ($this->failedSpecs as $spec) {
-            echo "\n\"$spec\" FAILED\n{$spec->exception}\n";
+            $this->console->writeLn("\n\"$spec\" FAILED");
+            $this->console->writeLn($spec->exception);
         }
 
         if ($this->startTime) {
             $endTime = microtime(true);
             $runningTime = round($endTime - $this->startTime, 5);
-            echo "\nFinished in $runningTime seconds\n";
+            $this->console->writeLn("\nFinished in $runningTime seconds");
         }
 
         $failedCount = count($this->failedSpecs);
-        echo "\n{$this->specCount} specs, $failedCount failures\n";
+        $this->console->writeLn("\n{$this->specCount} specs, $failedCount failures");
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace pho\Reporter;
 
+use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
@@ -12,10 +13,12 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     /**
      * Creates a SpecReporter object, used to render a nested view of test
      * suites and specs.
+     *
+     * @param Console $console A console for writing output
      */
-    public function __construct()
+    public function __construct(Console $console)
     {
-        parent::__construct();
+        parent::__construct($console);
         $this->depth = 0;
     }
 
@@ -27,7 +30,7 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     public function beforeSuite(Suite $suite)
     {
         $leftPad = str_repeat('    ', $this->depth);
-        echo "$leftPad{$suite->title}\n";
+        $this->console->writeLn("$leftPad{$suite->title}");
 
         $this->depth += 1;
     }
@@ -50,7 +53,7 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     public function beforeSpec(Spec $spec)
     {
         $leftPad = str_repeat('    ', $this->depth);
-        echo "$leftPad{$spec->title}";
+        $this->console->write("$leftPad{$spec->title}");
 
         $this->depth += 1;
     }
@@ -65,13 +68,13 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     {
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
-            echo ' ✖';
+            $this->console->write(' ✖');
         } else {
-            echo ' ✓';
+            $this->console->write(' ✓');
         }
 
         $this->specCount += 1;
         $this->depth -= 1;
-        echo "\n";
+        $this->console->writeLn('');
     }
 }

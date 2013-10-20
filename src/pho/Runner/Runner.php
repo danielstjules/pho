@@ -117,7 +117,7 @@ class Runner
 
         // Get and instantiate the reporter class
         $reporterClass = self::$console->getReporterClass();
-        self::$reporter = new $reporterClass();
+        self::$reporter = new $reporterClass(self::$console);
 
         self::$reporter->beforeRun();
 

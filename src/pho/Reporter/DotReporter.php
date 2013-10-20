@@ -2,6 +2,7 @@
 
 namespace pho\Reporter;
 
+use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
@@ -14,10 +15,12 @@ class DotReporter extends AbstractReporter implements ReporterInterface
     /**
      * Creates a SpecReporter object, used to render a nested view of test
      * suites and specs.
+     *
+     * @param Console $console A console for writing output
      */
-    public function __construct()
+    public function __construct(Console $console)
     {
-        parent::__construct();
+        parent::__construct($console);
         $this->lineLength = 0;
     }
 
@@ -29,7 +32,7 @@ class DotReporter extends AbstractReporter implements ReporterInterface
     public function beforeSpec(Spec $spec)
     {
         if ($this->lineLength == self::$maxPerLine) {
-            echo "\n";
+            $this->console->writeLn('');
         }
     }
 
@@ -44,9 +47,9 @@ class DotReporter extends AbstractReporter implements ReporterInterface
 
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
-            echo 'F';
+            $this->console->write('F');
         } else {
-            echo '.';
+            $this->console->write('.');
         }
     }
 }

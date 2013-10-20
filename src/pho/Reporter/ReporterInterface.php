@@ -2,11 +2,19 @@
 
 namespace pho\Reporter;
 
+use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
 interface ReporterInterface
 {
+    /**
+     * The constructor must accept an instance of Console to write to the CLI.
+     *
+     * @param Console $console A console for writing output
+     */
+    public function __construct(Console $console);
+
     /**
      * The method is ran prior the test suite execution.
      */
