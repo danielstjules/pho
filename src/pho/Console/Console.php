@@ -6,7 +6,9 @@ use pho\Reporter;
 
 class Console
 {
-    public $options;
+    private $options;
+
+    private $paths;
 
     private $arguments;
 
@@ -21,16 +23,15 @@ class Console
 
     private $reporters = ['dot', 'spec'];
 
+    private $defaultDirs = ['test', 'spec'];
+
     public function __construct($arguments)
     {
-        if (in_array('--help', $arguments) || in_array('-h', $arguments)) {
-            $this->showHelp();
-            exit();
-        }
-
         $this->arguments = $arguments;
         $this->options = [];
+        $this->paths = [];
 
+        // Create a ConsoleOption for each option outlined in $optionsInfo
         foreach ($this->optionsInfo as $optionInfo) {
             $optionInfo[3] = (isset($optionInfo[3])) ? $optionInfo[3] : null;
             list($longName, $shortName, $description, $argumentName) = $optionInfo;
@@ -39,6 +40,24 @@ class Console
                 $description, $argumentName);
             $this->options[$shortName] = $this->options[$longName];
         }
+
+        // The default folders to look in are ./test and ./spec
+        foreach ($this->defaultDirs as $dir) {
+            if (file_exists($dir) && is_dir($dir)) {
+                $this->paths[] = $dir;
+            }
+        }
+    }
+
+    public function write($string)
+    {
+        echo str_replace("\n", PHP_EOL, $string);
+    }
+
+    public function writeLn($string)
+    {
+        $this->write($string);
+        echo PHP_EOL;
     }
 
     public function getReporterClass()
@@ -54,26 +73,51 @@ class Console
         return "pho\\Reporter\\$reporter";
     }
 
-    public function parseOptions()
+    public function getPaths()
     {
-        for ($i = 0; $i < count($this->arguments); $i++) {
-            $argument = $this->arguments[$i];
-            if (!array_key_exists($argument, $this->options)) {
-                require($argument);
-                continue;
+        return $this->paths;
+    }
+
+    public function parseArguments()
+    {
+        $args = $this->arguments;
+        if (in_array('--help', $args) || in_array('-h', $args)) {
+            $this->showHelp();
+            exit();
+        }
+
+        // Loop over options
+        for ($i = 0; $i < count($args); $i++) {
+            if (!array_key_exists($args[$i], $this->options)) {
+                // The option isn't defined
+                if (strpos('-', $args[$i]) === 0) {
+                    $this->writeLn("{$args[$i]} is not a valid option");
+                    exit();
+                } else {
+                    // We assume this is a path
+                    break;
+                }
             }
 
-            $option = $this->options[$argument];
-            if ($option->acceptsArguments() && $i < count($this->arguments)) {
-                $option->setArgument($this->arguments[$i + 1]);
+            // It's a valid option and accepts arguments, add the next argument
+            // as its value. Otherwise, just set the option to true
+            $option = $this->options[$args[$i]];
+            if ($option->acceptsArguments() && $i < count($args)) {
+                $option->setArgument($args[$i + 1]);
                 $i++;
             } else {
                 $option->setArgument(true);
             }
         }
+
+        // The rest of the arguments are assumed to be paths
+        if ($i < count($args)) {
+            $this->paths = array_slice($args, $i);
+            $this->verifyPaths();
+        }
     }
 
-    public function showHelp()
+    private function showHelp()
     {
         $this->writeLn("Usage: bin/pho [options] [files]\n");
         $this->writeLn("Options\n");
@@ -88,14 +132,13 @@ class Console
         }
     }
 
-    public function write($string)
+    private function verifyPaths()
     {
-        echo str_replace("\n", PHP_EOL, $string);
-    }
-
-    public function writeLn($string)
-    {
-        $this->write($string);
-        echo PHP_EOL;
+        foreach ($this->paths as $path) {
+            if (!file_exists($path)) {
+                $this->writeLn("The file or path \"{$path}\" doesn't exist");
+                exit();
+            }
+        }
     }
 }

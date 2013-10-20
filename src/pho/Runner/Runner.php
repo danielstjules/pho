@@ -111,8 +111,11 @@ class Runner
      */
     public static function run()
     {
-        // Parse the command line options and instantiate the reporter
-        self::$console->parseOptions();
+        // Parse the command line options, load files
+        self::$console->parseArguments();
+        self::loadFiles(self::$console->getPaths());
+
+        // Get and instantiate the reporter class
         $reporterClass = self::$console->getReporterClass();
         self::$reporter = new $reporterClass();
 
@@ -123,6 +126,33 @@ class Runner
         }
 
         self::$reporter->afterRun();
+    }
+
+    /**
+     * Given a list of valid paths, calls require_once to load files while also
+     * recursively loading any files found in directories.
+     *
+     * @param array $paths An array of strings referring to valid file paths
+     */
+    public static function loadFiles($paths)
+    {
+        foreach($paths as $path) {
+            if (is_file($path)) {
+                require_once($path);
+                continue;
+            }
+
+            $path = realpath($path);
+            $dirIterator = new \RecursiveDirectoryIterator($path);
+            $iterator = new \RecursiveIteratorIterator($dirIterator);
+
+            $files = new \RegexIterator($iterator, '/^.+Spec\.php$/i',
+                \RecursiveRegexIterator::GET_MATCH);
+
+            foreach ($files as $filename => $file) {
+                require_once($filename);
+            }
+        }
     }
 
     /**
