@@ -6,6 +6,8 @@ use pho\Reporter;
 
 class Console
 {
+    public  $formatter;
+
     private $options;
 
     private $paths;
@@ -37,6 +39,8 @@ class Console
         $this->arguments = $arguments;
         $this->options = [];
         $this->paths = [];
+
+        $this->formatter = new ConsoleFormatter();
 
         // Create a ConsoleOption for each option outlined in $optionsInfo
         foreach ($this->optionsInfo as $optionInfo) {

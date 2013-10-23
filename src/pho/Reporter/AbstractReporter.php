@@ -10,6 +10,8 @@ abstract class AbstractReporter
 {
     protected $console;
 
+    protected $formatter;
+
     protected $startTime;
 
     protected $specCount;
@@ -25,6 +27,7 @@ abstract class AbstractReporter
     public function __construct(Console $console)
     {
         $this->console = $console;
+        $this->formatter = $console->formatter;
         $this->startTime = microtime(true);
         $this->specCount = 0;
         $this->failedSpecs = [];
@@ -49,7 +52,8 @@ abstract class AbstractReporter
         }
 
         foreach ($this->failedSpecs as $spec) {
-            $this->console->writeLn("\n\"$spec\" FAILED");
+            $failedText = $this->formatter->red("\n\"$spec\" FAILED");
+            $this->console->writeLn($failedText);
             $this->console->writeLn($spec->exception);
         }
 
@@ -60,7 +64,16 @@ abstract class AbstractReporter
         }
 
         $failedCount = count($this->failedSpecs);
-        $this->console->writeLn("\n{$this->specCount} specs, $failedCount failures");
+        $summaryText = "\n{$this->specCount} specs, $failedCount failures";
+
+        if (count($this->failedSpecs)) {
+            $summary = $this->formatter->red($summaryText);
+        } else {
+            $summary = $this->formatter->green($summaryText);
+        }
+
+        $summary = $this->formatter->bold($summary);
+        $this->console->writeLn($summary);
     }
 
     /**

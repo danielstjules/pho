@@ -47,7 +47,8 @@ class DotReporter extends AbstractReporter implements ReporterInterface
 
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
-            $this->console->write('F');
+            $failure = $this->formatter->red('F');
+            $this->console->write($failure);
         } else {
             $this->console->write('.');
         }
