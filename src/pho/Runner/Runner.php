@@ -169,9 +169,7 @@ class Runner
 
         // Run nested suites
         foreach ($suite->suites as $nestedSuite) {
-            self::runRunnable($suite->beforeEach);
             self::runSuite($nestedSuite);
-            self::runRunnable($suite->afterEach);
         }
 
         // Run the specs
@@ -185,17 +183,51 @@ class Runner
      * Runs the specs associated with the provided test suite. It iterates
      * over and runs each spec, calling the reporters beforeSpec and afterSpec
      * methods, as well as the suite's beforeEach and aferEach hooks.
+     *
+     * @param Suite $suite The suite containing the specs to run
      */
     private static function runSpecs(Suite $suite)
     {
         foreach ($suite->specs as $spec) {
-            self::runRunnable($suite->beforeEach);
+            self::runBeforeEachHooks($suite);
             self::$reporter->beforeSpec($spec);
 
             self::runRunnable($spec);
 
             self::$reporter->afterSpec($spec);
-            self::runRunnable($suite->afterEach);
+            self::runAfterEachHooks($suite);
+        }
+    }
+
+    /**
+     * Runs the beforeEach hooks of the given suite and its parent suites
+     * recursively. They are ran in the order in which they were defined,
+     * from outer suite to inner suites.
+     *
+     * @param Suite $suite The suite with the hooks to run
+     */
+    private static function runBeforeEachHooks(Suite $suite)
+    {
+        if ($suite->parent) {
+            self::runBeforeEachHooks($suite->parent);
+        }
+
+        self::runRunnable($suite->beforeEach);
+    }
+
+    /**
+     * Runs the afterEach hooks of the given suite and its parent suites
+     * recursively. They are ran in the order in the opposite order, from inner
+     * suites to outer suites.
+     *
+     * @param Suite $suite The suite with the hooks to run
+     */
+    private static function runAfterEachHooks(Suite $suite)
+    {
+        self::runRunnable($suite->afterEach);
+
+        if ($suite->parent) {
+            self::runAfterEachHooks($suite->parent);
         }
     }
 
