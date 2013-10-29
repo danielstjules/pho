@@ -5,12 +5,10 @@ BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
 Todo:
 
- * Command line option parser
  * Namespaced option
  * Additional reporters
  * Matchers
  * Diff on expectation failure
- * Update behaviour of hooks
 
 ```
 danielstjules:~/GitHub/pho (master =)

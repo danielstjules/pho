@@ -168,12 +168,16 @@ class Console
         $this->writeLn("Usage: bin/pho [options] [files]\n");
         $this->writeLn("Options\n");
 
+        $options = [];
         foreach ($this->optionsInfo as $option) {
-            $line = "{$option[1]}, {$option[0]}";
-            if (isset($option[3])) {
-                $line .= " <{$option[3]}>";
-            }
+            $row = [$option[1], $option[0]];
+            $row[] = (isset($option[3])) ? "<{$option[3]}>" : '';
+            $row[] = $option[2];
 
+            $options[] = $row;
+        }
+
+        foreach ($this->formatter->alignText($options, '   ') as $line) {
             $this->writeLn($line);
         }
     }
