@@ -6,6 +6,8 @@ use pho\Reporter;
 
 class Console
 {
+    const VERSION = '0.0.1';
+
     public  $formatter;
 
     private $options;
@@ -14,7 +16,7 @@ class Console
 
     private $arguments;
 
-    private $optionsInfo = [
+    private $availableOptions = [
         ['--help',     '-h', 'Output usage information'],
         ['--version',  '-v', 'Display version number'],
         ['--reporter', '-r', 'Specify the reporter to use', 'name'],
@@ -42,8 +44,8 @@ class Console
 
         $this->formatter = new ConsoleFormatter();
 
-        // Create a ConsoleOption for each option outlined in $optionsInfo
-        foreach ($this->optionsInfo as $optionInfo) {
+        // Create a ConsoleOption for each option outlined in $availableOptions
+        foreach ($this->availableOptions as $optionInfo) {
             $optionInfo[3] = (isset($optionInfo[3])) ? $optionInfo[3] : null;
             list($longName, $shortName, $description, $argumentName) = $optionInfo;
 
@@ -116,15 +118,19 @@ class Console
     /**
      * Parses the arguments originally supplied via the constructor, assigning
      * values to the ConsoleOptions in the $options array. If the arguments
-     * included the --help/-h option, help text is printed and the application
-     * exits. Furthermore, if the arguments included a non-valid flag or option,
-     * an error is printed and the application terminates.
+     * included the --help/-h or --version/-v option, the corresponding text is
+     * printed and the application exits. Furthermore, if the arguments included
+     * a non-valid flag or option, an error is printed and the application
+     * terminates.
      */
     public function parseArguments()
     {
         $args = $this->arguments;
         if (in_array('--help', $args) || in_array('-h', $args)) {
             $this->showHelp();
+            exit();
+        } else if (in_array('--version', $args) || in_array('-v', $args)) {
+            $this->showVersion();
             exit();
         }
 
@@ -161,7 +167,7 @@ class Console
 
     /**
      * Outputs the help text, as required when the --help/-h flag is used. It's
-     * done by iterating over $this->optionsInfo.
+     * done by iterating over $this->availableOptions.
      */
     private function showHelp()
     {
@@ -169,7 +175,7 @@ class Console
         $this->writeLn("Options\n");
 
         $options = [];
-        foreach ($this->optionsInfo as $option) {
+        foreach ($this->availableOptions as $option) {
             $row = [$option[1], $option[0]];
             $row[] = (isset($option[3])) ? "<{$option[3]}>" : '';
             $row[] = $option[2];
@@ -180,6 +186,14 @@ class Console
         foreach ($this->formatter->alignText($options, '   ') as $line) {
             $this->writeLn($line);
         }
+    }
+
+    /**
+     * Outputs the version information, as defined in the VERSION constant.
+     */
+    private function showVersion()
+    {
+        $this->writeLn('pho version ' . self::VERSION);
     }
 
     /**

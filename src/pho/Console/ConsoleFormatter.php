@@ -69,6 +69,7 @@ class ConsoleFormatter
     private function applyForeground($colour, $text)
     {
         list($startCode, $endCode) = self::$foregroundColours[$colour];
+
         return $startCode . $text . $endCode;
     }
 
@@ -83,6 +84,7 @@ class ConsoleFormatter
     private function applyStyle($style, $text)
     {
         list($startCode, $endCode) = self::$styles[$style];
+
         return $startCode . $text . $endCode;
     }
 
