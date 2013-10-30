@@ -1,14 +1,39 @@
-pho
-===
+# pho
 
 BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
-Todo:
+## Installation
 
- * Namespaced option
- * Additional reporters
- * Matchers
- * Diff on expectation failure
+The following instructions outline installation using Composer. If you don't have Composer, you can download it from [http://getcomposer.org/](http://getcomposer.org/)
+
+ * Run either of the following commands, depending on your environment:
+
+```
+$ composer global require danielstjules/pho:dev-master
+$ php composer.phar global require danielstjules/pho:dev-master
+```
+
+* Edit your `~/.bash_profile` or `~/.profile` and add:
+
+```
+export PATH=$HOME/.composer/vendor/bin:$PATH
+```
+
+## Example output
+
+```
+$ pho --help
+Usage: bin/pho [options] [files]
+
+Options
+
+-h   --help                   Output usage information
+-v   --version                Display version number
+-r   --reporter   <name>      Specify the reporter to use
+-f   --filter     <pattern>   Only run tests matching the pattern
+-s   --stop                   Stop on failure
+-w   --watch                  Watch files for changes and rerun tests
+```
 
 ```
 danielstjules:~/GitHub/pho (master =)
