@@ -12,17 +12,18 @@ class ConsoleOption
 
     private $argumentName;
 
-    private $default;
-
-    private $argument;
+    private $value;
 
     public function __construct($shortName, $longName, $description,
-                               $argumentName = null)
+                                $argumentName = null)
     {
         $this->shortName = $shortName;
-        $this->longName = $longName;
-        $this->description = $description;
+        $this->longName  = $longName;
+
+        $this->description  = $description;
         $this->argumentName = $argumentName;
+
+        $this->value = false;
     }
 
     public function getShortName()
@@ -45,25 +46,18 @@ class ConsoleOption
         return $this->argumentName;
     }
 
-    public function getArgument()
+    public function getValue()
     {
-        return $this->argument;
+        return $this->value;
     }
 
-    public function setArgument($argument)
+    public function setValue($value)
     {
-        if ($this->acceptsArguments()) {
-            $this->argument = $argument;
-        }
+        $this->value = $value;
     }
 
     public function acceptsArguments()
     {
         return ($this->argumentName !== null);
-    }
-
-    public function isEnabled()
-    {
-        return ($this->argument !== null);
     }
 }
