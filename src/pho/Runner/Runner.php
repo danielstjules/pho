@@ -180,16 +180,23 @@ class Runner
     }
 
     /**
-     * Runs the specs associated with the provided test suite. It iterates
-     * over and runs each spec, calling the reporters beforeSpec and afterSpec
-     * methods, as well as the suite's beforeEach and aferEach hooks. When the
-     * stop option is used, the runner quits if an exception or error is thrown.
+     * Runs the specs associated with the provided test suite. It iterates over
+     * and runs each spec, calling the reporter's beforeSpec and afterSpec
+     * methods, as well as the suite's beforeEach and aferEach hooks. If the
+     * filter option is used, only specs containing a pattern are ran. And if
+     * the stop flag is used, it quits when an exception or error is thrown.
      *
      * @param Suite $suite The suite containing the specs to run
      */
     private static function runSpecs(Suite $suite)
     {
         foreach ($suite->specs as $spec) {
+            // If using the filter option, only run matching specs
+            $pattern = self::$console->options['filter'];
+            if ($pattern && !preg_match("/$pattern/", $spec)) {
+                continue;
+            }
+
             self::runBeforeEachHooks($suite);
             self::$reporter->beforeSpec($spec);
 

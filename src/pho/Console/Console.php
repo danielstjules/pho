@@ -20,7 +20,7 @@ class Console
         'help'     => ['--help',     '-h', 'Output usage information'],
         'version'  => ['--version',  '-v', 'Display version number'],
         'reporter' => ['--reporter', '-r', 'Specify the reporter to use', 'name'],
-        'filter'   => ['--filter',   '-f', 'Run specs matching a pattern', 'pattern'],
+        'filter'   => ['--filter',   '-f', 'Run specs containing a pattern', 'pattern'],
         'stop'     => ['--stop',     '-s', 'Stop on failure'],
         'watch'    => ['--watch',    '-w', 'Watch files for changes and rerun specs']
     ];

@@ -30,7 +30,7 @@ Options
    -h   --help                   Output usage information
    -v   --version                Display version number
    -r   --reporter   <name>      Specify the reporter to use
-   -f   --filter     <pattern>   Run specs matching a pattern
+   -f   --filter     <pattern>   Run specs containing a pattern
    -s   --stop                   Stop on failure
    -w   --watch                  Watch files for changes and rerun specs
 ```
