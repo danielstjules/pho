@@ -182,7 +182,8 @@ class Runner
     /**
      * Runs the specs associated with the provided test suite. It iterates
      * over and runs each spec, calling the reporters beforeSpec and afterSpec
-     * methods, as well as the suite's beforeEach and aferEach hooks.
+     * methods, as well as the suite's beforeEach and aferEach hooks. When the
+     * stop option is used, the runner quits if an exception or error is thrown.
      *
      * @param Suite $suite The suite containing the specs to run
      */
@@ -196,6 +197,11 @@ class Runner
 
             self::$reporter->afterSpec($spec);
             self::runAfterEachHooks($suite);
+
+            if (self::$console->options['stop'] && $spec->exception) {
+                self::$reporter->afterRun();
+                exit(1);
+            }
         }
     }
 
