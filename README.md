@@ -22,21 +22,20 @@ export PATH=$HOME/.composer/vendor/bin:$PATH
 ## Example output
 
 ```
-$ pho --help
+$ bin/pho --help
 Usage: bin/pho [options] [files]
 
 Options
 
--h   --help                   Output usage information
--v   --version                Display version number
--r   --reporter   <name>      Specify the reporter to use
--f   --filter     <pattern>   Only run tests matching the pattern
--s   --stop                   Stop on failure
--w   --watch                  Watch files for changes and rerun tests
+   -h   --help                   Output usage information
+   -v   --version                Display version number
+   -r   --reporter   <name>      Specify the reporter to use
+   -f   --filter     <pattern>   Run specs matching a pattern
+   -s   --stop                   Stop on failure
+   -w   --watch                  Watch files for changes and rerun specs
 ```
 
 ```
-danielstjules:~/GitHub/pho (master =)
 $ bin/pho example.php
 pho by Daniel St. Jules
 
@@ -64,7 +63,6 @@ Finished in 3.00538 seconds
 ```
 
 ```
-danielstjules:~/GitHub/pho (master =)
 $ bin/pho --reporter dot example.php
 pho by Daniel St. Jules
 

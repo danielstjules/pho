@@ -95,9 +95,9 @@ class Console
         // Add the list of options to the OptionParser
         foreach ($this->availableOptions as $name => $desc) {
             $desc[3] = (isset($desc[3])) ? $desc[3] : null;
-            list($shortName, $longName, $description, $argumentName) = $desc;
+            list($longName, $shortName, $description, $argumentName) = $desc;
 
-            $this->optionParser->addOption($name, $shortName, $longName,
+            $this->optionParser->addOption($name, $longName, $shortName,
                 $description, $argumentName);
         }
 
@@ -117,7 +117,7 @@ class Console
             exit();
         } else if ($this->optionParser->getInvalidArguments()) {
             foreach ($this->optionParser->getInvalidArguments() as $invalidArg) {
-                $this->writeLn($invalidArg);
+                $this->writeLn("$invalidArg is not a valid option");
             }
             exit();
         }
@@ -180,8 +180,9 @@ class Console
             $options[] = $row;
         }
 
-        foreach ($this->formatter->alignText($options, '   ') as $line) {
-            $this->writeLn($line);
+        $pad = str_repeat(' ', 3);
+        foreach ($this->formatter->alignText($options, $pad) as $line) {
+            $this->writeLn($pad . $line);
         }
     }
 
