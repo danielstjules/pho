@@ -119,7 +119,7 @@ class Console
             foreach ($this->optionParser->getInvalidArguments() as $invalidArg) {
                 $this->writeLn("$invalidArg is not a valid option");
             }
-            exit();
+            exit(1);
         }
     }
 
@@ -155,7 +155,7 @@ class Console
         foreach ($this->paths as $path) {
             if (!file_exists($path)) {
                 $this->writeLn("The file or path \"{$path}\" doesn't exist");
-                exit();
+                exit(1);
             }
         }
     }
