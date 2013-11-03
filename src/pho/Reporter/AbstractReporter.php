@@ -64,7 +64,10 @@ abstract class AbstractReporter
         }
 
         $failedCount = count($this->failedSpecs);
-        $summaryText = "\n{$this->specCount} specs, $failedCount failures";
+        $specs = ($this->specCount == 1) ? 'spec' : 'specs';
+        $failures = ($failedCount == 1) ? 'failure' : 'failures';
+
+        $summaryText = "\n{$this->specCount} $specs, $failedCount $failures";
 
         if (count($this->failedSpecs)) {
             $summary = $this->formatter->red($summaryText);

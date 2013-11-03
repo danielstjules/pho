@@ -31,6 +31,8 @@ class DotReporter extends AbstractReporter implements ReporterInterface
      */
     public function beforeSpec(Spec $spec)
     {
+        $this->specCount += 1;
+
         if ($this->lineLength == self::$maxPerLine) {
             $this->console->writeLn('');
         }

@@ -56,6 +56,7 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
         $this->console->write("$leftPad{$spec->title}");
 
         $this->depth += 1;
+        $this->specCount += 1;
     }
 
     /**
@@ -75,7 +76,6 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
             $this->console->write($passed);
         }
 
-        $this->specCount += 1;
         $this->depth -= 1;
         $this->console->writeLn('');
     }

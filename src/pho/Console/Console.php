@@ -166,7 +166,7 @@ class Console
      */
     private function printHelp()
     {
-        $this->writeLn("Usage: bin/pho [options] [files]\n");
+        $this->writeLn("Usage: pho [options] [files]\n");
         $this->writeLn("Options\n");
 
         // Loop over availableOptions, building the necessary input for

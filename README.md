@@ -22,8 +22,8 @@ export PATH=$HOME/.composer/vendor/bin:$PATH
 ## Example output
 
 ```
-$ bin/pho --help
-Usage: bin/pho [options] [files]
+$ pho --help
+Usage: pho [options] [files]
 
 Options
 
@@ -36,7 +36,7 @@ Options
 ```
 
 ```
-$ bin/pho example.php
+$ pho example.php
 pho by Daniel St. Jules
 
 Some Object
@@ -63,7 +63,21 @@ Finished in 3.00538 seconds
 ```
 
 ```
-$ bin/pho --reporter dot example.php
+$ pho --filter 'something$' example.php
+pho by Daniel St. Jules
+
+Some Object
+    when created
+        and user meets some condition
+            should do something ✓
+
+Finished in 1.00151 seconds
+
+1 spec, 0 failures
+```
+
+```
+$ pho --reporter dot example.php
 pho by Daniel St. Jules
 
 .F..F.
@@ -75,7 +89,7 @@ E_USER_ERROR with message 'Some error' in /Users/danielstjules/GitHub/pho/exampl
 "Some Object when created should echo a third number" FAILED
 Exception with message 'Something went wrong' in /Users/danielstjules/GitHub/pho/example.php:36
 
-Finished in 3.00503 seconds
+Finished in 3.00538 seconds
 
-0 specs, 2 failures
+6 specs, 2 failures
 ```
