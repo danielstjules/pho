@@ -2,6 +2,7 @@
 
 namespace pho\Runner;
 
+use pho\Watcher\Watcher;
 use pho\Suite\Suite;
 use pho\Runnable\Runnable;
 use pho\Runnable\Spec;
@@ -113,12 +114,26 @@ class Runner
     {
         // Parse the command line options, load files
         self::$console->parseArguments();
-        self::loadFiles(self::$console->getPaths());
 
         // Get and instantiate the reporter class
         $reporterClass = self::$console->getReporterClass();
         self::$reporter = new $reporterClass(self::$console);
 
+        if (self::$console->options['watch']) {
+            $watcher = new Watcher();
+            $watcher->watchPath(getcwd());
+
+            $watcher->addListener(function() {
+                // proc_open or fork
+            });
+
+            // Ever vigilant
+            $watcher->watch();
+
+            return;
+        }
+
+        self::loadFiles(self::$console->getPaths());
         self::$reporter->beforeRun();
 
         foreach (self::$suites as $suite) {
