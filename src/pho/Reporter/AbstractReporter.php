@@ -38,7 +38,7 @@ abstract class AbstractReporter
      */
     public function beforeRun()
     {
-        $this->console->writeLn("pho by Daniel St. Jules\n");
+        $this->console->writeLn('');
     }
 
     /**

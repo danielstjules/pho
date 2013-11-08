@@ -119,20 +119,6 @@ class Runner
         $reporterClass = self::$console->getReporterClass();
         self::$reporter = new $reporterClass(self::$console);
 
-        if (self::$console->options['watch']) {
-            $watcher = new Watcher();
-            $watcher->watchPath(getcwd());
-
-            $watcher->addListener(function() {
-                // proc_open or fork
-            });
-
-            // Ever vigilant
-            $watcher->watch();
-
-            return;
-        }
-
         self::loadFiles(self::$console->getPaths());
         self::$reporter->beforeRun();
 
@@ -141,6 +127,44 @@ class Runner
         }
 
         self::$reporter->afterRun();
+
+        if (self::$console->options['watch']) {
+            self::watch();
+        }
+    }
+
+    /**
+     * Monitors the the current working directory for modifications, and reruns
+     * the specs in another process on change.
+     */
+    public static function watch()
+    {
+        $watcher = new Watcher();
+        $watcher->watchPath(getcwd());
+
+        $watcher->addListener(function() {
+            $paths = implode(' ', self::$console->getPaths());
+            $descriptor = [
+                0 => ['pipe', 'r'],
+                1 => ['pipe', 'w']
+            ];
+
+            // Run pho in another process and echo its stdout
+            $process = proc_open("pho $paths", $descriptor, $pipes);
+
+            if (is_resource($process)) {
+                while ($buffer = fread($pipes[1], 16)) {
+                    echo $buffer;
+                }
+
+                fclose($pipes[0]);
+                fclose($pipes[1]);
+                proc_close($process);
+            }
+        });
+
+        // Ever vigilant
+        $watcher->watch();
     }
 
     /**
