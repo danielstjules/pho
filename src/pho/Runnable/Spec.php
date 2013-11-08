@@ -13,13 +13,13 @@ class Spec extends Runnable
      * by the test runner.
      *
      * @param string   $title   A title to be associated with the spec
-     * @param callable $context The closure to invoke when the spec is called
+     * @param \Closure $closure The closure to invoke when the spec is called
      * @param Suite    $suite   The suite within which this spec was defined
      */
-    public function __construct($title, $context, $suite)
+    public function __construct($title, $closure, $suite)
     {
         $this->title = $title;
-        $this->context = $context;
+        $this->closure = $closure;
         $this->suite = $suite;
     }
 

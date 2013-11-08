@@ -17,7 +17,7 @@ describe('Some Object', function() {
         // echo "Top AfterEach\n";
     });
 
-    describe('when created', function() {
+    context('when created', function() {
         beforeEach(function() {
             // echo "beforeEach\n";
         });
@@ -36,7 +36,7 @@ describe('Some Object', function() {
             throw new Exception('Something went wrong');
         });
 
-        describe('and user meets some condition', function() {
+        context('and user meets some condition', function() {
             it('should do something', function() {
                 // echo "deeply nested";
                 sleep(1);

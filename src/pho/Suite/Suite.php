@@ -6,7 +6,7 @@ class Suite
 {
     public $title;
 
-    public $context;
+    public $closure;
 
     public $before;
 
@@ -28,12 +28,12 @@ class Suite
      * suite to be ran.
      *
      * @param string   $title   A title to be associated with the suite
-     * @param callable $context The closure to invoke when the suite is ran
+     * @param \Closure $closure The closure to invoke when the suite is ran
      */
-    public function __construct($title, $context)
+    public function __construct($title, $closure)
     {
         $this->title = $title;
-        $this->context = $context;
+        $this->closure = $closure;
         $this->specs = [];
         $this->suites = [];
     }

@@ -10,67 +10,79 @@ use pho\Console\Console;
  * closure.
  *
  * @param string   $title   A title associated with this suite
- * @param callable $context The closure associated with the suite, which may
+ * @param \Closure $closure The closure associated with the suite, which may
  *                          contain nested suites and specs
  */
-function describe($title, callable $context)
+function describe($title, \Closure $closure)
 {
-    Runner::describe($title, $context);
+    Runner::describe($title, $closure);
+}
+
+/**
+ * An alias for describe. Creates a test suite with the given closure.
+ *
+ * @param string   $title   A title associated with this suite
+ * @param \Closure $closure The closure associated with the suite, which may
+ *                          contain nested suites and specs
+ */
+function context($title, \Closure $closure)
+{
+    Runner::describe($title, $closure);
 }
 
 /**
  * Calls the runner's it() method, creating a test spec with the provided closure.
  *
  * @param string   $title   A title associated with this spec
- * @param callable $context The closure associated with the spec
+ * @param \Closure $closure The closure associated with the spec
  */
-function it($title, callable $context)
+function it($title, \Closure $closure)
 {
-    Runner::it($title, $context);
+    Runner::it($title, $closure);
 }
 
 /**
  * Calls the runner's before() method, defining a closure to be ran prior to
- * the parent suite's context.
+ * the parent suite's closure.
  *
- * @param callable $context The closure to be ran before the suite
+ * @param \Closure $closure The closure to be ran before the suite
  */
-function before(callable $context)
+function before(\Closure $closure)
 {
-    Runner::before($context);
+    Runner::before($closure);
 }
 
 /**
  * Calls the runner's after() method, defining a closure to be ran after the
- * parent suite's context.
+ * parent suite's closure.
  *
- * @param callable $context The closure to be ran after the suite
+ * @param \Closure $closure The closure to be ran after the suite
  */
-function after(callable $context)
+function after(\Closure $closure)
 {
-    Runner::after($context);
+    Runner::after($closure);
 }
 
 /**
  * Calls the runner's beforeEach() method, defining a closure to be ran prior to
  * each of the parent suite's nested suites and specs.
  *
- * @param callable $context The closure to be ran before each spec
+ * @param \Closure $closure The closure to be ran before each spec
  */
-function beforeEach(callable $context)
+function beforeEach(\Closure $closure)
 {
-    Runner::beforeEach($context);
+    Runner::beforeEach($closure);
 }
 
 /**
  * Calls the runner's afterEach() method, defining a closure to be ran after
  * each of the parent suite's nested suites and specs.
  *
- * @param callable $context The closure to be ran after the suite
+ * @param \Closure $closure The closure to be ran after the suite
  */
-function afterEach(callable $context)
+function afterEach(\Closure $closure)
 {
-    Runner::afterEach($context);
+    Runner::afterEach($closure);
 }
 
 // Create a new Console and start the runner

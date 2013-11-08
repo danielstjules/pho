@@ -7,23 +7,23 @@ use pho\Exception\RunnableException;
 
 abstract class Runnable
 {
-    public $context;
+    public $closure;
 
     public $exception;
 
     /**
-     * Invokes a Runnable object's $context closure, setting a error handler
+     * Invokes a Runnable object's $closure closure, setting a error handler
      * and catching all uncaught exceptions.
      */
     public function run()
     {
-        if (is_callable($this->context)) {
+        if (is_callable($this->closure)) {
             // Set the error handler for the spec
             set_error_handler([$this, 'handleError'], E_ALL);
 
-            // Invoke the context while catching exceptions
+            // Invoke the closure while catching exceptions
             try {
-                $this->context->__invoke();
+                $this->closure->__invoke();
             } catch (\Exception $exception) {
                 $this->handleException($exception);
             }

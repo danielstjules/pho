@@ -8,10 +8,10 @@ class Hook extends Runnable
      * Constructs a hook object, to be associated with any of a suite's hooks,
      * ie: before, after, beforeEach, and afterEach.
      *
-     * @param callable $context The closure to invoke when the hook is called
+     * @param \Closure $closure The closure to invoke when the hook is called
      */
-    public function __construct(callable $context)
+    public function __construct(\Closure $closure)
     {
-        $this->context = $context;
+        $this->closure = $closure;
     }
 }

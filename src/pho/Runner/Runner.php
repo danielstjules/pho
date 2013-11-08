@@ -25,12 +25,12 @@ class Runner
      * defined suites.
      *
      * @param string   $title   A title to be associated with the suite
-     * @param callable $context The closure to invoke when the suite is ran
+     * @param \Closure $closure The closure to invoke when the suite is ran
      */
-    public static function describe($title, callable $context)
+    public static function describe($title, \Closure $closure)
     {
         $previous = self::$current;
-        $suite = new Suite($title, $context);
+        $suite = new Suite($title, $closure);
         $suite->parent = $previous;
 
         // If current is null, this is the root suite for the file
@@ -41,7 +41,7 @@ class Runner
         }
 
         self::$current = $suite;
-        $suite->context->__invoke();
+        $suite->closure->__invoke();
         self::$current = $previous;
     }
 
@@ -49,35 +49,35 @@ class Runner
      * Constructs a new Spec, adding it to the list of specs in the current suite.
      *
      * @param string   $title   A title to be associated with the spec
-     * @param callable $context The closure to invoke when the spec is ran
+     * @param \Closure $closure The closure to invoke when the spec is ran
      */
-    public static function it($title, callable $context)
+    public static function it($title, \Closure $closure)
     {
-        $spec = new Spec($title, $context, self::$current);
+        $spec = new Spec($title, $closure, self::$current);
         self::$current->specs[] = $spec;
     }
 
     /**
      * Constructs a new Hook, defining a closure to be ran prior to the parent
-     * suite's context.
+     * suite's closure.
      *
-     * @param callable $context The closure to be ran before the suite
+     * @param \Closure $closure The closure to be ran before the suite
      */
-    public static function before(callable $context)
+    public static function before(\Closure $closure)
     {
-        $before = new Hook($context);
+        $before = new Hook($closure);
         self::$current->before = $before;
     }
 
     /**
      * Constructs a new Hook, defining a closure to be ran after the parent
-     * suite's context.
+     * suite's closure.
      *
-     * @param callable $context The closure to be ran after the suite
+     * @param \Closure $closure The closure to be ran after the suite
      */
-    public static function after(callable $context)
+    public static function after(\Closure $closure)
     {
-        $after = new Hook($context);
+        $after = new Hook($closure);
         self::$current->after = $after;
     }
 
@@ -85,11 +85,11 @@ class Runner
      * Constructs a new Hook, defining a closure to be ran prior to each of
      * the parent suite's nested suites and specs.
      *
-     * @param callable $context The closure to be ran before each spec
+     * @param \Closure $closure The closure to be ran before each spec
      */
-    public static function beforeEach(callable $context)
+    public static function beforeEach(\Closure $closure)
     {
-        $beforeEach = new Hook($context);
+        $beforeEach = new Hook($closure);
         self::$current->beforeEach = $beforeEach;
     }
 
@@ -97,11 +97,11 @@ class Runner
      * Constructs a new Hook, defining a closure to be ran prior to each of
      * the parent suite's nested suites and specs.
      *
-     * @param callable $context The closure to be ran after each spec
+     * @param \Closure $closure The closure to be ran after each spec
      */
-    public static function afterEach(callable $context)
+    public static function afterEach(\Closure $closure)
     {
-        $afterEach = new Hook($context);
+        $afterEach = new Hook($closure);
         self::$current->afterEach = $afterEach;
     }
 

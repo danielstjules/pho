@@ -21,12 +21,12 @@ class Watcher
     }
 
     /**
-     * Adds a callable to be invoked when a path being watched is modified.
+     * Adds a closure to be invoked when a path being watched is modified.
      * All listeners are invoked in the order in which they were added.
      *
      * @param callbable $listener The listener to invoke on change
      */
-    public function addListener(callable $listener)
+    public function addListener(\Closure $listener)
     {
         $this->listeners[] = $listener;
     }
