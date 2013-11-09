@@ -2,7 +2,7 @@
 
 namespace pho\Expectation\Matcher;
 
-class LengthMatcher implements MatcherInterface
+class LengthMatcher extends AbstractMatcher implements MatcherInterface
 {
     private $expected;
 

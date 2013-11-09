@@ -2,14 +2,14 @@
 
 namespace pho\Expectation\Matcher;
 
-class StrictEqualityMatcher extends AbstractMatcher implements MatcherInterface
+class LooseEqualityMatcher extends AbstractMatcher implements MatcherInterface
 {
     private $expected;
 
     private $actual;
 
     /**
-     * Creates a new StrictEqualityMatcher for comparing to an expected value.
+     * Creates a new LooseEqualityMatcher for comparing to an expected value.
      *
      * @param mixed $expected The expected value
      */
@@ -20,7 +20,7 @@ class StrictEqualityMatcher extends AbstractMatcher implements MatcherInterface
 
     /**
      * Compares the passed argument to the expected value. Returns true if the
-     * two values are strictly equal, false otherwise.
+     * two values are loosely equal using the == operator, false otherwise.
      *
      * @param  mixed   $actual The value to test
      * @return boolean Whether or not the value is equal
@@ -29,7 +29,7 @@ class StrictEqualityMatcher extends AbstractMatcher implements MatcherInterface
     {
         $this->actual = $actual;
 
-        return ($this->actual === $this->expected);
+        return ($this->actual == $this->expected);
     }
 
     /**
@@ -45,9 +45,9 @@ class StrictEqualityMatcher extends AbstractMatcher implements MatcherInterface
         $expected = $this->getStringValue($this->expected);
 
         if (!$inverse) {
-            return "Expected $actual to be $expected";
+            return "Expected $actual to equal $expected";
         } else {
-            return "Expected $actual not to be $expected";
+            return "Expected $actual not to equal $expected";
         }
     }
 }

@@ -5,6 +5,7 @@ namespace pho\Expectation;
 use pho\Exception\ExpectationException;
 use pho\Expectation\Matcher\InstanceMatcher;
 use pho\Expectation\Matcher\TypeMatcher;
+use pho\Expectation\Matcher\LooseEqualityMatcher;
 use pho\Expectation\Matcher\StrictEqualityMatcher;
 use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\InclusionMatcher;
@@ -86,6 +87,18 @@ class Expectation
     }
 
     /**
+     * An alias for Expectation::toBe
+     *
+     * @param  mixed                $value The expected value
+     * @throws ExpectationException If the positive or negative match fails
+     */
+    public function toEqual($value)
+    {
+        $matcher = new StrictEqualityMatcher($value);
+        $this->test($matcher);
+    }
+
+    /**
      * Tests whether or not $actual is null.
      *
      * @throws ExpectationException If the positive or negative match fails
@@ -115,6 +128,18 @@ class Expectation
     public function toBeFalse()
     {
         $matcher = new StrictEqualityMatcher(false);
+        $this->test($matcher);
+    }
+
+    /**
+     * Tests whether or not $actual is loosely equal to a given value.
+     *
+     * @param  mixed                $value The expected value
+     * @throws ExpectationException If the positive or negative match fails
+     */
+    public function toEql($value)
+    {
+        $matcher = new LooseEqualityMatcher($value);
         $this->test($matcher);
     }
 

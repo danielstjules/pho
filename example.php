@@ -71,6 +71,10 @@ describe('Some Object', function() {
             expect(new stdClass())->toBeAnInstanceOf('randomClass');
         });
 
+        it('test toEql for loose equality', function() {
+            expect([])->toEql(true);
+        });
+
         context('and user meets some condition', function() {
             it('should do something', function() {
                 sleep(1);

@@ -2,7 +2,7 @@
 
 namespace pho\Expectation\Matcher;
 
-class TypeMatcher implements MatcherInterface
+class TypeMatcher extends AbstractMatcher implements MatcherInterface
 {
     private $expected;
 

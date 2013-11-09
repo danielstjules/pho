@@ -2,7 +2,7 @@
 
 namespace pho\Expectation\Matcher;
 
-class InclusionMatcher implements MatcherInterface
+class InclusionMatcher extends AbstractMatcher implements MatcherInterface
 {
     private $needle;
 
