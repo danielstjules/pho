@@ -6,6 +6,7 @@ use pho\Exception\ExpectationException;
 use pho\Expectation\Matcher\TypeMatcher;
 use pho\Expectation\Matcher\StrictEqualityMatcher;
 use pho\Expectation\Matcher\LengthMatcher;
+use pho\Expectation\Matcher\InclusionMatcher;
 
 class Expectation
 {
@@ -123,6 +124,19 @@ class Expectation
     public function toHaveLength($length)
     {
         $matcher = new LengthMatcher($length);
+        $this->test($matcher);
+    }
+
+    /**
+     * Tests whether or not $actual, a string or an array, contains a substring
+     * or an element with the supplied $value.
+     *
+     * @param  int                  $value The value expected to be included
+     * @throws ExpectationException If the positive or negative match fails
+     */
+    public function toContain($value)
+    {
+        $matcher = new InclusionMatcher($value);
         $this->test($matcher);
     }
 

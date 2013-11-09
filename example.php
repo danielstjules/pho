@@ -56,6 +56,16 @@ describe('Some Object', function() {
             expect($property)->toBeEmpty();
         });
 
+        it('quick test of toContain with arrays', function() {
+            expect(['a'])->toContain('a');
+            expect([])->toContain('b');
+        });
+
+        it('quick test of toContain with strings', function() {
+            expect('testing')->toContain('t');
+            expect('testing')->toContain('z');
+        });
+
         context('and user meets some condition', function() {
             it('should do something', function() {
                 sleep(1);
