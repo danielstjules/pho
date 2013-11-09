@@ -3,6 +3,7 @@
 namespace pho\Expectation;
 
 use pho\Exception\ExpectationException;
+use pho\Expectation\Matcher\InstanceMatcher;
 use pho\Expectation\Matcher\TypeMatcher;
 use pho\Expectation\Matcher\StrictEqualityMatcher;
 use pho\Expectation\Matcher\LengthMatcher;
@@ -58,6 +59,18 @@ class Expectation
     public function toBeAn($type)
     {
         $this->toBeA($type);
+    }
+
+    /**
+     * Tests whether or not $actual is an instance of the given class.
+     *
+     * @param string $class The name of the class
+     * @throws ExpectationException If the positive or negative match fails
+     */
+    public function toBeAnInstanceOf($class)
+    {
+        $matcher = new InstanceMatcher($class);
+        $this->test($matcher);
     }
 
     /**

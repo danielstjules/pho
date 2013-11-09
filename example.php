@@ -66,6 +66,11 @@ describe('Some Object', function() {
             expect('testing')->toContain('z');
         });
 
+        it('test toBeAnInstanceOf', function() {
+            expect(new stdClass())->toBeAnInstanceOf('stdClass');
+            expect(new stdClass())->toBeAnInstanceOf('randomClass');
+        });
+
         context('and user meets some condition', function() {
             it('should do something', function() {
                 sleep(1);
