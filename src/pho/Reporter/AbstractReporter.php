@@ -75,6 +75,11 @@ abstract class AbstractReporter
             $summary = $this->formatter->green($summaryText);
         }
 
+        if ($failedCount && $this->console->options['ascii']) {
+            $this->console->writeLn('');
+            $this->drawAscii();
+        }
+
         $summary = $this->formatter->bold($summary);
         $this->console->writeLn($summary);
     }
@@ -97,5 +102,27 @@ abstract class AbstractReporter
     public function afterSuite(Suite $suite)
     {
         return;
+    }
+
+    private function drawAscii()
+    {
+        $ascii = [];
+        $ascii[] =
+<<<EOD
+(╯°□°）╯︵ ┻━┻
+EOD;
+
+        $ascii[] =
+<<<EOD
+¯\_(ツ)_/¯
+EOD;
+
+        $ascii[] =
+<<<EOD
+┻━┻︵ \(°□°)/ ︵ ┻━┻
+EOD;
+
+        $key = array_rand($ascii, 1);
+        $this->console->writeLn($ascii[$key]);
     }
 }

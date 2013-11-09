@@ -23,6 +23,7 @@ class Console
         'filter'    => ['--filter',    '-f', 'Run specs containing a pattern', 'pattern'],
         'stop'      => ['--stop',      '-s', 'Stop on failure'],
         'watch'     => ['--watch',     '-w', 'Watch files for changes and rerun specs'],
+        'ascii'     => ['--ascii',     '-a', 'Show ASCII art on completion'],
         // TODO: Implement options below
         'timeout'   => ['--timeout',   '-t', 'Spec timeout in milliseconds', 'ms'],
         'no-color'  => ['--no-color',  '-n', 'Disable terminal colors'],
