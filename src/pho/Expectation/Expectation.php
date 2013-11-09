@@ -142,4 +142,29 @@ class Expectation
             throw new ExpectationException($failureMessage);
         }
     }
+
+    /**
+     * Attempts to resolve calls to the 'not' versions of the Expectation
+     * methods. This is done by removing the 'not' and converting the
+     * first character to lowercase.
+     *
+     * @param string $method The method to call
+     * @param mixed  $arg    An optional argument to pass to the method
+     */
+    public function __call($method, $argument = null)
+    {
+        // Check if the method starts with 'not'
+        if (strpos($method, 'not') === 0 && strlen($method) > 3) {
+            $methodName = lcfirst(substr($method, 3));
+        }
+
+        // If method exists, call not() followed by the method
+        if (isset($methodName) && !method_exists($this, $methodName)) {
+            $this->not();
+            call_user_func_array([$this, $method], $argument);
+        } else {
+            $exceptionMessage = "Call to undefined method: Expectation::$method";
+            throw new \BadMethodCallException($exceptionMessage);
+        }
+    }
 }

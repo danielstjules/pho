@@ -34,7 +34,7 @@ describe('Some Object', function() {
 
         it('should have a property of type other than int', function() {
             $property = 1;
-            expect($property)->not()->toBeAn('integer');
+            expect($property)->notToBeAn('integer');
         });
 
         it('should have a property equal to true', function() {
