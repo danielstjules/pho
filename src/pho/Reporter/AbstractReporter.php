@@ -67,17 +67,19 @@ abstract class AbstractReporter
         $specs = ($this->specCount == 1) ? 'spec' : 'specs';
         $failures = ($failedCount == 1) ? 'failure' : 'failures';
 
+        // Print ASCII art if enabled
+        if ($this->console->options['ascii']) {
+            $this->console->writeLn('');
+            $this->drawAscii();
+        }
+
         $summaryText = "\n{$this->specCount} $specs, $failedCount $failures";
 
-        if (count($this->failedSpecs)) {
+        // Generate the summary based on whether or not it passed
+        if ($failedCount) {
             $summary = $this->formatter->red($summaryText);
         } else {
             $summary = $this->formatter->green($summaryText);
-        }
-
-        if ($failedCount && $this->console->options['ascii']) {
-            $this->console->writeLn('');
-            $this->drawAscii();
         }
 
         $summary = $this->formatter->bold($summary);
@@ -106,23 +108,29 @@ abstract class AbstractReporter
 
     private function drawAscii()
     {
-        $ascii = [];
-        $ascii[] =
-<<<EOD
-(╯°□°）╯︵ ┻━┻
-EOD;
+        $fail = [
+            '(╯°□°）╯︵ ┻━┻',
+            '¯\_(ツ)_/¯',
+            '┻━┻︵ \(°□°)/ ︵ ┻━┻',
+            '(ಠ_ಠ)',
+            '(ノಠ益ಠ)ノ彡',
+            '(✖﹏✖)'
+        ];
 
-        $ascii[] =
-<<<EOD
-¯\_(ツ)_/¯
-EOD;
+        $pass = [
+            '☜(ﾟヮﾟ☜)',
+            '♪ヽ( ⌒o⌒)人(⌒-⌒ )v ♪',
+            '┗(^-^)┓',
+            'ヽ(^。^)ノ',
+            'ヽ(^▽^)v'
+        ];
 
-        $ascii[] =
-<<<EOD
-┻━┻︵ \(°□°)/ ︵ ┻━┻
-EOD;
-
-        $key = array_rand($ascii, 1);
-        $this->console->writeLn($ascii[$key]);
+        if (count($this->failedSpecs)) {
+            $key = array_rand($fail, 1);
+            $this->console->writeLn($fail[$key]);
+        } else {
+            $key = array_rand($pass, 1);
+            $this->console->writeLn($pass[$key]);
+        }
     }
 }
