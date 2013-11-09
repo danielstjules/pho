@@ -106,6 +106,11 @@ abstract class AbstractReporter
         return;
     }
 
+    /**
+     * Prints ASCII art based on whether or not any specs failed. If all specs
+     * passed, the randomly selected art is of a happier variety, otherwise
+     * there's a lot of anger and flipped tables.
+     */
     private function drawAscii()
     {
         $fail = [

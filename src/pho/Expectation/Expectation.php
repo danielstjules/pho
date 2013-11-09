@@ -28,7 +28,7 @@ class Expectation
 
     public function toBeA($type)
     {
-        $matcher = new TypeMatcher($type, $this->inverse);
+        $matcher = new TypeMatcher($type);
         $this->test($matcher);
     }
 
@@ -39,25 +39,25 @@ class Expectation
 
     public function toBe($value)
     {
-        $matcher = new StrictEqualityMatcher($value, $this->inverse);
+        $matcher = new StrictEqualityMatcher($value);
         $this->test($matcher);
     }
 
     public function toBeNull()
     {
-        $matcher = new StrictEqualityMatcher(null, $this->inverse);
+        $matcher = new StrictEqualityMatcher(null);
         $this->test($matcher);
     }
 
     public function toBeTrue()
     {
-        $matcher = new StrictEqualityMatcher(true, $this->inverse);
+        $matcher = new StrictEqualityMatcher(true);
         $this->test($matcher);
     }
 
     public function toBeFalse()
     {
-        $matcher = new StrictEqualityMatcher(false, $this->inverse);
+        $matcher = new StrictEqualityMatcher(false);
         $this->test($matcher);
     }
 
@@ -68,14 +68,18 @@ class Expectation
 
     public function toHaveLength($length)
     {
-        $matcher = new LengthMatcher($length, $this->inverse);
+        $matcher = new LengthMatcher($length);
         $this->test($matcher);
     }
 
     private function test($matcher)
     {
-        if (!$matcher->match($this->actual)) {
+        $match = $matcher->match($this->actual);
+
+        if (!$this->inverse && !$match) {
             throw new ExpectationException($matcher->getFailureMessage());
+        } elseif ($this->inverse && $match) {
+            throw new ExpectationException($matcher->getFailureMessage(true));
         }
     }
 }

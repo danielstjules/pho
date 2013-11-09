@@ -122,10 +122,10 @@ class Console
         if ($this->options['help']) {
             $this->printHelp();
             exit();
-        } else if ($this->options['version']) {
+        } elseif ($this->options['version']) {
             $this->printVersion();
             exit();
-        } else if ($this->optionParser->getInvalidArguments()) {
+        } elseif ($this->optionParser->getInvalidArguments()) {
             foreach ($this->optionParser->getInvalidArguments() as $invalidArg) {
                 $this->writeLn("$invalidArg is not a valid option");
             }

@@ -5,28 +5,29 @@ namespace pho\Expectation\Matcher;
 interface MatcherInterface
 {
     /**
-     * The constructor must accept an expected value as well a boolean matchType
-     * to indicate whether or not we want a positive or negative match.
+     * The constructor must accept an expected value to be tested.
      *
-     * @param mixed   $expected  The expected value
-     * @param boolean $matchType True to indicate a positive match, false for a
-     *                           negative match
+     * @param mixed $expected The expected value
      */
-    public function __construct($expected, $matchType);
+    public function __construct($expected);
 
     /**
-     * The method should return true if the positive or negative match succeeds,
-     * and false otherwise.
+     * The method should return true if the match succeeds.
      *
-     * @param  mixed   $actual The actual value to match against
-     * @return boolean Returns true if the desired match type succeeds, else false
+     * @param  mixed      $actual The actual value to match against
+     * @return boolean    Returns true if the desired match succeeds, else false
+     * @throws \Exception If $actual isn't of an expected type
      */
     public function match($actual);
 
     /**
-     * The method should return an error message indicating why the match failed.
+     * The method should return an error message indicating why the match would
+     * have failed. If the optional parameter $inverse is true, it should
+     * return a message corresponding to the negative match.
      *
-     * @return string The error message
+     * @param  boolean $inverse Whether to print a message corresponding
+     *                          to the positive match or its inverse
+     * @return string  The error message
      */
-    public function getFailureMessage();
+    public function getFailureMessage($inverse = false);
 }

@@ -6,29 +6,42 @@ class TypeMatcher implements MatcherInterface
 {
     private $expected;
 
-    private $inverse;
-
     private $actual;
 
-    public function __construct($expected, $inverse)
+    /**
+     * Creates a new TypeMatcher for comparing to an expected type.
+     *
+     * @param mixed $expected The expected type
+     */
+    public function __construct($expected)
     {
         $this->expected = $expected;
-        $this->inverse = $inverse;
     }
 
+    /**
+     * Compares the type of the passed argument to the expected type. Returns
+     * true if the two values are of the same type, false otherwise.
+     *
+     * @param  mixed   $actual The value to test
+     * @return boolean Whether or not the value has the expected type
+     */
     public function match($actual)
     {
         $this->actual = gettype($actual);
 
-        $match = ($this->actual === $this->expected);
-        $match = ($this->inverse) ? !$match : $match;
-
-        return $match;
+        return ($this->actual === $this->expected);
     }
 
-    public function getFailureMessage()
+    /**
+     * Returns an error message indicating why the match would have failed given
+     * the passed value. Returns the inverse of the message if $inverse is true.
+     *
+     * @param  boolean $inverse Whether or not to print the inverse message
+     * @return string  The error message
+     */
+    public function getFailureMessage($inverse = false)
     {
-        if (!$this->inverse) {
+        if (!$inverse) {
             return "Expected {$this->expected}, got {$this->actual}";
         } else {
             return "Expected a type other than {$this->expected}";

@@ -6,18 +6,28 @@ class LengthMatcher implements MatcherInterface
 {
     private $expected;
 
-    private $inverse;
-
     private $actual;
 
     private $type;
 
-    public function __construct($expected, $inverse)
+    /**
+     * Creates a new LengthMatcher for testing the length of a string or array.
+     *
+     * @param int $expected The expected length
+     */
+    public function __construct($expected)
     {
         $this->expected = $expected;
-        $this->inverse = $inverse;
     }
 
+    /**
+     * Compares the length of the given array or string to the expected value.
+     * Returns true if the value is of the expected length, else false.
+     *
+     * @param  mixed      $actual An array or string for which to test the length
+     * @return boolean    Whether or not the value is of the expected length
+     * @throws \Exception If $actual isn't of type array or string
+     */
     public function match($actual)
     {
         if (is_string($actual)) {
@@ -27,33 +37,25 @@ class LengthMatcher implements MatcherInterface
             $this->type = 'array';
             $this->actual = count($actual);
         } else {
-            throw Exception('LengthMatcher requires an array or string');
+            throw \Exception('LengthMatcher::match() requires an array or string');
         }
 
-        $match = ($this->actual === $this->expected);
-        $match = ($this->inverse) ? !$match : $match;
-
-        return $match;
+        return ($this->actual === $this->expected);
     }
 
-    public function getFailureMessage()
+    /**
+     * Returns an error message indicating why the match would have failed given
+     * the passed value. Returns the inverse of the message if $inverse is true.
+     *
+     * @param  boolean $inverse Whether or not to print the inverse message
+     * @return string  The error message
+     */
+    public function getFailureMessage($inverse = false)
     {
-        if (!$this->inverse) {
+        if (!$inverse) {
             return "Expected {$this->type} to have a length of {$this->expected}";
         } else {
             return "Expected {$this->type} not to have a length of {$this->expected}";
         }
-    }
-
-    private function getStringValue($value) {
-        if ($value === true) {
-            return 'true';
-        } else if ($value === false) {
-            return 'false';
-        } else if($value === null) {
-            return 'null';
-        }
-
-        return print_r($value, true);
     }
 }
