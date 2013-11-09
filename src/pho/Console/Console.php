@@ -115,8 +115,11 @@ class Console
         $this->optionParser->parseArguments($this->arguments);
         $this->options = $this->optionParser->getOptions();
 
-        $this->paths = $this->optionParser->getPaths();
-        $this->verifyPaths();
+        $paths = $this->optionParser->getPaths();
+        if ($paths) {
+            $this->paths = $paths;
+            $this->verifyPaths();
+        }
 
         // Render help or version text if necessary, and display errors
         if ($this->options['help']) {

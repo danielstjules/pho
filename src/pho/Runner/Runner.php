@@ -218,13 +218,13 @@ class Runner
         self::runRunnable($suite->before);
         self::$reporter->beforeSuite($suite);
 
+        // Run the specs
+        self::runSpecs($suite);
+
         // Run nested suites
         foreach ($suite->suites as $nestedSuite) {
             self::runSuite($nestedSuite);
         }
-
-        // Run the specs
-        self::runSpecs($suite);
 
         self::$reporter->afterSuite($suite);
         self::runRunnable($suite->after);
