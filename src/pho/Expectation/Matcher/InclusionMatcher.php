@@ -39,7 +39,7 @@ class InclusionMatcher extends AbstractMatcher implements MatcherInterface
             return (in_array($this->needle, $haystack));
         }
 
-        throw \Exception('LengthMatcher::match() requires an array or string');
+        throw new \Exception('LengthMatcher::match() requires an array or string');
     }
 
     /**

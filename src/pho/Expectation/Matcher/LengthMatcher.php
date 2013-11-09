@@ -37,7 +37,7 @@ class LengthMatcher extends AbstractMatcher implements MatcherInterface
             $this->type = 'array';
             $this->actual = count($actual);
         } else {
-            throw \Exception('LengthMatcher::match() requires an array or string');
+            throw new \Exception('LengthMatcher::match() requires an array or string');
         }
 
         return ($this->actual === $this->expected);
