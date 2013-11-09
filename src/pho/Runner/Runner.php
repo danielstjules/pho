@@ -149,8 +149,20 @@ class Runner
                 1 => ['pipe', 'w']
             ];
 
+            // Rebuild option string, without watch
+            $optionString = '';
+            foreach (self::$console->options as $key => $val) {
+                if ($key == 'watch') {
+                    continue;
+                } elseif ($val === true) { // test
+                    $optionString .= "--$key ";
+                } elseif ($val) {
+                    $optionString .= "--$key $val ";
+                }
+            }
+
             // Run pho in another process and echo its stdout
-            $process = proc_open("pho $paths", $descriptor, $pipes);
+            $process = proc_open("pho $optionString $paths", $descriptor, $pipes);
 
             if (is_resource($process)) {
                 while ($buffer = fread($pipes[1], 16)) {
