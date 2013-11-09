@@ -2,6 +2,7 @@
 
 use pho\Runner\Runner;
 use pho\Console\Console;
+use pho\Expectation\Expectation;
 
 // Please forgive, for I have polluted the global namespace
 
@@ -83,6 +84,16 @@ function beforeEach(\Closure $closure)
 function afterEach(\Closure $closure)
 {
     Runner::afterEach($closure);
+}
+
+/**
+ * Creates and returns a new Expectation for the supplied value.
+ *
+ * @param mixed $actual The value to test
+ */
+function expect($actual)
+{
+    return new Expectation($actual);
 }
 
 // Create a new Console and start the runner

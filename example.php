@@ -2,29 +2,29 @@
 
 describe('Some Object', function() {
     before(function() {
-        // echo "Before\n";
+
     });
 
     after(function() {
-        // echo "After\n";
+
     });
 
     beforeEach(function() {
-        // echo "Top BeforeEach\n";
+
     });
 
     afterEach(function() {
-        // echo "Top AfterEach\n";
+
     });
 
     context('when created', function() {
         beforeEach(function() {
-            // echo "beforeEach\n";
+
         });
 
-        it('should echo a number', function() {
-            // echo "spec 1\n";
-            sleep(1);
+        it('should have a string property', function() {
+            $property = 'lol';
+            expect('lol')->toBeA('string');
         });
 
         it('should echo a second number', function() {
@@ -32,13 +32,32 @@ describe('Some Object', function() {
             sleep(1);
         });
 
+        it('should have a property of type other than int', function() {
+            $property = 1;
+            expect($property)->not()->toBeAn('integer');
+        });
+
+        it('should have a property equal to true', function() {
+            $property = false;
+            expect($property)->toBeTrue();
+        });
+
+        it('should have a property not equal to true', function() {
+            $property = "This isn't true!";
+            expect($property)->not()->toBeTrue();
+        });
+
         it('should echo a third number', function() {
             throw new Exception('Something went wrong');
         });
 
+        it('should have an empty array property', function() {
+            $property = [];
+            expect($property)->toBeEmpty();
+        });
+
         context('and user meets some condition', function() {
             it('should do something', function() {
-                // echo "deeply nested";
                 sleep(1);
             });
 
@@ -48,11 +67,11 @@ describe('Some Object', function() {
         });
 
         afterEach(function() {
-            // echo "afterEach\n";
+
         });
     });
 
     it('should be customizable', function() {
-        // echo "Last spec\n";
+
     });
 });

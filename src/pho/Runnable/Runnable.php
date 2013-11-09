@@ -2,6 +2,7 @@
 
 namespace pho\Runnable;
 
+use pho\Exception\ExpectationException;
 use pho\Exception\ErrorException;
 use pho\Exception\RunnableException;
 
@@ -24,6 +25,8 @@ abstract class Runnable
             // Invoke the closure while catching exceptions
             try {
                 $this->closure->__invoke();
+            } catch (ExpectationException $exception) {
+                $this->exception = $exception;
             } catch (\Exception $exception) {
                 $this->handleException($exception);
             }
