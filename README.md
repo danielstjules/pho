@@ -2,6 +2,8 @@
 
 BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
+[![Build Status](https://travis-ci.org/danielstjules/pho.png)](https://travis-ci.org/danielstjules/pho)
+
 ## Installation
 
 The following instructions outline installation using Composer. If you don't have Composer, you can download it from [http://getcomposer.org/](http://getcomposer.org/)
