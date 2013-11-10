@@ -1,11 +1,11 @@
 <?php
 
-use pho\Expectation\Matcher\InclusionMatcher;
+use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\MatcherInterface;
 
-describe('InclusionMatcher', function() {
+describe('LengthMatcher', function() {
     it('implements the MatcherInterface', function() {
-        $matcher = new InclusionMatcher('test');
+        $matcher = new LengthMatcher(1);
 
         if (!($matcher instanceof MatcherInterface)) {
             throw new \Exception('Does not implement MatcherInterface');
@@ -13,38 +13,38 @@ describe('InclusionMatcher', function() {
     });
 
     context('match', function() {
-        it('returns true if the substring is found in the string', function() {
-            $matcher = new InclusionMatcher('String');
-            if (!$matcher->match('TestString')) {
+        it('returns true if the string has the expected length', function() {
+            $matcher = new LengthMatcher(3);
+            if (!$matcher->match('pho')) {
                 throw new \Exception('Does not return true');
             }
         });
 
-        it('returns false if the substring is not found in the string', function() {
-            $matcher = new InclusionMatcher('String');
+        it("returns false if the string doesn't have the given length", function() {
+            $matcher = new LengthMatcher(5);
             if ($matcher->match('Test')) {
                 throw new \Exception('Does not return false');
             }
         });
 
-        it('returns true if the value is in the array', function() {
-            $matcher = new InclusionMatcher(2);
-            if (!$matcher->match([1, 2, 3])) {
+        it('returns true if the array has the expected length', function() {
+            $matcher = new LengthMatcher(2);
+            if (!$matcher->match(['a', 'b'])) {
                 throw new \Exception('Does not return true');
             }
         });
 
-        it('returns false if the value is not in the array', function() {
-            $matcher = new InclusionMatcher(4);
-            if ($matcher->match([1, 2, 3])) {
+        it("returns false if the array doesn't have the expected length", function() {
+            $matcher = new LengthMatcher(3);
+            if ($matcher->match(['a', 'b'])) {
                 throw new \Exception('Does not return false');
             }
         });
 
-        it("throws an exception if haystack isn't an array or string", function() {
+        it("throws an exception if not an array or string", function() {
             $exceptionThrown = false;
             try {
-                $matcher = new InclusionMatcher('test');
+                $matcher = new LengthMatcher(2);
                 $matcher->match(1);
             } catch (\Exception $exception) {
                 $exceptionThrown = true;
@@ -57,20 +57,20 @@ describe('InclusionMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected type and needle', function() {
-            $matcher = new InclusionMatcher('Testing');
-            $matcher->match('TestString');
-            $expected = 'Expected string to contain Testing';
+        it('Lists the expected length', function() {
+            $matcher = new LengthMatcher(2);
+            $matcher->match('pho');
+            $expected = 'Expected string to have a length of 2';
 
             if ($expected !== $matcher->getFailureMessage()) {
                 throw new \Exception('Did not return expected failure message');
             }
         });
 
-        it('Lists the expected type and needle with inversed logic', function() {
-            $matcher = new InclusionMatcher('Test');
-            $matcher->match('TestString');
-            $expected = 'Expected string not to contain Test';
+        it('Lists the expected length with inversed logic', function() {
+            $matcher = new LengthMatcher(3);
+            $matcher->match(['a', 'b', 'c']);
+            $expected = 'Expected array not to have a length of 3';
 
             if ($expected !== $matcher->getFailureMessage(true)) {
                 throw new \Exception('Did not return expected failure message');

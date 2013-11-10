@@ -54,7 +54,7 @@ class InclusionMatcher extends AbstractMatcher implements MatcherInterface
         if (!$inverse) {
             return "Expected {$this->type} to contain {$this->needle}";
         } else {
-            return "Expected {$this->type} to contain {$this->needle}";
+            return "Expected {$this->type} not to contain {$this->needle}";
         }
     }
 }
