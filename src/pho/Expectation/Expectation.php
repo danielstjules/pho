@@ -211,9 +211,9 @@ class Expectation
         }
 
         // If method exists, call not() followed by the method
-        if (isset($methodName) && !method_exists($this, $methodName)) {
+        if (isset($methodName) && method_exists($this, $methodName)) {
             $this->not();
-            call_user_func_array([$this, $method], $argument);
+            call_user_func_array([$this, $methodName], $argument);
         } else {
             $exceptionMessage = "Call to undefined method: Expectation::$method";
             throw new \BadMethodCallException($exceptionMessage);
