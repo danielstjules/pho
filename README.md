@@ -4,6 +4,12 @@ BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
 [![Build Status](https://travis-ci.org/danielstjules/pho.png)](https://travis-ci.org/danielstjules/pho)
 
+ * [Installation](#installation)
+ * [Writing Specs](#writing-specs)
+ * [Expectations/Matchers](#expectationsmatchers)
+ * [Reporters](#reporters)
+ * [Options](#options)
+
 ## Installation
 
 The following instructions outline installation using Composer. If you don't have Composer, you can download it from [http://getcomposer.org/](http://getcomposer.org/)
@@ -21,7 +27,149 @@ $ php composer.phar global require danielstjules/pho:dev-master
 export PATH=$HOME/.composer/vendor/bin:$PATH
 ```
 
-## Example output
+## Writing Specs
+
+``` php
+describe('A suite', function() {
+    it('contains specs with expectations', function() {
+        expect(true)->toBe(true);
+    });
+
+    it('can have specs that fail', function() {
+        expect(false)->not()->toBe(false);
+    });
+});
+```
+
+```
+$ pho example.php
+
+A suite
+    contains specs with expectations ✓
+    can have specs that fail ✖
+
+Failures:
+
+"A suite can have specs that fail" FAILED
+Expected false not to be false
+
+Finished in 0.00089 seconds
+
+2 specs, 1 failure
+```
+
+## Expectations/Matchers
+
+#### Type Matching
+
+``` php
+expect('pho')->toBeA('string');
+expect(1)->notToBeA('string');
+expect(1)->not()->toBeA('string');
+
+expect(1)->toBeAn('integer');
+expect('pho')->notToBeAn('integer');
+expect('pho')->not()->toBeA('integer');
+```
+
+#### Instance Matching
+
+``` php
+expect(new User())->toBeAnInstanceOf('User');
+expect(new User())->not()->toBeAnInstanceOf('Post');
+expect(new User())->notToBeAnInstanceOf('Post');
+```
+
+#### Strict Equality Matching
+
+``` php
+expect(1)->toBe(1);
+expect(1)->not()->toBe(2);
+expect(1)->notToBe(2);
+
+expect(['a'])->toEqual(['a']);
+expect(['a'])->not()->toEqual(true);
+expect(['a'])->notToEqual(true);
+
+expect(null)->toBeNull();
+expect('pho')->not()->toBeNull();
+expect('pho')->notToBeNull();
+
+expect(true)->toBeTrue();
+expect(1)->not()->toBeTrue();
+expect(1)->notToBeTrue();
+
+expect(false)->toBeFalse();
+expect(0)->not()->toBeFalse();
+expect(0)->notToBeFalse();
+```
+
+#### Loose Equality Matching
+
+``` php
+expect(1)->toEql(true);
+expect(new User('Bob'))->not()->ToEql(new User('Alice'))
+expect(new User('Bob'))->notToEql(new User('Alice'))
+```
+
+#### Length Matching
+
+``` php
+expect(['tdd', 'bdd'])->toHaveLength(2);
+expect('pho')->not()->toHaveLength(2);
+expect('pho')->notToHaveLength(2);
+
+expect([])->toBeEmpty();
+expect('pho')->not()->toBeEmpty();
+expect('pho')->notToBeEmpty();
+```
+
+#### Inclusion Matching
+
+``` php
+expect('Spectacular!')->toContain('Spec');
+expect(['a', 'b'])->not()->toContain('c');
+expect(['a', 'b'])->notToContain('c');
+```
+
+## Reporters
+
+#### spec (default)
+
+```
+$ pho --reporter spec example.php
+
+A suite
+    contains specs with expectations ✓
+    can have specs that fail ✖
+
+Failures:
+
+"A suite can have specs that fail" FAILED
+Expected false not to be false
+
+Finished in 0.00089 seconds
+
+2 specs, 1 failure
+```
+
+#### dot
+
+```
+$ pho --reporter dot example.php
+
+.F
+Failures:
+
+"A suite can have specs that fail" FAILED
+Expected false not to be false
+
+Finished in 0.00141 seconds
+
+2 specs, 1 failure
+```
+
+## Options
 
 ```
 $ pho --help
@@ -29,69 +177,11 @@ Usage: pho [options] [files]
 
 Options
 
+   -a   --ascii                  Show ASCII art on completion
    -h   --help                   Output usage information
-   -v   --version                Display version number
-   -r   --reporter   <name>      Specify the reporter to use
    -f   --filter     <pattern>   Run specs containing a pattern
+   -r   --reporter   <name>      Specify the reporter to use
    -s   --stop                   Stop on failure
+   -v   --version                Display version number
    -w   --watch                  Watch files for changes and rerun specs
-```
-
-```
-$ pho example.php
-pho by Daniel St. Jules
-
-Some Object
-    when created
-        and user meets some condition
-            should do something ✓
-            should do something else ✖
-        should echo a number ✓
-        should echo a second number ✓
-        should echo a third number ✖
-    should be customizable ✓
-
-Failures:
-
-"Some Object when created and user meets some condition should do something else" FAILED
-E_USER_ERROR with message 'Some error' in /Users/danielstjules/GitHub/pho/example.php:46
-
-"Some Object when created should echo a third number" FAILED
-Exception with message 'Something went wrong' in /Users/danielstjules/GitHub/pho/example.php:36
-
-Finished in 3.00538 seconds
-
-6 specs, 2 failures
-```
-
-```
-$ pho --filter 'something$' example.php
-pho by Daniel St. Jules
-
-Some Object
-    when created
-        and user meets some condition
-            should do something ✓
-
-Finished in 1.00151 seconds
-
-1 spec, 0 failures
-```
-
-```
-$ pho --reporter dot example.php
-pho by Daniel St. Jules
-
-.F..F.
-Failures:
-
-"Some Object when created and user meets some condition should do something else" FAILED
-E_USER_ERROR with message 'Some error' in /Users/danielstjules/GitHub/pho/example.php:46
-
-"Some Object when created should echo a third number" FAILED
-Exception with message 'Something went wrong' in /Users/danielstjules/GitHub/pho/example.php:36
-
-Finished in 3.00538 seconds
-
-6 specs, 2 failures
 ```

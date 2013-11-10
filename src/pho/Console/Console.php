@@ -17,22 +17,23 @@ class Console
     private $paths;
 
     private $availableOptions = [
-        'help'      => ['--help',      '-h', 'Output usage information'],
-        'version'   => ['--version',   '-v', 'Display version number'],
-        'reporter'  => ['--reporter',  '-r', 'Specify the reporter to use', 'name'],
-        'filter'    => ['--filter',    '-f', 'Run specs containing a pattern', 'pattern'],
-        'stop'      => ['--stop',      '-s', 'Stop on failure'],
-        'watch'     => ['--watch',     '-w', 'Watch files for changes and rerun specs'],
         'ascii'     => ['--ascii',     '-a', 'Show ASCII art on completion'],
+        'help'      => ['--help',      '-h', 'Output usage information'],
+        'filter'    => ['--filter',    '-f', 'Run specs containing a pattern', 'pattern'],
+        'reporter'  => ['--reporter',  '-r', 'Specify the reporter to use', 'name'],
+        'stop'      => ['--stop',      '-s', 'Stop on failure'],
+        'version'   => ['--version',   '-v', 'Display version number'],
+        'watch'     => ['--watch',     '-w', 'Watch files for changes and rerun specs'],
+
         // TODO: Implement options below
-        'timeout'   => ['--timeout',   '-t', 'Spec timeout in milliseconds', 'ms'],
-        'no-color'  => ['--no-color',  '-n', 'Disable terminal colors'],
-        'generate'  => ['--generate',  '-g', 'Generate suites for classes in path', 'path'],
-        'random'    => ['--random',    '-R', 'Run specs in a random order'],
-        'seed'      => ['--seed',      '-S', 'Reproduce random order given seed', 'seed'],
-        'bootstrap' => ['--bootstrap', '-b', 'Bootstrap file to load', 'bootstrap'],
-        'processes' => ['--processes', '-p', 'Number of processes to use', 'processes'],
-        'verbose'   => ['--verbose',   '-V', 'Enable verbose output']
+        // 'timeout'   => ['--timeout',   '-t', 'Spec timeout in milliseconds', 'ms'],
+        // 'no-color'  => ['--no-color',  '-n', 'Disable terminal colors'],
+        // 'generate'  => ['--generate',  '-g', 'Generate suites for classes in path', 'path'],
+        // 'random'    => ['--random',    '-R', 'Run specs in a random order'],
+        // 'seed'      => ['--seed',      '-S', 'Reproduce random order given seed', 'seed'],
+        // 'bootstrap' => ['--bootstrap', '-b', 'Bootstrap file to load', 'bootstrap'],
+        // 'processes' => ['--processes', '-p', 'Number of processes to use', 'processes'],
+        // 'verbose'   => ['--verbose',   '-V', 'Enable verbose output']
     ];
 
     private $reporters = ['dot', 'spec'];
