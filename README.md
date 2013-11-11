@@ -42,11 +42,11 @@ describe('A suite', function() {
 ```
 
 ```
-$ pho example.php
+$ pho --reporter spec example.php
 
 A suite
-    contains specs with expectations ✓
-    can have specs that fail ✖
+    contains specs with expectations
+    can have specs that fail
 
 Failures:
 

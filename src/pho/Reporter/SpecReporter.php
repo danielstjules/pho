@@ -52,10 +52,6 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
      */
     public function beforeSpec(Spec $spec)
     {
-        $leftPad = str_repeat('    ', $this->depth);
-        $this->console->write("$leftPad{$spec->title}");
-
-        $this->depth += 1;
         $this->specCount += 1;
     }
 
@@ -67,16 +63,15 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
      */
     public function afterSpec(Spec $spec)
     {
+        $leftPad = str_repeat('    ', $this->depth);
+
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
-            $failed = $this->formatter->red(' ✖');
-            $this->console->write($failed);
+            $title = $this->formatter->red($spec->title);
         } else {
-            $passed = $this->formatter->green(' ✓');
-            $this->console->write($passed);
+            $title = $this->formatter->grey($spec->title);
         }
 
-        $this->depth -= 1;
-        $this->console->writeLn('');
+        $this->console->writeLn($leftPad . $title);
     }
 }

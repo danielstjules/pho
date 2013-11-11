@@ -15,7 +15,7 @@ abstract class Exception extends \Exception
      */
     public function __toString()
     {
-        return "{$this->type} with message '{$this->message}' in " .
-               "{$this->file}:{$this->line}";
+        return "{$this->type} with message \"{$this->message}\"\n" .
+               "in {$this->file}:{$this->line}";
     }
 }
