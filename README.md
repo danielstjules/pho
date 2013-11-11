@@ -12,7 +12,8 @@ BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
 ## Installation
 
-The following instructions outline installation using Composer. If you don't have Composer, you can download it from [http://getcomposer.org/](http://getcomposer.org/)
+The following instructions outline installation using Composer. If you don't
+have Composer, you can download it from [http://getcomposer.org/](http://getcomposer.org/)
 
  * Run either of the following commands, depending on your environment:
 
@@ -28,6 +29,16 @@ export PATH=$HOME/.composer/vendor/bin:$PATH
 ```
 
 ## Writing Specs
+
+Pho exposes 3 functions for organizing your tests. `describe` and `context` are
+functions that create a suite by passing them a string and function. Both are
+interchangeable, though context is more often nested in a describe to group
+some set of behaviour. `it` is then used to create a spec, or test.
+
+A spec may contain multiple expectations or assertions, and will pass so long
+as all assertions pass and no exception is uncaught. For asserting values in pho,
+`expect` can be used. The function accepts the value to be tested, and may be
+chained with a handful of matchers.
 
 ``` php
 describe('A suite', function() {
@@ -156,8 +167,8 @@ Finished in 0.00141 seconds
 $ pho --reporter spec example.php
 
 A suite
-    contains specs with expectations ✓
-    can have specs that fail ✖
+    contains specs with expectations
+    can have specs that fail
 
 Failures:
 
