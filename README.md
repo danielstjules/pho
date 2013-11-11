@@ -134,7 +134,23 @@ expect(['a', 'b'])->notToContain('c');
 
 ## Reporters
 
-#### spec (default)
+#### dot (default)
+
+```
+$ pho --reporter dot example.php
+
+.F
+Failures:
+
+"A suite can have specs that fail" FAILED
+Expected false not to be false
+
+Finished in 0.00141 seconds
+
+2 specs, 1 failure
+```
+
+#### spec
 
 ```
 $ pho --reporter spec example.php
@@ -149,22 +165,6 @@ Failures:
 Expected false not to be false
 
 Finished in 0.00089 seconds
-
-2 specs, 1 failure
-```
-
-#### dot
-
-```
-$ pho --reporter dot example.php
-
-.F
-Failures:
-
-"A suite can have specs that fail" FAILED
-Expected false not to be false
-
-Finished in 0.00141 seconds
 
 2 specs, 1 failure
 ```

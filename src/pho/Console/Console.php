@@ -66,7 +66,7 @@ class Console
 
     /**
      * Returns the namespaced name of the reporter class requested via the
-     * command line arguments, defaulting to SpecReporter if not specified.
+     * command line arguments, defaulting to DotReporter if not specified.
      *
      * @return string The namespaced class name of the reporter
      */
@@ -75,7 +75,7 @@ class Console
         $reporter = $this->options['reporter'];
 
         if (!$reporter || !in_array($reporter, $this->reporters)) {
-            return 'pho\Reporter\SpecReporter';
+            return 'pho\Reporter\DotReporter';
         }
 
         $reporterClass = ucfirst($reporter) . 'Reporter';
