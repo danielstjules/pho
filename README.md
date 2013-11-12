@@ -52,22 +52,7 @@ describe('A suite', function() {
 });
 ```
 
-```
-$ pho --reporter spec example.php
-
-A suite
-    contains specs with expectations
-    can have specs that fail
-
-Failures:
-
-"A suite can have specs that fail" FAILED
-Expected false not to be false
-
-Finished in 0.00089 seconds
-
-2 specs, 1 failure
-```
+![intro-screenshot](http://danielstjules.com/pho/intro.png)
 
 ## Expectations/Matchers
 
