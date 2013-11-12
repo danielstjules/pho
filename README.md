@@ -1,4 +1,4 @@
-# pho
+![pho](http://danielstjules.com/pho/logo.png)
 
 BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
