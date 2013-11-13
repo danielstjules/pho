@@ -1,0 +1,65 @@
+<?php
+
+use pho\Console\ConsoleOption;
+
+describe('ConsoleOption', function() {
+    $optInfo = [
+        'longName'     => 'testLongName',
+        'shortName'    => 'testShortName',
+        'description'  => 'testDescription',
+        'argumentName' => 'testArgumentName',
+    ];
+
+    $option = new ConsoleOption($optInfo['longName'], $optInfo['shortName'],
+        $optInfo['description'], $optInfo['argumentName']);
+
+    context('Basic getters', function() use ($option, $optInfo) {
+        it('Returns longName', function() use ($option, $optInfo) {
+            expect($option->getLongName())->toBe($optInfo['longName']);
+        });
+
+        it('Returns shortName', function() use ($option, $optInfo) {
+            expect($option->getShortName())->toBe($optInfo['shortName']);
+        });
+
+        it('Returns description', function() use ($option, $optInfo) {
+            expect($option->getDescription())->toBe($optInfo['description']);
+        });
+
+        it('Returns argumentName', function() use ($option, $optInfo) {
+            expect($option->getArgumentName())->toBe($optInfo['argumentName']);
+        });
+
+        it('Returns value', function() use ($option, $optInfo) {
+            expect($option->getValue())->toBeFalse();
+        });
+    });
+
+    context('acceptArguments', function() {
+        it('Returns true if an argument name was defined', function () {
+            $option = new ConsoleOption('sname', 'lname', 'desc', 'argname');
+            expect($option->acceptsArguments())->toBeTrue();
+        });
+
+        it('Returns true if an argument name was not defined', function () {
+            $option = new ConsoleOption('sname', 'lname', 'desc');
+            expect($option->acceptsArguments())->toBeFalse();
+        });
+    });
+
+    context('setValue', function() {
+        it('Sets the value if the option accepts arguments', function() {
+            $option = new ConsoleOption('sname', 'lname', 'desc', 'argname');
+            $value = 'test';
+            $option->setValue($value);
+            expect($option->getValue())->toBe($value);
+        });
+
+        it('Casts the value to boolean if the option does not', function() {
+            $option = new ConsoleOption('sname', 'lname', 'desc');
+            $value = 'test';
+            $option->setValue($value);
+            expect($option->getValue())->toBeTrue();
+        });
+    });
+});
