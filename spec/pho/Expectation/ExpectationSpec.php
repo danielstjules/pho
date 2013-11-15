@@ -441,4 +441,44 @@ describe('Expectation', function() {
             });
         });
     });
+
+    context('toPrint', function() {
+        it('returns if callable printed the value', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(function() {
+                    echo 'test';
+                });
+                $expect->toPrint('test');
+            });
+        });
+
+        it('throws exception if callable does not print the value', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(function() {
+                    echo 'testing';
+                });
+                $expect->toPrint('test');
+            });
+        });
+    });
+
+    context('notToPrint', function() {
+        it('throws exception if callable printed the value', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(function() {
+                    echo 'test';
+                });
+                $expect->notToPrint('test');
+            });
+        });
+
+        it('returns if callable does not print the value', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(function() {
+                    echo 'testing';
+                });
+                $expect->notToPrint('test');
+            });
+        });
+    });
 });

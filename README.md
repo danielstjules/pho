@@ -128,6 +128,18 @@ expect(['a', 'b'])->not()->toContain('c');
 expect(['a', 'b'])->notToContain('c');
 ```
 
+#### Print Matching
+
+``` php
+$callable = function() {
+  echo 'test'
+};
+
+expect($callable)->toPrint('test');
+expect($callable)->not()->toPrint('test');
+expect($callable)->notToPrint('test');
+```
+
 ## Reporters
 
 #### dot (default)

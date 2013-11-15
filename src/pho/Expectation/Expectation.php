@@ -9,6 +9,7 @@ use pho\Expectation\Matcher\LooseEqualityMatcher;
 use pho\Expectation\Matcher\StrictEqualityMatcher;
 use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\InclusionMatcher;
+use pho\Expectation\Matcher\PrintMatcher;
 
 class Expectation
 {
@@ -175,6 +176,19 @@ class Expectation
     public function toContain($value)
     {
         $matcher = new InclusionMatcher($value);
+        $this->test($matcher);
+    }
+
+    /**
+     * Tests whether or not $actual, a callable function, tried to output the
+     * string $value to php://output
+     *
+     * @param  int                  $value The expected value to be printed
+     * @throws ExpectationException If the positive or negative match fails
+     */
+    public function toPrint($value)
+    {
+        $matcher = new PrintMatcher($value);
         $this->test($matcher);
     }
 

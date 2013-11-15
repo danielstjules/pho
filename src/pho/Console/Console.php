@@ -4,6 +4,8 @@ namespace pho\Console;
 
 use pho\Reporter;
 
+// TODO: Refactor class to no longer call exit()
+
 class Console
 {
     const VERSION = '0.0.1';
@@ -100,8 +102,11 @@ class Console
      * and the application exits. Furthermore, if the arguments included a
      * non-valid flag or option, an error is printed and the application
      * terminates.
+     *
+     * @param boolean $exit Whether or not to exit after printing the version,
+     *                      help, or list of invalid arguments
      */
-    public function parseArguments()
+    public function parseArguments($exit = true)
     {
         // Add the list of options to the OptionParser
         foreach ($this->availableOptions as $name => $desc) {
@@ -125,15 +130,21 @@ class Console
         // Render help or version text if necessary, and display errors
         if ($this->options['help']) {
             $this->printHelp();
-            exit();
         } elseif ($this->options['version']) {
             $this->printVersion();
-            exit();
         } elseif ($this->optionParser->getInvalidArguments()) {
             foreach ($this->optionParser->getInvalidArguments() as $invalidArg) {
                 $this->writeLn("$invalidArg is not a valid option");
             }
+        } else {
+            return;
+        }
+
+        // Exit if necessary
+        if ($exit && $this->optionParser->getInvalidArguments()) {
             exit(1);
+        } elseif ($exit) {
+            exit();
         }
     }
 
