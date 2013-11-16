@@ -35,6 +35,7 @@ class DotReporter extends AbstractReporter implements ReporterInterface
 
         if ($this->lineLength == self::$maxPerLine) {
             $this->console->writeLn('');
+            $this->lineLength = 0;
         }
     }
 
