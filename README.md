@@ -54,6 +54,50 @@ describe('A suite', function() {
 
 ![intro-screenshot](http://danielstjules.com/pho/intro.png)
 
+Objects may be passed between suites and specs with php's `use` keyword. Here's
+an example:
+
+```
+describe('Example', function() {
+    $object = new stdClass();
+    $object->name = 'pho';
+
+    context('name', function() use ($object) {
+        it('is set to pho', function()  use ($object) {
+            expect($object->name)->toBe('pho');
+        });
+    });
+});
+```
+
+Things can get a bit verbose when dealing with multiple objects that need to be
+passed into closures with `use`. To avoid such long lists of arguments, pho
+exposes `$this->get($key)` and `$this->set($key, $val)` to be used within suites
+and specs.
+
+```
+describe('SomeClass', function() {
+    $this->set('key1', 'initialValue');
+    $this->set('key2', 'initialValue');
+
+    context('methodOne()', function() {
+        $this->set('key1', 'changedValue');
+
+        it('contains a spec', function() {
+            expect($this->get('key1'))->toBe('changedValue');
+            expect($this->get('key2'))->toBe('initialValue');
+        });
+    });
+
+    context('methodTwo()', function() {
+        it('contains another spec', function() {
+            expect($this->get('key1'))->toBe('initialValue');
+            expect($this->get('key2'))->toBe('initialValue');
+        });
+    });
+});
+```
+
 ## Expectations/Matchers
 
 #### Type Matching
