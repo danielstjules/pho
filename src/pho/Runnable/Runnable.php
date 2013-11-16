@@ -10,6 +10,8 @@ abstract class Runnable
 {
     public $closure;
 
+    public $suite;
+
     public $exception;
 
     /**

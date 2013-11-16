@@ -6,11 +6,9 @@ class Spec extends Runnable
 {
     public $title;
 
-    public $suite;
-
     /**
      * Constructs a Spec, to be associated with a particular suite, and ran
-     * by the test runner.
+     * by the test runner. The closure is bound to the suite.
      *
      * @param string   $title   A title to be associated with the spec
      * @param \Closure $closure The closure to invoke when the spec is called
@@ -19,8 +17,8 @@ class Spec extends Runnable
     public function __construct($title, $closure, $suite)
     {
         $this->title = $title;
-        $this->closure = $closure;
         $this->suite = $suite;
+        $this->closure = $closure->bindTo($suite);
     }
 
     /**

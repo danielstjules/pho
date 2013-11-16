@@ -16,7 +16,7 @@ use pho\Expectation\Expectation;
  */
 function describe($title, \Closure $closure)
 {
-    Runner::describe($title, $closure);
+    Runner::getInstance()->describe($title, $closure);
 }
 
 /**
@@ -28,7 +28,7 @@ function describe($title, \Closure $closure)
  */
 function context($title, \Closure $closure)
 {
-    Runner::describe($title, $closure);
+    Runner::getInstance()->describe($title, $closure);
 }
 
 /**
@@ -39,7 +39,7 @@ function context($title, \Closure $closure)
  */
 function it($title, \Closure $closure)
 {
-    Runner::it($title, $closure);
+    Runner::getInstance()->it($title, $closure);
 }
 
 /**
@@ -50,7 +50,7 @@ function it($title, \Closure $closure)
  */
 function before(\Closure $closure)
 {
-    Runner::before($closure);
+    Runner::getInstance()->before($closure);
 }
 
 /**
@@ -61,7 +61,7 @@ function before(\Closure $closure)
  */
 function after(\Closure $closure)
 {
-    Runner::after($closure);
+    Runner::getInstance()->after($closure);
 }
 
 /**
@@ -72,7 +72,7 @@ function after(\Closure $closure)
  */
 function beforeEach(\Closure $closure)
 {
-    Runner::beforeEach($closure);
+    Runner::getInstance()->beforeEach($closure);
 }
 
 /**
@@ -83,7 +83,7 @@ function beforeEach(\Closure $closure)
  */
 function afterEach(\Closure $closure)
 {
-    Runner::afterEach($closure);
+    Runner::getInstance()->afterEach($closure);
 }
 
 /**
@@ -98,4 +98,4 @@ function expect($actual)
 
 // Create a new Console and start the runner
 Runner::$console = new Console(array_slice($argv, 1));
-Runner::run();
+Runner::getInstance()->run();

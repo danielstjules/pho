@@ -10,13 +10,29 @@ use pho\Runnable\Hook;
 
 class Runner
 {
-    public static $reporter;
+    protected static $instance;
 
     public static $console;
 
-    private static $suites = [];
+    public $reporter;
 
-    private static $current;
+    private $suites = [];
+
+    private $current;
+
+    /**
+     * Returns the singleton instance.
+     *
+     * @return Runner The singleton instance
+     */
+    public static function getInstance()
+    {
+        if (static::$instance === null) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
 
     /**
      * Constructs a test Suite, assigning it the given title and anonymous
@@ -27,22 +43,22 @@ class Runner
      * @param string   $title   A title to be associated with the suite
      * @param \Closure $closure The closure to invoke when the suite is ran
      */
-    public static function describe($title, \Closure $closure)
+    public function describe($title, \Closure $closure)
     {
-        $previous = self::$current;
+        $previous = $this->current;
         $suite = new Suite($title, $closure);
         $suite->parent = $previous;
 
         // If current is null, this is the root suite for the file
-        if (self::$current === null) {
-            self::$suites[] = $suite;
+        if ($this->current === null) {
+            $this->suites[] = $suite;
         } else {
-            self::$current->suites[] = $suite;
+            $this->current->suites[] = $suite;
         }
 
-        self::$current = $suite;
+        $this->current = $suite;
         $suite->closure->__invoke();
-        self::$current = $previous;
+        $this->current = $previous;
     }
 
     /**
@@ -51,10 +67,10 @@ class Runner
      * @param string   $title   A title to be associated with the spec
      * @param \Closure $closure The closure to invoke when the spec is ran
      */
-    public static function it($title, \Closure $closure)
+    public function it($title, \Closure $closure)
     {
-        $spec = new Spec($title, $closure, self::$current);
-        self::$current->specs[] = $spec;
+        $spec = new Spec($title, $closure, $this->current);
+        $this->current->specs[] = $spec;
     }
 
     /**
@@ -63,10 +79,10 @@ class Runner
      *
      * @param \Closure $closure The closure to be ran before the suite
      */
-    public static function before(\Closure $closure)
+    public function before(\Closure $closure)
     {
         $before = new Hook($closure);
-        self::$current->before = $before;
+        $this->current->before = $before;
     }
 
     /**
@@ -75,10 +91,10 @@ class Runner
      *
      * @param \Closure $closure The closure to be ran after the suite
      */
-    public static function after(\Closure $closure)
+    public function after(\Closure $closure)
     {
         $after = new Hook($closure);
-        self::$current->after = $after;
+        $this->current->after = $after;
     }
 
     /**
@@ -87,10 +103,10 @@ class Runner
      *
      * @param \Closure $closure The closure to be ran before each spec
      */
-    public static function beforeEach(\Closure $closure)
+    public function beforeEach(\Closure $closure)
     {
         $beforeEach = new Hook($closure);
-        self::$current->beforeEach = $beforeEach;
+        $this->current->beforeEach = $beforeEach;
     }
 
     /**
@@ -99,10 +115,10 @@ class Runner
      *
      * @param \Closure $closure The closure to be ran after each spec
      */
-    public static function afterEach(\Closure $closure)
+    public function afterEach(\Closure $closure)
     {
         $afterEach = new Hook($closure);
-        self::$current->afterEach = $afterEach;
+        $this->current->afterEach = $afterEach;
     }
 
     /**
@@ -110,26 +126,26 @@ class Runner
      * beforeRun() method, then iterating over all defined suites and running
      * their specs, and calling the reporter's afterRun() when complete.
      */
-    public static function run()
+    public function run()
     {
         // Parse the command line options, load files
         self::$console->parseArguments();
 
         // Get and instantiate the reporter class
         $reporterClass = self::$console->getReporterClass();
-        self::$reporter = new $reporterClass(self::$console);
+        $this->reporter = new $reporterClass(self::$console);
 
-        self::loadFiles(self::$console->getPaths());
-        self::$reporter->beforeRun();
+        $this->loadFiles(self::$console->getPaths());
+        $this->reporter->beforeRun();
 
-        foreach (self::$suites as $suite) {
-            self::runSuite($suite);
+        foreach ($this->suites as $suite) {
+            $this->runSuite($suite);
         }
 
-        self::$reporter->afterRun();
+        $this->reporter->afterRun();
 
         if (self::$console->options['watch']) {
-            self::watch();
+            $this->watch();
         }
     }
 
@@ -137,7 +153,7 @@ class Runner
      * Monitors the the current working directory for modifications, and reruns
      * the specs in another process on change.
      */
-    public static function watch()
+    public function watch()
     {
         $watcher = new Watcher();
         $watcher->watchPath(getcwd());
@@ -185,7 +201,7 @@ class Runner
      *
      * @param array $paths An array of strings referring to valid file paths
      */
-    public static function loadFiles($paths)
+    public function loadFiles($paths)
     {
         foreach($paths as $path) {
             if (is_file($path)) {
@@ -213,21 +229,21 @@ class Runner
      *
      * @param Suite $suite The suite to run
      */
-    private static function runSuite(Suite $suite)
+    private function runSuite(Suite $suite)
     {
-        self::runRunnable($suite->before);
-        self::$reporter->beforeSuite($suite);
+        $this->runRunnable($suite->before);
+        $this->reporter->beforeSuite($suite);
 
         // Run the specs
-        self::runSpecs($suite);
+        $this->runSpecs($suite);
 
         // Run nested suites
         foreach ($suite->suites as $nestedSuite) {
-            self::runSuite($nestedSuite);
+            $this->runSuite($nestedSuite);
         }
 
-        self::$reporter->afterSuite($suite);
-        self::runRunnable($suite->after);
+        $this->reporter->afterSuite($suite);
+        $this->runRunnable($suite->after);
     }
 
     /**
@@ -239,7 +255,7 @@ class Runner
      *
      * @param Suite $suite The suite containing the specs to run
      */
-    private static function runSpecs(Suite $suite)
+    private function runSpecs(Suite $suite)
     {
         foreach ($suite->specs as $spec) {
             // If using the filter option, only run matching specs
@@ -248,16 +264,16 @@ class Runner
                 continue;
             }
 
-            self::runBeforeEachHooks($suite);
-            self::$reporter->beforeSpec($spec);
+            $this->runBeforeEachHooks($suite);
+            $this->reporter->beforeSpec($spec);
 
-            self::runRunnable($spec);
+            $this->runRunnable($spec);
 
-            self::$reporter->afterSpec($spec);
-            self::runAfterEachHooks($suite);
+            $this->reporter->afterSpec($spec);
+            $this->runAfterEachHooks($suite);
 
             if (self::$console->options['stop'] && $spec->exception) {
-                self::$reporter->afterRun();
+                $this->reporter->afterRun();
                 exit(1);
             }
         }
@@ -270,13 +286,13 @@ class Runner
      *
      * @param Suite $suite The suite with the hooks to run
      */
-    private static function runBeforeEachHooks(Suite $suite)
+    private function runBeforeEachHooks(Suite $suite)
     {
         if ($suite->parent) {
-            self::runBeforeEachHooks($suite->parent);
+            $this->runBeforeEachHooks($suite->parent);
         }
 
-        self::runRunnable($suite->beforeEach);
+        $this->runRunnable($suite->beforeEach);
     }
 
     /**
@@ -286,12 +302,12 @@ class Runner
      *
      * @param Suite $suite The suite with the hooks to run
      */
-    private static function runAfterEachHooks(Suite $suite)
+    private function runAfterEachHooks(Suite $suite)
     {
-        self::runRunnable($suite->afterEach);
+        $this->runRunnable($suite->afterEach);
 
         if ($suite->parent) {
-            self::runAfterEachHooks($suite->parent);
+            $this->runAfterEachHooks($suite->parent);
         }
     }
 
@@ -299,7 +315,7 @@ class Runner
      * A short helper method that calls an object's run() method only if it's
      * an instance of Runnable.
      */
-    private static function runRunnable($runnable)
+    private function runRunnable($runnable)
     {
         if ($runnable instanceof Runnable) {
             $runnable->run();
