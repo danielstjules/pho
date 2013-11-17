@@ -138,7 +138,7 @@ describe('Console', function() {
     });
 
     context('write', function() {
-        it('Prints the text to the terminal', function() {
+        it('prints the text to the terminal', function() {
             $write = function() {
                 $console = new Console([]);
                 $console->write('test');
@@ -148,7 +148,7 @@ describe('Console', function() {
     });
 
     context('writeLn', function() {
-        it('Prints the text, followed by a newline, to the terminal', function() {
+        it('prints the text, followed by a newline, to the terminal', function() {
             $writeLn = function() {
                 $console = new Console([]);
                 $console->writeLn('test');

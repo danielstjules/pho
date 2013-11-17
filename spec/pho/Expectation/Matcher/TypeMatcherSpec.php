@@ -30,7 +30,7 @@ describe('TypeMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected type and the type of the value', function() {
+        it('lists the expected type and the type of the value', function() {
             $matcher = new TypeMatcher('integer');
             $matcher->match(false);
             $expected = 'Expected integer, got boolean';
@@ -40,7 +40,7 @@ describe('TypeMatcher', function() {
             }
         });
 
-        it("Lists the expected and value's type with inversed logic", function() {
+        it('lists the expected and actual type with inversed logic', function() {
             $matcher = new TypeMatcher('integer');
             $matcher->match(0);
             $expected = 'Expected a type other than integer';

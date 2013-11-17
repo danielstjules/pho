@@ -57,7 +57,7 @@ describe('InclusionMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected type and needle', function() {
+        it('lists the expected type and needle', function() {
             $matcher = new InclusionMatcher('Testing');
             $matcher->match('TestString');
             $expected = 'Expected string to contain Testing';
@@ -67,7 +67,7 @@ describe('InclusionMatcher', function() {
             }
         });
 
-        it('Lists the expected type and needle with inversed logic', function() {
+        it('lists the expected type and needle with inversed logic', function() {
             $matcher = new InclusionMatcher('Test');
             $matcher->match('TestString');
             $expected = 'Expected string not to contain Test';

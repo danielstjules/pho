@@ -3,7 +3,7 @@
 use pho\Expectation\Matcher\PrintMatcher;
 use pho\Expectation\Matcher\MatcherInterface;
 
-describe('Printatcher', function() {
+describe('PrintMatcher', function() {
     it('implements the MatcherInterface', function() {
         $matcher = new PrintMatcher('');
 
@@ -37,7 +37,7 @@ describe('Printatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected and resulting output', function() {
+        it('lists the expected and resulting output', function() {
             $matcher = new PrintMatcher('testing');
             $matcher->match(function() {
                 echo 'test';
@@ -49,7 +49,7 @@ describe('Printatcher', function() {
             }
         });
 
-        it("Lists expected and resulting output with inversed logic", function() {
+        it('lists expected and resulting output with inversed logic', function() {
             $matcher = new PrintMatcher('testing');
             $matcher->match(function() {
                 echo 'testing';

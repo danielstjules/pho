@@ -41,7 +41,7 @@ describe('LengthMatcher', function() {
             }
         });
 
-        it("throws an exception if not an array or string", function() {
+        it('throws an exception if not an array or string', function() {
             $exceptionThrown = false;
             try {
                 $matcher = new LengthMatcher(2);
@@ -57,7 +57,7 @@ describe('LengthMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected length', function() {
+        it('lists the expected length', function() {
             $matcher = new LengthMatcher(2);
             $matcher->match('pho');
             $expected = 'Expected string to have a length of 2';
@@ -67,7 +67,7 @@ describe('LengthMatcher', function() {
             }
         });
 
-        it('Lists the expected length with inversed logic', function() {
+        it('lists the expected length with inversed logic', function() {
             $matcher = new LengthMatcher(3);
             $matcher->match(['a', 'b', 'c']);
             $expected = 'Expected array not to have a length of 3';

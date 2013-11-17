@@ -30,7 +30,7 @@ describe('InstanceMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected class and the class of the object', function() {
+        it('lists the expected class and the class of the object', function() {
             $matcher = new InstanceMatcher('Closure');
             $matcher->match(new stdClass());
             $expected = 'Expected an instance of Closure, got stdClass';
@@ -40,7 +40,7 @@ describe('InstanceMatcher', function() {
             }
         });
 
-        it('Lists the expected type and needle with inversed logic', function() {
+        it('lists the expected type and needle with inversed logic', function() {
             $matcher = new InstanceMatcher('stdClass');
             $matcher->match(new stdClass());
             $expected = 'Expected an instance other than stdClass';

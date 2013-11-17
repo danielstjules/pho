@@ -30,7 +30,7 @@ describe('StrictEqualityMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected equality', function() {
+        it('lists the expected equality', function() {
             $matcher = new StrictEqualityMatcher(0);
             $matcher->match(false);
             $expected = 'Expected false to be 0';
@@ -40,7 +40,7 @@ describe('StrictEqualityMatcher', function() {
             }
         });
 
-        it('Lists the expected equality with inversed logic', function() {
+        it('lists the expected equality with inversed logic', function() {
             $matcher = new StrictEqualityMatcher(null);
             $matcher->match(null);
             $expected = 'Expected null not to be null';

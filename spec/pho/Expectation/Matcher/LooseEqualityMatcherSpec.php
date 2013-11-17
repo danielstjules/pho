@@ -30,7 +30,7 @@ describe('LooseEqualityMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        it('Lists the expected equality', function() {
+        it('lists the expected equality', function() {
             $matcher = new LooseEqualityMatcher(true);
             $matcher->match(null);
             $expected = 'Expected null to equal true';
@@ -40,7 +40,7 @@ describe('LooseEqualityMatcher', function() {
             }
         });
 
-        it('Lists the expected equality with inversed logic', function() {
+        it('lists the expected equality with inversed logic', function() {
             $matcher = new LooseEqualityMatcher('test');
             $matcher->match('test');
             $expected = 'Expected test not to equal test';
