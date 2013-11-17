@@ -41,6 +41,8 @@ as all assertions pass and no exception is uncaught. For asserting values in pho
 chained with a handful of matchers.
 
 ``` php
+<?php
+
 describe('A suite', function() {
     it('contains specs with expectations', function() {
         expect(true)->toBe(true);
