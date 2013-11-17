@@ -81,7 +81,7 @@ class Runner
      */
     public function before(\Closure $closure)
     {
-        $before = new Hook($closure);
+        $before = new Hook($closure, $this->current);
         $this->current->before = $before;
     }
 
@@ -93,7 +93,7 @@ class Runner
      */
     public function after(\Closure $closure)
     {
-        $after = new Hook($closure);
+        $after = new Hook($closure, $this->current);
         $this->current->after = $after;
     }
 
@@ -105,7 +105,7 @@ class Runner
      */
     public function beforeEach(\Closure $closure)
     {
-        $beforeEach = new Hook($closure);
+        $beforeEach = new Hook($closure, $this->current);
         $this->current->beforeEach = $beforeEach;
     }
 
@@ -117,7 +117,7 @@ class Runner
      */
     public function afterEach(\Closure $closure)
     {
-        $afterEach = new Hook($closure);
+        $afterEach = new Hook($closure, $this->current);
         $this->current->afterEach = $afterEach;
     }
 
@@ -125,13 +125,19 @@ class Runner
      * Starts the test runner by first invoking the associated reporter's
      * beforeRun() method, then iterating over all defined suites and running
      * their specs, and calling the reporter's afterRun() when complete.
+     * Returns a status code to be used when exiting.
+     *
+     * @return mixed Returns the status code to be used on exit
      */
     public function run()
     {
-        // Parse the command line options, load files
+        // Parse the command line options, return any exit statuses
         self::$console->parseArguments();
+        if (self::$console->getErrorStatus()) {
+            return self::$console->getErrorStatus();
+        }
 
-        // Get and instantiate the reporter class
+        // Get and instantiate the reporter class, load files
         $reporterClass = self::$console->getReporterClass();
         $this->reporter = new $reporterClass(self::$console);
 

@@ -18,6 +18,96 @@ describe('Console', function() {
                 'watch'    => false
             ]);
         });
+
+        context('when the help flag is used', function() {
+            before(function() {
+                $console = new Console(['--help']);
+
+                ob_start();
+                $console->parseArguments();
+                $this->set('printContents', ob_get_contents());
+                ob_end_clean();
+
+                $this->set('console', $console);
+            });
+
+            it('sets the error status to 0', function() {
+                expect($this->get('console')->getErrorStatus())->toEqual(0);
+            });
+
+            it('prints the option list and help', function() {
+                expect($this->get('printContents'))
+                    ->toContain('Usage: pho [options] [files]')
+                    ->toContain('Options')
+                    ->toContain('help');
+            });
+        });
+
+        context('when the version flag is used', function() {
+            before(function() {
+                $console = new Console(['--version']);
+
+                ob_start();
+                $console->parseArguments();
+                $this->set('printContents', ob_get_contents());
+                ob_end_clean();
+
+                $this->set('console', $console);
+            });
+
+            it('sets the error status to 0', function() {
+                expect($this->get('console')->getErrorStatus())->toEqual(0);
+            });
+
+            it('prints version info', function() {
+                expect($this->get('printContents'))
+                    ->toEqual('pho version 0.0.1' . PHP_EOL);
+            });
+        });
+
+        context('when an invalid option is passed', function() {
+            before(function() {
+                $console = new Console(['--invalid']);
+
+                ob_start();
+                $console->parseArguments();
+                $this->set('printContents', ob_get_contents());
+                ob_end_clean();
+
+                $this->set('console', $console);
+            });
+
+            it('sets the error status to 1', function() {
+                expect($this->get('console')->getErrorStatus())->toEqual(1);
+            });
+
+            it('lists the invalid option', function() {
+                expect($this->get('printContents'))
+                    ->toEqual('--invalid is not a valid option' . PHP_EOL);
+            });
+        });
+
+        context('when an invalid path is used', function() {
+            before(function() {
+                $console = new Console(['./someinvalidpath']);
+
+                ob_start();
+                $console->parseArguments();
+                $this->set('printContents', ob_get_contents());
+                ob_end_clean();
+
+                $this->set('console', $console);
+            });
+
+            it('sets the error status to 1', function() {
+                expect($this->get('console')->getErrorStatus())->toEqual(1);
+            });
+
+            it('lists the invalid path', function() {
+                expect($this->get('printContents'))->toEqual(
+                    "The file or path \"./someinvalidpath\" doesn't exist" . PHP_EOL);
+            });
+        });
     });
 
     context('getPaths', function() {

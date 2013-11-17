@@ -2,6 +2,8 @@
 
 namespace pho\Runnable;
 
+use pho\Suite\Suite;
+
 class Hook extends Runnable
 {
     /**

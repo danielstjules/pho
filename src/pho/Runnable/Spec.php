@@ -2,9 +2,11 @@
 
 namespace pho\Runnable;
 
+use pho\Suite\Suite;
+
 class Spec extends Runnable
 {
-    protected $title;
+    public $title;
 
     /**
      * Constructs a Spec, to be associated with a particular suite, and ran
@@ -14,7 +16,7 @@ class Spec extends Runnable
      * @param \Closure $closure The closure to invoke when the spec is called
      * @param Suite    $suite   The suite within which this spec was defined
      */
-    public function __construct($title, $closure, $suite)
+    public function __construct($title, \Closure $closure, Suite $suite)
     {
         $this->title = $title;
         $this->suite = $suite;

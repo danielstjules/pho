@@ -43,161 +43,197 @@ class Expectation
     /**
      * Tests whether or not $actual is, or is not, of a given type.
      *
-     * @param  string               $type The name of the type
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   string               $type The name of the type
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeA($type)
     {
         $matcher = new TypeMatcher($type);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * An alias for Expectation::toBeA()
      *
-     * @param  string               $type The name of the type
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   string               $type The name of the type
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeAn($type)
     {
-        $this->toBeA($type);
+        return $this->toBeA($type);
     }
 
     /**
      * Tests whether or not $actual is an instance of the given class.
      *
-     * @param string $class The name of the class
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   string               $class The name of the class
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeAnInstanceOf($class)
     {
         $matcher = new InstanceMatcher($class);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual is equal to a given value.
      *
-     * @param  mixed                $value The expected value
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   mixed                $value The expected value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBe($value)
     {
         $matcher = new StrictEqualityMatcher($value);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * An alias for Expectation::toBe
      *
-     * @param  mixed                $value The expected value
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   mixed                $value The expected value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toEqual($value)
     {
         $matcher = new StrictEqualityMatcher($value);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual is null.
      *
-     * @throws ExpectationException If the positive or negative match fails
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeNull()
     {
         $matcher = new StrictEqualityMatcher(null);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual is true.
      *
-     * @throws ExpectationException If the positive or negative match fails
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeTrue()
     {
         $matcher = new StrictEqualityMatcher(true);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual is false.
      *
-     * @throws ExpectationException If the positive or negative match fails
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeFalse()
     {
         $matcher = new StrictEqualityMatcher(false);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual is loosely equal to a given value.
      *
-     * @param  mixed                $value The expected value
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   mixed                $value The expected value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toEql($value)
     {
         $matcher = new LooseEqualityMatcher($value);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual, a string or an array, has a length of 0.
      *
-     * @throws ExpectationException If the positive or negative match fails
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toBeEmpty()
     {
-        $this->toHaveLength(0);
+        return $this->toHaveLength(0);
     }
 
     /**
      * Tests whether or not $actual, a string or an array, has the given length.
      *
-     * @param  int                  $length The expected length
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   int                  $length The expected length
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toHaveLength($length)
     {
         $matcher = new LengthMatcher($length);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual, a string or an array, contains a substring
      * or an element with the supplied $value.
      *
-     * @param  int                  $value The value expected to be included
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   int                  $value The value expected to be included
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toContain($value)
     {
         $matcher = new InclusionMatcher($value);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Tests whether or not $actual, a callable function, tried to output the
      * string $value to php://output
      *
-     * @param  int                  $value The expected value to be printed
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   int                  $value The expected value to be printed
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     public function toPrint($value)
     {
         $matcher = new PrintMatcher($value);
         $this->test($matcher);
+
+        return $this;
     }
 
     /**
      * Runs the matcher with $actual, and throws an exception if the xor of the
      * returned value and $inverse is false.
      *
-     * @param  MatcherInterface     $matcher
-     * @throws ExpectationException If the positive or negative match fails
+     * @param   MatcherInterface     $matcher
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
      */
     private function test($matcher)
     {

@@ -4,8 +4,6 @@ namespace pho\Console;
 
 use pho\Reporter;
 
-// TODO: Refactor class to no longer call exit()
-
 class Console
 {
     const VERSION = '0.0.1';
@@ -17,6 +15,8 @@ class Console
     private $optionParser;
 
     private $paths;
+
+    private $errorStatus;
 
     private $availableOptions = [
         'ascii'     => ['--ascii',     '-a', 'Show ASCII art on completion'],
@@ -96,17 +96,24 @@ class Console
     }
 
     /**
+     * Returns the error status that should be used to exit after parsing,
+     * otherwise it returns null.
+     *
+     * @return mixed An integer error status, or null
+     */
+    public function getErrorStatus()
+    {
+        return $this->errorStatus;
+    }
+
+    /**
      * Parses the arguments originally supplied via the constructor, assigning
      * their values to the option keys in the $options array. If the arguments
-     * included the help or version option, the corresponding text is printed
-     * and the application exits. Furthermore, if the arguments included a
-     * non-valid flag or option, an error is printed and the application
-     * terminates.
-     *
-     * @param boolean $exit Whether or not to exit after printing the version,
-     *                      help, or list of invalid arguments
+     * included the help or version option, the corresponding text is printed.
+     * Furthermore, if the arguments included a non-valid flag or option, or
+     * if any of the listed paths were invalid, error message is printed.
      */
-    public function parseArguments($exit = true)
+    public function parseArguments()
     {
         // Add the list of options to the OptionParser
         foreach ($this->availableOptions as $name => $desc) {
@@ -117,34 +124,35 @@ class Console
                 $description, $argumentName);
         }
 
-        // Parse the arguments, assign the options and verify the paths
+        // Parse the arguments, assign the options
         $this->optionParser->parseArguments($this->arguments);
         $this->options = $this->optionParser->getOptions();
 
+        // Verify the paths, listing any invalid paths
         $paths = $this->optionParser->getPaths();
         if ($paths) {
             $this->paths = $paths;
-            $this->verifyPaths();
+
+            foreach ($this->paths as $path) {
+                if (!file_exists($path)) {
+                    $this->errorStatus = 1;
+                    $this->writeLn("The file or path \"{$path}\" doesn't exist");
+                }
+            }
         }
 
         // Render help or version text if necessary, and display errors
         if ($this->options['help']) {
+            $this->errorStatus = 0;
             $this->printHelp();
         } elseif ($this->options['version']) {
+            $this->errorStatus = 0;
             $this->printVersion();
         } elseif ($this->optionParser->getInvalidArguments()) {
+            $this->errorStatus = 1;
             foreach ($this->optionParser->getInvalidArguments() as $invalidArg) {
                 $this->writeLn("$invalidArg is not a valid option");
             }
-        } else {
-            return;
-        }
-
-        // Exit if necessary
-        if ($exit && $this->optionParser->getInvalidArguments()) {
-            exit(1);
-        } elseif ($exit) {
-            exit();
         }
     }
 
@@ -169,20 +177,6 @@ class Console
     {
         $this->write($string);
         echo PHP_EOL;
-    }
-
-    /**
-     * Verifies that all paths set in $this-Paths exist, and if not, it writes
-     * an error and exits.
-     */
-    private function verifyPaths()
-    {
-        foreach ($this->paths as $path) {
-            if (!file_exists($path)) {
-                $this->writeLn("The file or path \"{$path}\" doesn't exist");
-                exit(1);
-            }
-        }
     }
 
     /**

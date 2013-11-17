@@ -98,4 +98,4 @@ function expect($actual)
 
 // Create a new Console and start the runner
 Runner::$console = new Console(array_slice($argv, 1));
-Runner::getInstance()->run();
+exit(Runner::getInstance()->run());
