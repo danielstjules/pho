@@ -57,7 +57,7 @@ describe('A suite', function() {
 Objects may be passed between suites and specs with php's `use` keyword. Here's
 an example:
 
-```
+``` php
 describe('Example', function() {
     $object = new stdClass();
     $object->name = 'pho';
@@ -75,7 +75,7 @@ passed into closures with `use`. To avoid such long lists of arguments, pho
 exposes `$this->get($key)` and `$this->set($key, $val)` to be used within suites
 and specs.
 
-```
+``` php
 describe('SomeClass', function() {
     $this->set('key1', 'initialValue');
     $this->set('key2', 'initialValue');
