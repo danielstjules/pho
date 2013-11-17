@@ -9,7 +9,7 @@ describe('ExpectationException', function() {
         expect($exception instanceof \Exception)->toBeTrue();
     });
 
-    it('returns the message on toString', function() use ($exception) {
-        expect($exception)->toEql('test message');
+    it('contains the message on toString', function() use ($exception) {
+        expect((string) $exception)->toContain('test message');
     });
 });

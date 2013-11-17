@@ -17,10 +17,12 @@ abstract class AbstractMatcher
             return 'true';
         } elseif ($value === false) {
             return 'false';
-        } elseif($value === null) {
+        } elseif ($value === null) {
             return 'null';
+        } elseif (is_string($value)) {
+            return "\"$value\"";
         }
 
-        return print_r($value, true);
+        return rtrim(print_r($value, true));
     }
 }

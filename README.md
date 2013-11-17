@@ -189,7 +189,7 @@ expect($callable)->notToPrint('test');
 #### dot (default)
 
 ```
-$ pho --reporter dot example.php
+$ pho --reporter dot exampleSpec.php
 
 .F
 Failures:
@@ -205,7 +205,7 @@ Finished in 0.00141 seconds
 #### spec
 
 ```
-$ pho --reporter spec example.php
+$ pho --reporter spec exampleSpec.php
 
 A suite
     contains specs with expectations

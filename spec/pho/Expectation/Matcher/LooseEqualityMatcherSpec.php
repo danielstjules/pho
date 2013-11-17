@@ -43,7 +43,7 @@ describe('LooseEqualityMatcher', function() {
         it('lists the expected equality with inversed logic', function() {
             $matcher = new LooseEqualityMatcher('test');
             $matcher->match('test');
-            $expected = 'Expected test not to equal test';
+            $expected = 'Expected "test" not to equal "test"';
 
             if ($expected !== $matcher->getFailureMessage(true)) {
                 throw new \Exception('Did not return expected failure message');
