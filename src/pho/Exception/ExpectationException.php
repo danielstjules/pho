@@ -2,8 +2,6 @@
 
 namespace pho\Exception;
 
-use pho\Exception\Exception;
-
 class ExpectationException extends \Exception
 {
     /**

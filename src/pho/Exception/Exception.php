@@ -7,6 +7,17 @@ abstract class Exception extends \Exception
     protected $type;
 
     /**
+     * Returns the type of the exception. Either a string indicating the class
+     * or the error constant.
+     *
+     * @return string The exception type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Returns a string containing the Exception type, message, filename and
      * line in human readable form for use by Reporters and the command line
      * runner.
