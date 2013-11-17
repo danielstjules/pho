@@ -10,11 +10,11 @@ use pho\Runnable\Hook;
 
 class Runner
 {
-    protected static $instance;
-
     public static $console;
 
     public $reporter;
+
+    protected static $instance;
 
     private $suites = [];
 

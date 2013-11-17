@@ -8,11 +8,11 @@ use pho\Exception\RunnableException;
 
 abstract class Runnable
 {
-    public $closure;
-
-    public $suite;
-
     public $exception;
+
+    protected $closure;
+
+    protected $suite;
 
     /**
      * Invokes a Runnable object's $closure closure, setting a error handler

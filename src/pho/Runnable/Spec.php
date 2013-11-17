@@ -4,7 +4,7 @@ namespace pho\Runnable;
 
 class Spec extends Runnable
 {
-    public $title;
+    protected $title;
 
     /**
      * Constructs a Spec, to be associated with a particular suite, and ran
