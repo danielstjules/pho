@@ -194,12 +194,14 @@ expect($callable)->notToPrint('test');
 $ pho --reporter dot exampleSpec.php
 
 .F
+
 Failures:
 
 "A suite can have specs that fail" FAILED
+/Users/danielstjules/Desktop/exampleSpec.php:9
 Expected false not to be false
 
-Finished in 0.00141 seconds
+Finished in 0.00103 seconds
 
 2 specs, 1 failure
 ```
@@ -216,9 +218,10 @@ A suite
 Failures:
 
 "A suite can have specs that fail" FAILED
+/Users/danielstjules/Desktop/exampleSpec.php:9
 Expected false not to be false
 
-Finished in 0.00089 seconds
+Finished in 0.00106 seconds
 
 2 specs, 1 failure
 ```
