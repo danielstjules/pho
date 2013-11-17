@@ -56,4 +56,14 @@ class DotReporter extends AbstractReporter implements ReporterInterface
             $this->console->write('.');
         }
     }
+
+    /**
+     * Invoked after the test suite has ran, allowing for the display of test
+     * results and related statistics.
+     */
+    public function afterRun()
+    {
+        $this->console->writeLn('');
+        parent::afterRun();
+    }
 }
