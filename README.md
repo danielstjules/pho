@@ -57,7 +57,7 @@ describe('A suite', function() {
 });
 ```
 
-![intro-screenshot](http://danielstjules.com/pho/intro.png)
+![intro-screenshot](http://danielstjules.com/pho/intro-noshadow.png)
 
 Objects may be passed between suites and specs with php's `use` keyword. Here's
 an example:
