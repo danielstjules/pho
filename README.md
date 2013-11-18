@@ -30,10 +30,13 @@ export PATH=$HOME/.composer/vendor/bin:$PATH
 
 ## Writing Specs
 
-Pho exposes 3 functions for organizing your tests. `describe` and `context` are
-functions that create a suite by passing them a string and function. Both are
-interchangeable, though context is more often nested in a describe to group
-some set of behaviour. `it` is then used to create a spec, or test.
+Pho exposes 8 functions for organizing and writing your tests: `describe`,
+`context`, `it`, `before`, `after`, `beforeEach`, `afterEach` and `expect`.
+
+To create a suite, `describe` and `context` can be used by passing them a
+string and function. Both are interchangeable, though context is more often
+nested in a describe to group some set of behaviour. `it` is then used to create
+a spec, or test.
 
 A spec may contain multiple expectations or assertions, and will pass so long
 as all assertions pass and no exception is uncaught. For asserting values in pho,
@@ -95,6 +98,42 @@ describe('SomeClass', function() {
         it('contains another spec', function() {
             expect($this->get('key1'))->toBe('initialValue');
             expect($this->get('key2'))->toBe('initialValue');
+        });
+    });
+});
+```
+
+Hooks are available for running functions as setups and teardowns. `before` is
+ran prior to any specs in a suite, and `after`, once all in the suite have been
+ran. `beforeEach` and `afterEach` both run their closures once per spec. Note
+that `beforeEach` and `afterEach` are both stacklable, and will apply to specs
+within nested suites.
+
+``` php
+describe('Suite with Hooks', function() {
+    $this->set('count', 0);
+
+    beforeEach(function() {
+        $count = $this->get('count');
+        $this->set('count', $count + 1);
+    });
+
+    it('has a count equal to 1', function() {
+        $count = $this->get('count');
+        expect($count)->toEqual(1);
+        // A single beforeEach ran
+    });
+
+    context('nested suite', function() {
+        beforeEach(function() {
+            $count = $this->get('count');
+            $this->set('count', $count + 1);
+        });
+
+        it('has a count equal to 3', function() {
+            $count = $this->get('count');
+            expect($count)->toEqual(3);
+            // Both beforeEach closures incremented the value
         });
     });
 });
