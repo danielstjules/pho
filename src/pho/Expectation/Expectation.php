@@ -22,7 +22,7 @@ class Expectation
      *
      * @param mixed $actual The value to test
      */
-    public function __construct($actual)
+    public function __construct($actual = null)
     {
         $this->actual = $actual;
         $this->inverse = false;
