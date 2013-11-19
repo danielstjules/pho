@@ -221,8 +221,8 @@ $callable = function() {
 };
 
 expect($callable)->toPrint('test');
-expect($callable)->not()->toPrint('test');
-expect($callable)->notToPrint('test');
+expect($callable)->not()->toPrint('testing');
+expect($callable)->notToPrint('testing');
 ```
 
 ## Reporters

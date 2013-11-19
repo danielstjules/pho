@@ -34,7 +34,17 @@ abstract class AbstractReporter
     }
 
     /**
-     * The method is ran prior the test suite execution.
+     * Returns the number of specs ran by the reporter.
+     *
+     * @returns int The number of specs ran
+     */
+    public function getSpecCount()
+    {
+        return $this->specCount;
+    }
+
+    /**
+     * The method is ran prior to the test suite execution.
      */
     public function beforeRun()
     {
