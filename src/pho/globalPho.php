@@ -1,7 +1,5 @@
 <?php
 
-namespace pho;
-
 use pho\Runner\Runner;
 use pho\Console\Console;
 use pho\Expectation\Expectation;
@@ -16,7 +14,7 @@ use pho\Expectation\Expectation;
  */
 function describe($title, \Closure $closure)
 {
-    Runner::getInstance()->describe($title, $closure);
+    pho\describe($title, $closure);
 }
 
 /**
@@ -28,7 +26,7 @@ function describe($title, \Closure $closure)
  */
 function context($title, \Closure $closure)
 {
-    Runner::getInstance()->describe($title, $closure);
+    pho\context($title, $closure);
 }
 
 /**
@@ -39,7 +37,7 @@ function context($title, \Closure $closure)
  */
 function it($title, \Closure $closure)
 {
-    Runner::getInstance()->it($title, $closure);
+    pho\it($title, $closure);
 }
 
 /**
@@ -50,7 +48,7 @@ function it($title, \Closure $closure)
  */
 function before(\Closure $closure)
 {
-    Runner::getInstance()->before($closure);
+    pho\before($closure);
 }
 
 /**
@@ -61,7 +59,7 @@ function before(\Closure $closure)
  */
 function after(\Closure $closure)
 {
-    Runner::getInstance()->after($closure);
+    pho\after($closure);
 }
 
 /**
@@ -72,7 +70,7 @@ function after(\Closure $closure)
  */
 function beforeEach(\Closure $closure)
 {
-    Runner::getInstance()->beforeEach($closure);
+    pho\beforeEach($closure);
 }
 
 /**
@@ -83,7 +81,7 @@ function beforeEach(\Closure $closure)
  */
 function afterEach(\Closure $closure)
 {
-    Runner::getInstance()->afterEach($closure);
+    pho\afterEach($closure);
 }
 
 /**
@@ -93,24 +91,5 @@ function afterEach(\Closure $closure)
  */
 function expect($actual)
 {
-    return new Expectation($actual);
+    return pho\expect($actual);
 }
-
-// Create a new Console and parse arguments
-$console = new Console(array_slice($argv, 1));
-$console->parseArguments();
-
-// Exit if necessary
-if ($console->getErrorStatus() !== null) {
-    exit($console->getErrorStatus());
-}
-
-// Load global namespaced functions if required
-if (!$console->options['namespace']) {
-    $path = realpath(dirname(__FILE__) . '/globalPho.php');
-    require_once($path);
-}
-
-// Start the runner
-Runner::$console = $console;
-Runner::getInstance()->run();

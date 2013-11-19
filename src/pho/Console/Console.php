@@ -26,9 +26,9 @@ class Console
         'stop'      => ['--stop',      '-s', 'Stop on failure'],
         'version'   => ['--version',   '-v', 'Display version number'],
         'watch'     => ['--watch',     '-w', 'Watch files for changes and rerun specs'],
+        'namespace' => ['--namespace', '-n', 'Only use namespaced functions'],
 
         // TODO: Implement options below
-        // 'namespace' => ['--namespace', '-n', 'Use namespaced functions'],
         // 'no-color'  => ['--no-color',  '-n', 'Disable terminal colors'],
         // 'generate'  => ['--generate',  '-g', 'Generate suites for classes in path', 'path'],
         // 'bootstrap' => ['--bootstrap', '-b', 'Bootstrap file to load', 'bootstrap'],

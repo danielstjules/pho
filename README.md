@@ -9,6 +9,7 @@ Feature requests and pull requests welcome!
  * [Writing Specs](#writing-specs)
  * [Expectations/Matchers](#expectationsmatchers)
  * [Reporters](#reporters)
+ * [Namespace](#namespace)
  * [Options](#options)
 
 ## Installation
@@ -266,19 +267,39 @@ Finished in 0.00106 seconds
 2 specs, 1 failure
 ```
 
+## Namespace
+
+If you'd rather not have pho use the global namespace for its functions, you
+can set the `--namespace` flag to force it to only use the pho namespace. This
+will be a nicer alternative in PHP 5.6 with
+[https://wiki.php.net/rfc/use_function](https://wiki.php.net/rfc/use_function)
+
+``` php
+pho\describe('A suite', function() {
+    pho\it('contains specs with expectations', function() {
+        pho\expect(true)->toBe(true);
+    });
+
+    pho\it('can have specs that fail', function() {
+        pho\expect(false)->not()->toBe(false);
+    });
+});
+```
+
 ## Options
 
 ```
-$ pho --help
+$ bin/pho --help
 Usage: pho [options] [files]
 
 Options
 
-   -a   --ascii                  Show ASCII art on completion
-   -h   --help                   Output usage information
-   -f   --filter     <pattern>   Run specs containing a pattern
-   -r   --reporter   <name>      Specify the reporter to use
-   -s   --stop                   Stop on failure
-   -v   --version                Display version number
-   -w   --watch                  Watch files for changes and rerun specs
+   -a   --ascii                   Show ASCII art on completion
+   -h   --help                    Output usage information
+   -f   --filter      <pattern>   Run specs containing a pattern
+   -r   --reporter    <name>      Specify the reporter to use
+   -s   --stop                    Stop on failure
+   -v   --version                 Display version number
+   -w   --watch                   Watch files for changes and rerun specs
+   -n   --namespace               Only use namespaced functions
 ```

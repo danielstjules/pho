@@ -9,13 +9,14 @@ describe('Console', function() {
             $console->parseArguments();
 
             expect($console->options)->toEqual([
-                'ascii'    => false,
-                'help'     => false,
-                'filter'   => false,
-                'reporter' => 'dot',
-                'stop'     => true,
-                'version'  => false,
-                'watch'    => false
+                'ascii'     => false,
+                'help'      => false,
+                'filter'    => false,
+                'reporter'  => 'dot',
+                'stop'      => true,
+                'version'   => false,
+                'watch'     => false,
+                'namespace' => false
             ]);
         });
 
