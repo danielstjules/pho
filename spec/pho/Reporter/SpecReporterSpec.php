@@ -10,28 +10,28 @@ describe('SpecReporter', function() {
     before(function() {
         $console = new Console([]);
         $console->parseArguments();
-        $this->set('console', $console);
+        $this->console = $console;
 
         $suite = new Suite('test', function(){});
         $spec = new Spec('testspec', function(){}, $suite);
-        $this->set('spec', $spec);
+        $this->spec = $spec;
     });
 
     it('implements the ReporterInterface', function() {
-        $reporter = new SpecReporter($this->get('console'));
+        $reporter = new SpecReporter($this->console);
         expect($reporter instanceof ReporterInterface)->toBeTrue();
     });
 
     context('beforeSuite', function() {
         before(function() {
-            $reporter = new SpecReporter($this->get('console'));
-            $this->set('reporter', $reporter);
+            $reporter = new SpecReporter($this->console);
+            $this->reporter = $reporter;
         });
 
         it('prints the suite title', function() {
             $beforeSuite = function() {
                 $suite = new Suite('test suite', function() {});
-                $reporter = $this->get('reporter');
+                $reporter = $this->reporter;
                 $reporter->beforeSuite($suite);
             };
 
@@ -41,7 +41,7 @@ describe('SpecReporter', function() {
         it('pads nested suites', function() {
             $beforeSuite = function() {
                 $suite = new Suite('test suite', function() {});
-                $reporter = $this->get('reporter');
+                $reporter = $this->reporter;
                 $reporter->beforeSuite($suite);
             };
 
@@ -51,10 +51,10 @@ describe('SpecReporter', function() {
 
     context('beforeSpec', function() {
         it('increments the spec count', function() {
-            $reporter = new SpecReporter($this->get('console'));
+            $reporter = new SpecReporter($this->console);
 
             $countBefore = $reporter->getSpecCount();
-            $reporter->beforeSpec($this->get('spec'));
+            $reporter->beforeSpec($this->spec);
             $countAfter = $reporter->getSpecCount();
 
             expect($countAfter)->toEqual($countBefore + 1);
@@ -63,13 +63,13 @@ describe('SpecReporter', function() {
 
     context('afterSpec', function() {
         it('prints the spec title in grey if it passed', function() {
-            $reporter = new SpecReporter($this->get('console'));
+            $reporter = new SpecReporter($this->console);
             $afterSpec = function() use ($reporter) {
-                $reporter->afterSpec($this->get('spec'));
+                $reporter->afterSpec($this->spec);
             };
 
-            $console = $this->get('console');
-            $specTitle = $console->formatter->grey($this->get('spec')->title);
+            $console = $this->console;
+            $specTitle = $console->formatter->grey($this->spec->title);
             expect($afterSpec)->toPrint($specTitle . PHP_EOL);
         });
 
@@ -81,12 +81,12 @@ describe('SpecReporter', function() {
             $spec->run();
 
             $afterSpec = function() use ($spec) {
-                $reporter = new SpecReporter($this->get('console'));
+                $reporter = new SpecReporter($this->console);
                 $reporter->afterSpec($spec);
             };
 
-            $console = $this->get('console');
-            $specTitle = $console->formatter->red($this->get('spec')->title);
+            $console = $this->console;
+            $specTitle = $console->formatter->red($this->spec->title);
             expect($afterSpec)->toPrint($specTitle . PHP_EOL);
         });
     });

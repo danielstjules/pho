@@ -6,18 +6,18 @@ use pho\Runnable\Runnable;
 
 describe('Spec', function() {
     before(function() {
-        $this->set('suite', new Suite('TestSuite', function() {}));
+        $this->suite = new Suite('TestSuite', function() {});
     });
 
     it('has its closure bound to the suite', function() {
-        $suite = $this->get('suite');
-        $suite->set('key', 'testvalue');
+        $suite = $this->suite;
+        $suite->key = 'testvalue';
 
         $run = function() {
             $closure = function() {
-                echo $this->get('key');
+                echo $this->key;
             };
-            $spec = new Spec('spec', $closure, $this->get('suite'));
+            $spec = new Spec('spec', $closure, $this->suite);
             $spec->run();
         };
 
@@ -27,7 +27,7 @@ describe('Spec', function() {
     context('passed', function() {
         it('returns true if no exception was thrown', function() {
             $closure = function() {};
-            $spec = new Spec('spec', $closure, $this->get('suite'));
+            $spec = new Spec('spec', $closure, $this->suite);
             $spec->run();
 
             expect($spec->passed())->toBeTrue();
@@ -37,7 +37,7 @@ describe('Spec', function() {
             $closure = function() {
                 throw new \Exception('exception');
             };
-            $spec = new Spec('spec', $closure, $this->get('suite'));
+            $spec = new Spec('spec', $closure, $this->suite);
             $spec->run();
 
             expect($spec->passed())->toBeFalse();
@@ -47,7 +47,7 @@ describe('Spec', function() {
     context('__toString', function() {
         it('returns the suite title followed by the spec title', function() {
             $closure = function() {};
-            $spec = new Spec('SpecTitle', $closure, $this->get('suite'));
+            $spec = new Spec('SpecTitle', $closure, $this->suite);
 
             expect((string) $spec)->toEqual('TestSuite SpecTitle');
         });

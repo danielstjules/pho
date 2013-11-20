@@ -46,18 +46,17 @@ class Runner
     public function describe($title, \Closure $closure)
     {
         $previous = $this->current;
-        $suite = new Suite($title, $closure);
-        $suite->parent = $previous;
+        $suite = new Suite($title, $closure, $previous);
 
         // If current is null, this is the root suite for the file
         if ($this->current === null) {
             $this->suites[] = $suite;
         } else {
-            $this->current->suites[] = $suite;
+            $this->current->addSuite($suite);
         }
 
         $this->current = $suite;
-        $suite->closure->__invoke();
+        $suite->getClosure()->__invoke();
         $this->current = $previous;
     }
 
@@ -70,7 +69,7 @@ class Runner
     public function it($title, \Closure $closure)
     {
         $spec = new Spec($title, $closure, $this->current);
-        $this->current->specs[] = $spec;
+        $this->current->addSpec($spec);
     }
 
     /**
@@ -82,7 +81,7 @@ class Runner
     public function before(\Closure $closure)
     {
         $before = new Hook($closure, $this->current);
-        $this->current->before = $before;
+        $this->current->setHook('before', $before);
     }
 
     /**
@@ -94,7 +93,7 @@ class Runner
     public function after(\Closure $closure)
     {
         $after = new Hook($closure, $this->current);
-        $this->current->after = $after;
+        $this->current->setHook('after', $after);
     }
 
     /**
@@ -106,7 +105,7 @@ class Runner
     public function beforeEach(\Closure $closure)
     {
         $beforeEach = new Hook($closure, $this->current);
-        $this->current->beforeEach = $beforeEach;
+        $this->current->setHook('beforeEach', $beforeEach);
     }
 
     /**
@@ -118,7 +117,7 @@ class Runner
     public function afterEach(\Closure $closure)
     {
         $afterEach = new Hook($closure, $this->current);
-        $this->current->afterEach = $afterEach;
+        $this->current->setHook('afterEach', $afterEach);
     }
 
     /**
@@ -228,19 +227,19 @@ class Runner
      */
     private function runSuite(Suite $suite)
     {
-        $this->runRunnable($suite->before);
+        $this->runRunnable($suite->getHook('before'));
         $this->reporter->beforeSuite($suite);
 
         // Run the specs
         $this->runSpecs($suite);
 
         // Run nested suites
-        foreach ($suite->suites as $nestedSuite) {
+        foreach ($suite->getSuites() as $nestedSuite) {
             $this->runSuite($nestedSuite);
         }
 
         $this->reporter->afterSuite($suite);
-        $this->runRunnable($suite->after);
+        $this->runRunnable($suite->getHook('after'));
     }
 
     /**
@@ -254,7 +253,7 @@ class Runner
      */
     private function runSpecs(Suite $suite)
     {
-        foreach ($suite->specs as $spec) {
+        foreach ($suite->getSpecs() as $spec) {
             // If using the filter option, only run matching specs
             $pattern = self::$console->options['filter'];
             if ($pattern && !preg_match("/$pattern/", $spec)) {
@@ -285,11 +284,11 @@ class Runner
      */
     private function runBeforeEachHooks(Suite $suite)
     {
-        if ($suite->parent) {
-            $this->runBeforeEachHooks($suite->parent);
+        if ($suite->getParent()) {
+            $this->runBeforeEachHooks($suite->getParent());
         }
 
-        $this->runRunnable($suite->beforeEach);
+        $this->runRunnable($suite->getHook('beforeEach'));
     }
 
     /**
@@ -301,10 +300,10 @@ class Runner
      */
     private function runAfterEachHooks(Suite $suite)
     {
-        $this->runRunnable($suite->afterEach);
+        $this->runRunnable($suite->getHook('afterEach'));
 
-        if ($suite->parent) {
-            $this->runAfterEachHooks($suite->parent);
+        if ($suite->getParent()) {
+            $this->runAfterEachHooks($suite->getParent());
         }
     }
 

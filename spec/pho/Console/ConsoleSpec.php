@@ -26,18 +26,18 @@ describe('Console', function() {
 
                 ob_start();
                 $console->parseArguments();
-                $this->set('printContents', ob_get_contents());
+                $this->printContents = ob_get_contents();
                 ob_end_clean();
 
-                $this->set('console', $console);
+                $this->console = $console;
             });
 
             it('sets the error status to 0', function() {
-                expect($this->get('console')->getErrorStatus())->toEqual(0);
+                expect($this->console->getErrorStatus())->toEqual(0);
             });
 
             it('prints the option list and help', function() {
-                expect($this->get('printContents'))
+                expect($this->printContents)
                     ->toContain('Usage: pho [options] [files]')
                     ->toContain('Options')
                     ->toContain('help');
@@ -50,18 +50,18 @@ describe('Console', function() {
 
                 ob_start();
                 $console->parseArguments();
-                $this->set('printContents', ob_get_contents());
+                $this->printContents = ob_get_contents();
                 ob_end_clean();
 
-                $this->set('console', $console);
+                $this->console = $console;
             });
 
             it('sets the error status to 0', function() {
-                expect($this->get('console')->getErrorStatus())->toEqual(0);
+                expect($this->console->getErrorStatus())->toEqual(0);
             });
 
             it('prints version info', function() {
-                expect($this->get('printContents'))
+                expect($this->printContents)
                     ->toEqual('pho version 0.0.1' . PHP_EOL);
             });
         });
@@ -72,18 +72,18 @@ describe('Console', function() {
 
                 ob_start();
                 $console->parseArguments();
-                $this->set('printContents', ob_get_contents());
+                $this->printContents = ob_get_contents();
                 ob_end_clean();
 
-                $this->set('console', $console);
+                $this->console = $console;
             });
 
             it('sets the error status to 1', function() {
-                expect($this->get('console')->getErrorStatus())->toEqual(1);
+                expect($this->console->getErrorStatus())->toEqual(1);
             });
 
             it('lists the invalid option', function() {
-                expect($this->get('printContents'))
+                expect($this->printContents)
                     ->toEqual('--invalid is not a valid option' . PHP_EOL);
             });
         });
@@ -94,18 +94,18 @@ describe('Console', function() {
 
                 ob_start();
                 $console->parseArguments();
-                $this->set('printContents', ob_get_contents());
+                $this->printContents = ob_get_contents();
                 ob_end_clean();
 
-                $this->set('console', $console);
+                $this->console = $console;
             });
 
             it('sets the error status to 1', function() {
-                expect($this->get('console')->getErrorStatus())->toEqual(1);
+                expect($this->console->getErrorStatus())->toEqual(1);
             });
 
             it('lists the invalid path', function() {
-                expect($this->get('printContents'))->toEqual(
+                expect($this->printContents)->toEqual(
                     "The file or path \"./someinvalidpath\" doesn't exist" . PHP_EOL);
             });
         });

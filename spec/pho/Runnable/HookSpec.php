@@ -6,18 +6,18 @@ use pho\Runnable\Runnable;
 
 describe('Hook', function() {
     before(function() {
-        $this->set('suite', new Suite('TestSuite', function() {}));
+        $this->suite = new Suite('TestSuite', function() {});
     });
 
     it('has its closure bound to the suite', function() {
-        $suite = $this->get('suite');
-        $suite->set('key', 'testvalue');
+        $suite = $this->suite;
+        $suite->key = 'testvalue';
 
         $run = function() {
             $closure = function() {
-                echo $this->get('key');
+                echo $this->key;
             };
-            $hook = new Hook($closure, $this->get('suite'));
+            $hook = new Hook($closure, $this->suite);
             $hook->run();
         };
 

@@ -30,7 +30,7 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     public function beforeSuite(Suite $suite)
     {
         $leftPad = str_repeat('    ', $this->depth);
-        $this->console->writeLn("$leftPad{$suite->title}");
+        $this->console->writeLn($leftPad . $suite->getTitle());
 
         $this->depth += 1;
     }

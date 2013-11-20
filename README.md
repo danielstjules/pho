@@ -78,28 +78,27 @@ describe('Example', function() {
 ```
 
 Things can get a bit verbose when dealing with multiple objects that need to be
-passed into closures with `use`. To avoid such long lists of arguments, pho
-exposes `$this->get($key)` and `$this->set($key, $val)` to be used within suites
-and specs.
+passed into closures with `use`. To avoid such long lists of arguments,
+`$this->key` can be used to set and get values between suites and specs.
 
 ``` php
 describe('SomeClass', function() {
-    $this->set('key1', 'initialValue');
-    $this->set('key2', 'initialValue');
+    $this->key1 = 'initialValue';
+    $this->key2 = 'initialValue';
 
     context('methodOne()', function() {
-        $this->set('key1', 'changedValue');
+        $this->key1 = 'changedValue';
 
         it('contains a spec', function() {
-            expect($this->get('key1'))->toBe('changedValue');
-            expect($this->get('key2'))->toBe('initialValue');
+            expect($this->key1)->toBe('changedValue');
+            expect($this->key2)->toBe('initialValue');
         });
     });
 
     context('methodTwo()', function() {
         it('contains another spec', function() {
-            expect($this->get('key1'))->toBe('initialValue');
-            expect($this->get('key2'))->toBe('initialValue');
+            expect($this->key1)->toBe('initialValue');
+            expect($this->key2)->toBe('initialValue');
         });
     });
 });
@@ -113,27 +112,27 @@ within nested suites.
 
 ``` php
 describe('Suite with Hooks', function() {
-    $this->set('count', 0);
+    $this->count = 0;
 
     beforeEach(function() {
-        $count = $this->get('count');
-        $this->set('count', $count + 1);
+        $count = $this->count;
+        $this->count = $count + 1;
     });
 
     it('has a count equal to 1', function() {
-        $count = $this->get('count');
+        $count = $this->count;
         expect($count)->toEqual(1);
         // A single beforeEach ran
     });
 
     context('nested suite', function() {
         beforeEach(function() {
-            $count = $this->get('count');
-            $this->set('count', $count + 1);
+            $count = $this->count;
+            $this->count = $count + 1;
         });
 
         it('has a count equal to 3', function() {
-            $count = $this->get('count');
+            $count = $this->count;
             expect($count)->toEqual(3);
             // Both beforeEach closures incremented the value
         });

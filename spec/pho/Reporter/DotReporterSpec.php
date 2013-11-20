@@ -10,26 +10,26 @@ describe('DotReporter', function() {
     before(function() {
         $console = new Console([]);
         $console->parseArguments();
-        $this->set('console', $console);
+        $this->console = $console;
 
         $reporter = new DotReporter($console);
-        $this->set('reporter', $reporter);
+        $this->reporter = $reporter;
 
         $suite = new Suite('test', function(){});
         $spec = new Spec('testspec', function(){}, $suite);
-        $this->set('spec', $spec);
+        $this->spec = $spec;
     });
 
     it('implements the ReporterInterface', function() {
-        expect($this->get('reporter') instanceof ReporterInterface)->toBeTrue();
+        expect($this->reporter instanceof ReporterInterface)->toBeTrue();
     });
 
     context('beforeSpec', function() {
         it('increments the spec count', function() {
-            $reporter = $this->get('reporter');
+            $reporter = $this->reporter;
 
             $countBefore = $reporter->getSpecCount();
-            $reporter->beforeSpec($this->get('spec'));
+            $reporter->beforeSpec($this->spec);
             $countAfter = $reporter->getSpecCount();
 
             expect($countAfter)->toEqual($countBefore + 1);
@@ -37,8 +37,8 @@ describe('DotReporter', function() {
 
         it('prints a newline after a limit', function() {
             $print = function() {
-                $reporter = $this->get('reporter');
-                $spec = $this->get('spec');
+                $reporter = $this->reporter;
+                $spec = $this->spec;
 
                 for ($i = 0; $i <= 60; $i++) {
                     $reporter->beforeSpec($spec);
@@ -55,9 +55,9 @@ describe('DotReporter', function() {
 
     context('afterSpec', function() {
         it('prints a dot if the spec passed', function() {
-            $reporter = $this->get('reporter');
+            $reporter = $this->reporter;
             $afterSpec = function() {
-                $this->get('reporter')->afterSpec($this->get('spec'));
+                $this->reporter->afterSpec($this->spec);
             };
 
             expect($afterSpec)->toPrint('.');
@@ -71,10 +71,10 @@ describe('DotReporter', function() {
             $spec->run();
 
             $afterSpec = function() use ($spec) {
-                $this->get('reporter')->afterSpec($spec);
+                $this->reporter->afterSpec($spec);
             };
 
-            $console = $this->get('console');
+            $console = $this->console;
             expect($afterSpec)->toPrint($console->formatter->red('F'));
         });
     });

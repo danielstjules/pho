@@ -19,7 +19,7 @@ class MockRunnable extends Runnable
 
 describe('Runnable', function() {
     before(function() {
-        $this->set('suite', new Suite('TestSuite', function() {}));
+        $this->suite = new Suite('TestSuite', function() {});
     });
 
     context('run', function() {
@@ -27,7 +27,7 @@ describe('Runnable', function() {
             $closure = function() {
                 trigger_error('TestError', E_USER_NOTICE);
             };
-            $runnable = new MockRunnable($closure, $this->get('suite'));
+            $runnable = new MockRunnable($closure, $this->suite);
             $runnable->run();
 
             expect($runnable->exception->getType())->toEqual('E_USER_NOTICE');
@@ -37,7 +37,7 @@ describe('Runnable', function() {
             $closure = function() {
                 throw new ExpectationException('test');
             };
-            $runnable = new MockRunnable($closure, $this->get('suite'));
+            $runnable = new MockRunnable($closure, $this->suite);
             $runnable->run();
 
             expect($runnable->exception->getMessage())->toEqual('test');
@@ -47,7 +47,7 @@ describe('Runnable', function() {
             $closure = function() {
                 throw new \Exception('test exception');
             };
-            $runnable = new MockRunnable($closure, $this->get('suite'));
+            $runnable = new MockRunnable($closure, $this->suite);
             $runnable->run();
 
             expect($runnable->exception->getMessage())->toEqual('test exception');
