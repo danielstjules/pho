@@ -78,8 +78,8 @@ describe('Example', function() {
 ```
 
 Things can get a bit verbose when dealing with multiple objects that need to be
-passed into closures with `use`. To avoid such long lists of arguments,
-`$this->key` can be used to set and get values between suites and specs.
+passed into closures with `use`. To avoid such long lists of arguments, `$this`
+can be used to set and retrieve values between suites and specs.
 
 ``` php
 describe('SomeClass', function() {
