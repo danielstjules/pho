@@ -12,9 +12,9 @@ class Runner
 {
     public static $console;
 
-    public $reporter;
-
     protected static $instance;
+
+    private $reporter;
 
     private $suites = [];
 
