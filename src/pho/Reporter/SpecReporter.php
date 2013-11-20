@@ -67,9 +67,9 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
 
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
-            $title = $this->formatter->red($spec->title);
+            $title = $this->formatter->red($spec->getTitle());
         } else {
-            $title = $this->formatter->grey($spec->title);
+            $title = $this->formatter->grey($spec->getTitle());
         }
 
         $this->console->writeLn($leftPad . $title);

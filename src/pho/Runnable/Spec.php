@@ -6,7 +6,7 @@ use pho\Suite\Suite;
 
 class Spec extends Runnable
 {
-    public $title;
+    private $title;
 
     /**
      * Constructs a Spec, to be associated with a particular suite, and ran
@@ -21,6 +21,16 @@ class Spec extends Runnable
         $this->title = $title;
         $this->suite = $suite;
         $this->closure = $closure->bindTo($suite);
+    }
+
+    /**
+     * Returns the title of the spec.
+     *
+     * @return string The title
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**

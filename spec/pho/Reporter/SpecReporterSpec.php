@@ -69,7 +69,7 @@ describe('SpecReporter', function() {
             };
 
             $console = $this->console;
-            $specTitle = $console->formatter->grey($this->spec->title);
+            $specTitle = $console->formatter->grey($this->spec->getTitle());
             expect($afterSpec)->toPrint($specTitle . PHP_EOL);
         });
 
@@ -86,7 +86,7 @@ describe('SpecReporter', function() {
             };
 
             $console = $this->console;
-            $specTitle = $console->formatter->red($this->spec->title);
+            $specTitle = $console->formatter->red($this->spec->getTitle());
             expect($afterSpec)->toPrint($specTitle . PHP_EOL);
         });
     });
