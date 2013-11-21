@@ -7,6 +7,7 @@ Feature requests and pull requests welcome!
 
  * [Installation](#installation)
  * [Writing Specs](#writing-specs)
+ * [Running Specs](#running-specs)
  * [Expectations/Matchers](#expectationsmatchers)
  * [Reporters](#reporters)
  * [Namespace](#namespace)
@@ -139,6 +140,16 @@ describe('Suite with Hooks', function() {
     });
 });
 ```
+
+## Running Specs
+
+By default, pho looks for specs in either a `test` or `spec` folder under the
+working directory. It will recurse through all subfolders and run any files
+ending with `Spec.php`, ie: userSpec.php. Furthermore, continuous testing is as
+easy as using the `--watch` option, which will monitor all files in the path for
+changes, and rerun specs on save.
+
+![watch](http://danielstjules.com/pho/watch.gif)
 
 ## Expectations/Matchers
 
