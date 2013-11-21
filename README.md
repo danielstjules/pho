@@ -149,7 +149,7 @@ ending with `Spec.php`, ie: userSpec.php. Furthermore, continuous testing is as
 easy as using the `--watch` option, which will monitor all files in the path for
 changes, and rerun specs on save.
 
-![watch](http://danielstjules.com/pho/watch.gif)
+![watch](http://danielstjules.com/pho/watch2.gif)
 
 ## Expectations/Matchers
 
