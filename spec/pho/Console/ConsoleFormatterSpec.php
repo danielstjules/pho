@@ -34,32 +34,27 @@ describe('ConsoleFormatter', function() {
     context('calls to applyForeground', function() use ($formatter) {
         it('can set the color black', function() use ($formatter) {
             $formattedText = $formatter->black('test');
-            expect($formattedText)->toEqual("\x1b[30mtest\x1b[39m");
-        });
-
-        it('can set the color grey', function() use ($formatter) {
-            $formattedText = $formatter->grey('test');
-            expect($formattedText)->toEqual("\x1b[90mtest\x1b[39m");
-        });
-
-        it('can set the color white', function() use ($formatter) {
-            $formattedText = $formatter->white('test');
-            expect($formattedText)->toEqual("\x1b[37mtest\x1b[39m");
-        });
-
-        it('can set the color cyan', function() use ($formatter) {
-            $formattedText = $formatter->cyan('test');
-            expect($formattedText)->toEqual("\x1b[36mtest\x1b[39m");
-        });
-
-        it('can set the color green', function() use ($formatter) {
-            $formattedText = $formatter->green('test');
-            expect($formattedText)->toEqual("\x1b[32mtest\x1b[39m");
+            expect($formattedText)->toEqual("\033[30mtest\033[0m");
         });
 
         it('can set the color red', function() use ($formatter) {
             $formattedText = $formatter->red('test');
-            expect($formattedText)->toEqual("\x1b[31mtest\x1b[39m");
+            expect($formattedText)->toEqual("\033[31mtest\033[0m");
+        });
+
+        it('can set the color green', function() use ($formatter) {
+            $formattedText = $formatter->green('test');
+            expect($formattedText)->toEqual("\033[32mtest\033[0m");
+        });
+
+        it('can set the color cyan', function() use ($formatter) {
+            $formattedText = $formatter->cyan('test');
+            expect($formattedText)->toEqual("\033[36mtest\033[0m");
+        });
+
+        it('can set the color white', function() use ($formatter) {
+            $formattedText = $formatter->white('test');
+            expect($formattedText)->toEqual("\033[37mtest\033[0m");
         });
     });
 

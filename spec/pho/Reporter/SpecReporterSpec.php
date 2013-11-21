@@ -35,7 +35,8 @@ describe('SpecReporter', function() {
                 $reporter->beforeSuite($suite);
             };
 
-            expect($beforeSuite)->toPrint('test suite' . PHP_EOL);
+            $title = $this->console->formatter->white('test suite');
+            expect($beforeSuite)->toPrint(PHP_EOL . "$title" . PHP_EOL);
         });
 
         it('pads nested suites', function() {
@@ -45,7 +46,8 @@ describe('SpecReporter', function() {
                 $reporter->beforeSuite($suite);
             };
 
-            expect($beforeSuite)->toPrint('    test suite' . PHP_EOL);
+            $title = $this->console->formatter->white('test suite');
+            expect($beforeSuite)->toPrint("  $title" . PHP_EOL);
         });
     });
 
@@ -62,15 +64,15 @@ describe('SpecReporter', function() {
     });
 
     context('afterSpec', function() {
-        it('prints the spec title in grey if it passed', function() {
+        it('prints the unformatted spec title if it passed', function() {
             $reporter = new SpecReporter($this->console);
             $afterSpec = function() use ($reporter) {
                 $reporter->afterSpec($this->spec);
             };
 
             $console = $this->console;
-            $specTitle = $console->formatter->grey($this->spec->getTitle());
-            expect($afterSpec)->toPrint($specTitle . PHP_EOL);
+            $title = $this->spec->getTitle();
+            expect($afterSpec)->toPrint($title . PHP_EOL);
         });
 
         it('prints the spec title in red if it failed', function() {

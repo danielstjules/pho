@@ -5,12 +5,11 @@ namespace pho\Console;
 class ConsoleFormatter
 {
     private static $foregroundColours = [
-        'black' => ["\x1b[30m", "\x1b[39m"],
-        'grey'  => ["\x1b[90m", "\x1b[39m"],
-        'white' => ["\x1b[37m", "\x1b[39m"],
-        'cyan'  => ["\x1b[36m", "\x1b[39m"],
-        'green' => ["\x1b[32m", "\x1b[39m"],
-        'red'   => ["\x1b[31m", "\x1b[39m"],
+        'black' => ["\033[30m", "\033[0m"],
+        'red'   => ["\033[31m", "\033[0m"],
+        'green' => ["\033[32m", "\033[0m"],
+        'cyan'  => ["\033[36m", "\033[0m"],
+        'white' => ["\033[37m", "\033[0m"],
     ];
 
     private static $styles = [

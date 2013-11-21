@@ -23,14 +23,27 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     }
 
     /**
+     * Override parent's method to prevent writing a new line.
+     */
+    public function beforeRun()
+    {
+        // Do nothing
+    }
+
+    /**
      * Ran before the containing test suite is invoked.
      *
      * @param Suite $suite The test suite before which to run this method
      */
     public function beforeSuite(Suite $suite)
     {
-        $leftPad = str_repeat('    ', $this->depth);
-        $this->console->writeLn($leftPad . $suite->getTitle());
+        if ($this->depth == 0) {
+            $this->console->writeLn('');
+        }
+
+        $leftPad = str_repeat('  ', $this->depth);
+        $title = $this->formatter->white($suite->getTitle());
+        $this->console->writeLn($leftPad . $title);
 
         $this->depth += 1;
     }
@@ -63,13 +76,13 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
      */
     public function afterSpec(Spec $spec)
     {
-        $leftPad = str_repeat('    ', $this->depth);
+        $leftPad = str_repeat('  ', $this->depth);
 
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
             $title = $this->formatter->red($spec->getTitle());
         } else {
-            $title = $this->formatter->grey($spec->getTitle());
+            $title = $spec->getTitle();
         }
 
         $this->console->writeLn($leftPad . $title);
