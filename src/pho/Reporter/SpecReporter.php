@@ -8,6 +8,8 @@ use pho\Runnable\Spec;
 
 class SpecReporter extends AbstractReporter implements ReporterInterface
 {
+    const TAB_SIZE = 4;
+
     private $depth;
 
     /**
@@ -41,8 +43,8 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
             $this->console->writeLn('');
         }
 
-        $leftPad = str_repeat('  ', $this->depth);
-        $title = $this->formatter->white($suite->getTitle());
+        $leftPad = str_repeat(' ', self::TAB_SIZE * $this->depth);
+        $title = $suite->getTitle();
         $this->console->writeLn($leftPad . $title);
 
         $this->depth += 1;
@@ -76,13 +78,13 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
      */
     public function afterSpec(Spec $spec)
     {
-        $leftPad = str_repeat('  ', $this->depth);
+        $leftPad = str_repeat(' ', self::TAB_SIZE * $this->depth);
 
         if (!$spec->passed()) {
             $this->failedSpecs[] = $spec;
             $title = $this->formatter->red($spec->getTitle());
         } else {
-            $title = $spec->getTitle();
+            $title = $this->formatter->grey($spec->getTitle());
         }
 
         $this->console->writeLn($leftPad . $title);

@@ -35,8 +35,7 @@ describe('SpecReporter', function() {
                 $reporter->beforeSuite($suite);
             };
 
-            $title = $this->console->formatter->white('test suite');
-            expect($beforeSuite)->toPrint(PHP_EOL . "$title" . PHP_EOL);
+            expect($beforeSuite)->toPrint(PHP_EOL . "test suite" . PHP_EOL);
         });
 
         it('pads nested suites', function() {
@@ -46,8 +45,7 @@ describe('SpecReporter', function() {
                 $reporter->beforeSuite($suite);
             };
 
-            $title = $this->console->formatter->white('test suite');
-            expect($beforeSuite)->toPrint("  $title" . PHP_EOL);
+            expect($beforeSuite)->toPrint("    test suite" . PHP_EOL);
         });
     });
 
@@ -71,7 +69,7 @@ describe('SpecReporter', function() {
             };
 
             $console = $this->console;
-            $title = $this->spec->getTitle();
+            $title = $this->console->formatter->grey($this->spec->getTitle());
             expect($afterSpec)->toPrint($title . PHP_EOL);
         });
 

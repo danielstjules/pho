@@ -6,6 +6,7 @@ class ConsoleFormatter
 {
     private static $foregroundColours = [
         'black' => ["\033[30m", "\033[0m"],
+        'grey'  => ["\033[90m", "\033[0m"],
         'red'   => ["\033[31m", "\033[0m"],
         'green' => ["\033[32m", "\033[0m"],
         'cyan'  => ["\033[36m", "\033[0m"],
