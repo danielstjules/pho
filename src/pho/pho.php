@@ -97,7 +97,7 @@ function expect($actual)
 }
 
 // Create a new Console and parse arguments
-$console = new Console(array_slice($argv, 1));
+$console = new Console(array_slice($argv, 1), 'php://stdout');
 $console->parseArguments();
 
 // Exit if necessary

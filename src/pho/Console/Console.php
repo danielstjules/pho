@@ -40,18 +40,22 @@ class Console
 
     private $defaultDirs = ['test', 'spec'];
 
+    private $stream;
+
     /**
      * The constructor stores the arguments to be parsed, and creates instances
      * of both ConsoleFormatter and ConsoleOptionParser. Also, if either a test
      * or spec directory exists, they are set as the default paths to traverse.
      *
-     * @param array $arguments An array of argument strings
+     * @param array  $arguments An array of argument strings
+     * @param string $stream    The I/O stream to use when writing
      */
-    public function __construct($arguments)
+    public function __construct($arguments, $stream)
     {
         $this->arguments = $arguments;
         $this->options = [];
         $this->paths = [];
+        $this->stream = fopen($stream, 'w');
 
         $this->formatter = new ConsoleFormatter();
         $this->optionParser = new ConsoleOptionParser();
@@ -162,7 +166,7 @@ class Console
      */
     public function write($string)
     {
-        echo str_replace("\n", PHP_EOL, $string);
+        fwrite($this->stream, str_replace("\n", PHP_EOL, $string));
     }
 
     /**
@@ -174,7 +178,7 @@ class Console
     public function writeLn($string)
     {
         $this->write($string);
-        echo PHP_EOL;
+        fwrite($this->stream, PHP_EOL);
     }
 
     /**

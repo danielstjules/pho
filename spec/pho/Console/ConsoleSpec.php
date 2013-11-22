@@ -5,7 +5,7 @@ use pho\Console\Console;
 describe('Console', function() {
     context('parseArguments', function() {
         it('parses the arguments with the available options', function() {
-            $console = new Console(['--reporter', 'dot', '-s']);
+            $console = new Console(['--reporter', 'dot', '-s'], 'php://output');
             $console->parseArguments();
 
             expect($console->options)->toEqual([
@@ -22,7 +22,7 @@ describe('Console', function() {
 
         context('when the help flag is used', function() {
             before(function() {
-                $console = new Console(['--help']);
+                $console = new Console(['--help'], 'php://output');
 
                 ob_start();
                 $console->parseArguments();
@@ -46,7 +46,7 @@ describe('Console', function() {
 
         context('when the version flag is used', function() {
             before(function() {
-                $console = new Console(['--version']);
+                $console = new Console(['--version'], 'php://output');
 
                 ob_start();
                 $console->parseArguments();
@@ -68,7 +68,7 @@ describe('Console', function() {
 
         context('when an invalid option is passed', function() {
             before(function() {
-                $console = new Console(['--invalid']);
+                $console = new Console(['--invalid'], 'php://output');
 
                 ob_start();
                 $console->parseArguments();
@@ -90,7 +90,7 @@ describe('Console', function() {
 
         context('when an invalid path is used', function() {
             before(function() {
-                $console = new Console(['./someinvalidpath']);
+                $console = new Console(['./someinvalidpath'], 'php://output');
 
                 ob_start();
                 $console->parseArguments();
@@ -113,7 +113,7 @@ describe('Console', function() {
 
     context('getPaths', function() {
         it('returns the array of parsed paths', function() {
-            $console = new Console(['./']);
+            $console = new Console(['./'], 'php://output');
             $console->parseArguments();
 
             expect($console->getPaths())->toEqual(['./']);
@@ -122,7 +122,7 @@ describe('Console', function() {
 
     context('getReporterClass', function() {
         it('returns DotReporter by default', function() {
-            $console = new Console([]);
+            $console = new Console([], 'php://output');
             $console->parseArguments();
 
             $expectedClass = 'pho\Reporter\DotReporter';
@@ -130,7 +130,7 @@ describe('Console', function() {
         });
 
         it('returns a valid reporter specified in the args', function() {
-            $console = new Console(['-r', 'spec']);
+            $console = new Console(['-r', 'spec'], 'php://output');
             $console->parseArguments();
 
             $expectedClass = 'pho\Reporter\SpecReporter';
@@ -141,7 +141,7 @@ describe('Console', function() {
     context('write', function() {
         it('prints the text to the terminal', function() {
             $write = function() {
-                $console = new Console([]);
+                $console = new Console([], 'php://output');
                 $console->write('test');
             };
             expect($write)->toPrint('test');
@@ -151,7 +151,7 @@ describe('Console', function() {
     context('writeLn', function() {
         it('prints the text, followed by a newline, to the terminal', function() {
             $writeLn = function() {
-                $console = new Console([]);
+                $console = new Console([], 'php://output');
                 $console->writeLn('test');
             };
             expect($writeLn)->toPrint('test' . PHP_EOL);

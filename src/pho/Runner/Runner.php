@@ -178,7 +178,7 @@ class Runner
 
             if (is_resource($process)) {
                 while ($buffer = fread($pipes[1], 16)) {
-                    echo $buffer;
+                    self::$console->write($buffer);
                 }
 
                 fclose($pipes[0]);

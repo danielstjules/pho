@@ -8,7 +8,7 @@ use pho\Console\Console;
 
 describe('SpecReporter', function() {
     before(function() {
-        $console = new Console([]);
+        $console = new Console([], 'php://output');
         $console->parseArguments();
         $this->console = $console;
 
