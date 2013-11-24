@@ -27,9 +27,9 @@ class InstanceMatcher extends AbstractMatcher implements MatcherInterface
      */
     public function match($actual)
     {
-        $this->actual = get_class($actual);
+        $this->actual = $actual;
 
-        return ($this->actual === $this->expected);
+        return ($this->actual instanceof $this->expected);
     }
 
     /**
@@ -41,8 +41,10 @@ class InstanceMatcher extends AbstractMatcher implements MatcherInterface
      */
     public function getFailureMessage($inverse = false)
     {
+        $actualClass = get_class($this->actual);
+
         if (!$inverse) {
-            return "Expected an instance of {$this->expected}, got {$this->actual}";
+            return "Expected an instance of {$this->expected}, got {$actualClass}";
         } else {
             return "Expected an instance other than {$this->expected}";
         }
