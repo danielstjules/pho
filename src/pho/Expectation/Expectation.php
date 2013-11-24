@@ -10,6 +10,7 @@ use pho\Expectation\Matcher\StrictEqualityMatcher;
 use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\InclusionMatcher;
 use pho\Expectation\Matcher\PrintMatcher;
+use pho\Expectation\Matcher\PatternMatcher;
 
 class Expectation
 {
@@ -222,6 +223,21 @@ class Expectation
     public function toPrint($value)
     {
         $matcher = new PrintMatcher($value);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual matches the given regex pattern.
+     *
+     * @param   string               $pattern The expected pattern
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toMatch($pattern)
+    {
+        $matcher = new PatternMatcher($pattern);
         $this->test($matcher);
 
         return $this;

@@ -306,7 +306,7 @@ describe('Expectation', function() {
         });
     });
 
-    context('toEql', function() {
+    context('notToEql', function() {
         it('returns if the value is not loosely equal', function() {
             shouldReturn(function() {
                 $expect = new Expectation(1);
@@ -478,6 +478,38 @@ describe('Expectation', function() {
                     echo 'testing';
                 });
                 $expect->notToPrint('test');
+            });
+        });
+    });
+
+    context('toMatch', function() {
+        it('returns if the string matches the pattern', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('user123');
+                $expect->toMatch('/\w{4}123/');
+            });
+        });
+
+        it('throws exception if it does not match the pattern', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('1');
+                $expect->toMatch('/\d{2}/');
+            });
+        });
+    });
+
+    context('notToMatch', function() {
+        it('returns if the string does not match the pattern', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('123');
+                $expect->notToMatch('/test\d*/');
+            });
+        });
+
+        it('throws exception if it matches the pattern', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('123');
+                $expect->notToMatch('/\d*/');
             });
         });
     });
