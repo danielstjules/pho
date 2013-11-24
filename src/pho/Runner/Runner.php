@@ -256,7 +256,7 @@ class Runner
         foreach ($suite->getSpecs() as $spec) {
             // If using the filter option, only run matching specs
             $pattern = self::$console->options['filter'];
-            if ($pattern && !preg_match("/$pattern/", $spec)) {
+            if ($pattern && !preg_match($pattern, $spec)) {
                 continue;
             }
 

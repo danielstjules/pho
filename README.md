@@ -228,7 +228,7 @@ expect(['a', 'b'])->notToContain('c');
 #### Pattern Matching
 
 ``` php
-expect('/tdd/')->toMatch('/\w[D]{2}/i');
+expect('tdd')->toMatch('/\w[D]{2}/i');
 expect('pho')->not()->toMatch('/\d+/');
 expect('pho')->notToMatch('/\d+/');
 ```
