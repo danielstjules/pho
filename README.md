@@ -160,7 +160,7 @@ expect('pho')->toBeA('string');
 expect(1)->notToBeA('string');
 expect(1)->not()->toBeA('string');
 
-expect(1)->toBeAn('integer');
+expect(1)->toBeAn('integer'); // Alias for toBeA
 expect('pho')->notToBeAn('integer');
 expect('pho')->not()->toBeA('integer');
 ```
@@ -180,7 +180,7 @@ expect(1)->toBe(1);
 expect(1)->not()->toBe(2);
 expect(1)->notToBe(2);
 
-expect(['foo'])->toEqual(['foo']);
+expect(['foo'])->toEqual(['foo']); // Alias for toBe
 expect(['foo'])->not()->toEqual(true);
 expect(['foo'])->notToEqual(true);
 
@@ -252,11 +252,19 @@ expect(2)->toBeGreaterThan(1);
 expect(2)->not()->toBeGreaterThan(2);
 expect(1)->notToBeGreaterThan(2);
 
+expect(2)->toBeAbove(1); // Alias for toBeGreaterThan
+expect(2)->not()->toBeAbove(2);
+expect(1)->notToBeAbove(2);
+
 expect(1)->toBeLessThan(2);
 expect(1)->not()->toBeLessThan(1);
 expect(2)->notToBeLessThan(1);
 
-expect(1)->toBeWithin(1, 10);
+expect(1)->toBeBelow(2); // Alias for toBeLessThan
+expect(1)->not()->toBeBelow(1);
+expect(2)->notToBeBelow(1);
+
+expect(1)->toBeWithin(1, 10); // Inclusive
 expect(-2)->not()->toBeWithin(-1, 0);
 expect(-2)->notToBeWithin(-1, 0);
 ```

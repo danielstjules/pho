@@ -610,6 +610,38 @@ describe('Expectation', function() {
         });
     });
 
+    context('toBeAbove', function() {
+        it('returns if the value is greater than the min', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(2);
+                $expect->toBeAbove(1);
+            });
+        });
+
+        it('throws exception if it is not greater than the min', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(1);
+                $expect->toBeAbove(2);
+            });
+        });
+    });
+
+    context('notToBeAbove', function() {
+        it('returns if the value is not greater than the min', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(1);
+                $expect->notToBeAbove(2);
+            });
+        });
+
+        it('throws exception if the value is greater than the min', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(2);
+                $expect->notToBeAbove(1);
+            });
+        });
+    });
+
     context('toBeLessThan', function() {
         it('returns if the value is less than the max', function() {
             shouldReturn(function() {
@@ -626,7 +658,7 @@ describe('Expectation', function() {
         });
     });
 
-    context('notToBeGreaterThan', function() {
+    context('notToBeLessThan', function() {
         it('returns if the value is not less than the min', function() {
             shouldReturn(function() {
                 $expect = new Expectation(2);
@@ -638,6 +670,38 @@ describe('Expectation', function() {
             shouldThrowException(function() {
                 $expect = new Expectation(1);
                 $expect->notToBeLessThan(2);
+            });
+        });
+    });
+
+    context('toBeBelow', function() {
+        it('returns if the value is less than the max', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(1);
+                $expect->toBeBelow(2);
+            });
+        });
+
+        it('throws exception if it is not less than the max', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(2);
+                $expect->toBeBelow(1);
+            });
+        });
+    });
+
+    context('notToBeBelow', function() {
+        it('returns if the value is not less than the min', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(2);
+                $expect->notToBeBelow(1);
+            });
+        });
+
+        it('throws exception if the value is less than the min', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(1);
+                $expect->notToBeBelow(2);
             });
         });
     });
@@ -658,7 +722,7 @@ describe('Expectation', function() {
         });
     });
 
-    context('notToBeGreaterThan', function() {
+    context('notToBeWithin', function() {
         it('returns if the value is not within the range', function() {
             shouldReturn(function() {
                 $expect = new Expectation(2);
@@ -690,7 +754,7 @@ describe('Expectation', function() {
         });
     });
 
-    context('notToBeGreaterThan', function() {
+    context('notToHaveKey', function() {
         it('returns if the array does not have the key', function() {
             shouldReturn(function() {
                 $expect = new Expectation(['test' => 'value']);

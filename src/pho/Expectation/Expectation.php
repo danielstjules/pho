@@ -300,6 +300,18 @@ class Expectation
     }
 
     /**
+     * An alias for Expectation::toBeGreaterThan()
+     *
+     * @param   int                  $min The minimum value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeAbove($min)
+    {
+        return $this->toBeGreaterThan($min);
+    }
+
+    /**
      * Tests whether or not $actual is less than a maximum value.
      *
      * @param   int                  $max The maximum value
@@ -312,6 +324,18 @@ class Expectation
         $this->test($matcher);
 
         return $this;
+    }
+
+    /**
+     * An alias for Expectation::toBeLessThan()
+     *
+     * @param   int                  $max The maximum value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeBelow($max)
+    {
+        return $this->toBeLessThan($max);
     }
 
     /**
