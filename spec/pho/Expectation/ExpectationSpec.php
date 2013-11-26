@@ -577,4 +577,68 @@ describe('Expectation', function() {
             });
         });
     });
+
+    context('toBeGreaterThan', function() {
+        it('returns if the value is greater than the min', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(2);
+                $expect->toBeGreaterThan(1);
+            });
+        });
+
+        it('throws exception if is not greater than the min', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(1);
+                $expect->toBeGreaterThan(2);
+            });
+        });
+    });
+
+    context('notToBeGreaterThan', function() {
+        it('returns if the value is not greater than the min', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(1);
+                $expect->notToBeGreaterThan(2);
+            });
+        });
+
+        it('throws exception if the value is greater than the min', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(2);
+                $expect->notToBeGreaterThan(1);
+            });
+        });
+    });
+
+    context('toBeLessThan', function() {
+        it('returns if the value is less than the max', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(1);
+                $expect->toBeLessThan(2);
+            });
+        });
+
+        it('throws exception if is not less than the max', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(2);
+                $expect->toBeLessThan(1);
+            });
+        });
+    });
+
+    context('notToBeGreaterThan', function() {
+        it('returns if the value is not less than the min', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(2);
+                $expect->notToBeLessThan(1);
+            });
+        });
+
+        it('throws exception if the value is less than the min', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(1);
+                $expect->notToBeLessThan(2);
+            });
+        });
+    });
 });

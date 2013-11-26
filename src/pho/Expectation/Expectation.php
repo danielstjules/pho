@@ -13,6 +13,8 @@ use pho\Expectation\Matcher\PrintMatcher;
 use pho\Expectation\Matcher\PatternMatcher;
 use pho\Expectation\Matcher\PrefixMatcher;
 use pho\Expectation\Matcher\SuffixMatcher;
+use pho\Expectation\Matcher\MinimumMatcher;
+use pho\Expectation\Matcher\MaximumMatcher;
 
 class Expectation
 {
@@ -270,6 +272,36 @@ class Expectation
     public function toEndWith($substring)
     {
         $matcher = new SuffixMatcher($substring);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual is greater than a minimum value.
+     *
+     * @param   int                  $min The minimum value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeGreaterThan($min)
+    {
+        $matcher = new MinimumMatcher($min);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual is less than a maximum value.
+     *
+     * @param   int                  $max The maximum value
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeLessThan($max)
+    {
+        $matcher = new MaximumMatcher($max);
         $this->test($matcher);
 
         return $this;

@@ -241,6 +241,18 @@ expect('spec')->not()->toEndWith('s');
 expect('spec')->notToEndtWith('s');
 ```
 
+#### Inequality Matching
+
+``` php
+expect(2)->toBeGreaterThan(1);
+expect(2)->not()->toBeGreaterThan(2);
+expect(1)->notToBeGreaterThan(2);
+
+expect(1)->toBeLessThan(2);
+expect(1)->not()->toBeLessThan(1);
+expect(2)->notToBeLessThan(1);
+```
+
 #### Print Matching
 
 ``` php
