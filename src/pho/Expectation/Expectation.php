@@ -202,7 +202,7 @@ class Expectation
      * Tests whether or not $actual, a string or an array, contains a substring
      * or an element with the supplied $value.
      *
-     * @param   int                  $value The value expected to be included
+     * @param   mixed                $value The value expected to be included
      * @returns Expectation          The current expectation
      * @throws  ExpectationException If the positive or negative match fails
      */
@@ -218,7 +218,7 @@ class Expectation
      * Tests whether or not $actual, a callable function, tried to output the
      * string $value to php://output
      *
-     * @param   int                  $value The expected value to be printed
+     * @param   mixed                $value The expected value to be printed
      * @returns Expectation          The current expectation
      * @throws  ExpectationException If the positive or negative match fails
      */
