@@ -11,6 +11,7 @@ use pho\Expectation\Matcher\StrictEqualityMatcher;
 
 use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\InclusionMatcher;
+use pho\Expectation\Matcher\ArrayKeyMatcher;
 
 use pho\Expectation\Matcher\PrintMatcher;
 
@@ -324,6 +325,21 @@ class Expectation
     public function toBeWithin($start, $end)
     {
         $matcher = new RangeMatcher($start, $end);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not the $key is in the array.
+     *
+     * @param   mixed                $key The key to check for
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toHaveKey($key)
+    {
+        $matcher = new ArrayKeyMatcher($key);
         $this->test($matcher);
 
         return $this;

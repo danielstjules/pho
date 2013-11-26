@@ -223,6 +223,10 @@ expect('pho')->notToBeEmpty();
 expect('Spectacular!')->toContain('Spec');
 expect(['a', 'b'])->not()->toContain('c');
 expect(['a', 'b'])->notToContain('c');
+
+expect(['name' => 'pho'])->toHaveKey('name');
+expect(['name' => 'pho'])->not()->toHaveKey('id');
+expect(['name' => 'pho'])->notToHaveKey('id');
 ```
 
 #### Pattern Matching

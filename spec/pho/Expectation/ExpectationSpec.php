@@ -673,4 +673,36 @@ describe('Expectation', function() {
             });
         });
     });
+
+    context('toHaveKey', function() {
+        it('returns if the array has the key', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(['test' => 'value']);
+                $expect->toHaveKey('test');
+            });
+        });
+
+        it('throws exception if the array does not have the key', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(['test' => 'value']);
+                $expect->toHaveKey('invalid');
+            });
+        });
+    });
+
+    context('notToBeGreaterThan', function() {
+        it('returns if the array does not have the key', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(['test' => 'value']);
+                $expect->notToHaveKey('randomkey');
+            });
+        });
+
+        it('throws exception if the array has the key', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(['value']);
+                $expect->notToHaveKey(0);
+            });
+        });
+    });
 });

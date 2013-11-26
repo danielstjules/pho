@@ -25,9 +25,9 @@ class InclusionMatcher extends AbstractMatcher implements MatcherInterface
      * Checks whether or not the needle is found in the supplied $haystack.
      * Returns true if the value if the needle is found, false otherwise.
      *
-     * @param  mixed      $haystack An array or string through which to search
-     * @return boolean    Whether or not the needle was found
-     * @throws \Exception If $haystack isn't of type array or string
+     * @param  mixed   $haystack An array or string through which to search
+     * @return boolean Whether or not the needle was found
+     * @throws \InvalidArgumentException If $haystack isn't an array or string
      */
     public function match($haystack)
     {
@@ -39,7 +39,7 @@ class InclusionMatcher extends AbstractMatcher implements MatcherInterface
             return (in_array($this->needle, $haystack));
         }
 
-        throw new \Exception('LengthMatcher::match() requires an array or string');
+        throw new \InvalidArgumentException('Argument must be an array or string');
     }
 
     /**
