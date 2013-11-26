@@ -586,7 +586,7 @@ describe('Expectation', function() {
             });
         });
 
-        it('throws exception if is not greater than the min', function() {
+        it('throws exception if it is not greater than the min', function() {
             shouldThrowException(function() {
                 $expect = new Expectation(1);
                 $expect->toBeGreaterThan(2);
@@ -618,7 +618,7 @@ describe('Expectation', function() {
             });
         });
 
-        it('throws exception if is not less than the max', function() {
+        it('throws exception if it is not less than the max', function() {
             shouldThrowException(function() {
                 $expect = new Expectation(2);
                 $expect->toBeLessThan(1);
@@ -638,6 +638,38 @@ describe('Expectation', function() {
             shouldThrowException(function() {
                 $expect = new Expectation(1);
                 $expect->notToBeLessThan(2);
+            });
+        });
+    });
+
+    context('toBeWithin', function() {
+        it('returns if the value is within the range', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(1);
+                $expect->toBeWithin(1, 2);
+            });
+        });
+
+        it('throws exception if it is not within the range', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(1.1);
+                $expect->toBeWithin(0, 1);
+            });
+        });
+    });
+
+    context('notToBeGreaterThan', function() {
+        it('returns if the value is not within the range', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(2);
+                $expect->notToBeWithin(1, 1.9);
+            });
+        });
+
+        it('throws exception if the value is within the range', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(-1);
+                $expect->notToBeWithin(-10, 10);
             });
         });
     });

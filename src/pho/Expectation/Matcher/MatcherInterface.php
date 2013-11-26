@@ -5,13 +5,6 @@ namespace pho\Expectation\Matcher;
 interface MatcherInterface
 {
     /**
-     * The constructor must accept an expected value to be tested.
-     *
-     * @param mixed $expected The expected value
-     */
-    public function __construct($expected);
-
-    /**
      * The method should return true if the match succeeds.
      *
      * @param  mixed      $actual The actual value to match against

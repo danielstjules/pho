@@ -3,18 +3,24 @@
 namespace pho\Expectation;
 
 use pho\Exception\ExpectationException;
+
 use pho\Expectation\Matcher\InstanceMatcher;
 use pho\Expectation\Matcher\TypeMatcher;
 use pho\Expectation\Matcher\LooseEqualityMatcher;
 use pho\Expectation\Matcher\StrictEqualityMatcher;
+
 use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\InclusionMatcher;
+
 use pho\Expectation\Matcher\PrintMatcher;
+
 use pho\Expectation\Matcher\PatternMatcher;
 use pho\Expectation\Matcher\PrefixMatcher;
 use pho\Expectation\Matcher\SuffixMatcher;
+
 use pho\Expectation\Matcher\MinimumMatcher;
 use pho\Expectation\Matcher\MaximumMatcher;
+use pho\Expectation\Matcher\RangeMatcher;
 
 class Expectation
 {
@@ -302,6 +308,22 @@ class Expectation
     public function toBeLessThan($max)
     {
         $matcher = new MaximumMatcher($max);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual is within an inclusive range.
+     *
+     * @param   int                  $start The left bound of the range
+     * @param   int                  $end   The right bound of the range
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeWithin($start, $end)
+    {
+        $matcher = new RangeMatcher($start, $end);
         $this->test($matcher);
 
         return $this;
