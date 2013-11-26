@@ -6,7 +6,7 @@ class PatternMatcher extends AbstractMatcher implements MatcherInterface
 {
     private $pattern;
 
-    private $actual;
+    private $subject;
 
     /**
      * Creates a new PatternMatcher for matching a string against a regular
@@ -23,14 +23,14 @@ class PatternMatcher extends AbstractMatcher implements MatcherInterface
      * Tries to match the given string with the expected pattern. Returns
      * true if it matches, false otherwise.
      *
-     * @param  mixed   $actual The string to test
+     * @param  mixed   $subject The string to test
      * @return boolean Whether or not the string matches the expect pattern
      */
-    public function match($actual)
+    public function match($subject)
     {
-        $this->actual = $actual;
+        $this->subject = $subject;
 
-        return (preg_match($this->pattern, $actual) > 0);
+        return (preg_match($this->pattern, $subject) > 0);
     }
 
     /**
@@ -43,9 +43,9 @@ class PatternMatcher extends AbstractMatcher implements MatcherInterface
     public function getFailureMessage($inverse = false)
     {
         if (!$inverse) {
-            return "Expected {$this->actual} to match {$this->pattern}";
+            return "Expected \"{$this->subject}\" to match {$this->pattern}";
         } else {
-            return "Expected {$this->actual} not to match {$this->pattern}";
+            return "Expected \"{$this->subject}\" not to match {$this->pattern}";
         }
     }
 }

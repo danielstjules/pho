@@ -513,4 +513,68 @@ describe('Expectation', function() {
             });
         });
     });
+
+    context('toStartWith', function() {
+        it('returns if the string contains the prefix', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('test123');
+                $expect->toStartWith('test');
+            });
+        });
+
+        it('throws exception if it does not contain the prefix', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('test123');
+                $expect->toStartWith('123');
+            });
+        });
+    });
+
+    context('notToStartWith', function() {
+        it('returns if the string does not contain the prefix', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('test123');
+                $expect->notToStartWith('123');
+            });
+        });
+
+        it('throws exception if it contains the prefix', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('test123');
+                $expect->notToStartWith('test');
+            });
+        });
+    });
+
+    context('toEndWith', function() {
+        it('returns if the string contains the suffix', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('test123');
+                $expect->toEndWith('123');
+            });
+        });
+
+        it('throws exception if it does not contain the suffix', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('test123');
+                $expect->toEndWith('test');
+            });
+        });
+    });
+
+    context('notToEndWith', function() {
+        it('returns if the string does not contain the suffix', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('test123');
+                $expect->notToEndWith('test');
+            });
+        });
+
+        it('throws exception if it contains the suffix', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('test123');
+                $expect->notToEndWith('123');
+            });
+        });
+    });
 });

@@ -11,6 +11,8 @@ use pho\Expectation\Matcher\LengthMatcher;
 use pho\Expectation\Matcher\InclusionMatcher;
 use pho\Expectation\Matcher\PrintMatcher;
 use pho\Expectation\Matcher\PatternMatcher;
+use pho\Expectation\Matcher\PrefixMatcher;
+use pho\Expectation\Matcher\SuffixMatcher;
 
 class Expectation
 {
@@ -238,6 +240,36 @@ class Expectation
     public function toMatch($pattern)
     {
         $matcher = new PatternMatcher($pattern);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual starts with the given substring.
+     *
+     * @param   string               $substring The expected start of the string
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toStartWith($substring)
+    {
+        $matcher = new PrefixMatcher($substring);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual ends with the given substring.
+     *
+     * @param   string               $substring The expected end of the string
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toEndWith($substring)
+    {
+        $matcher = new SuffixMatcher($substring);
         $this->test($matcher);
 
         return $this;

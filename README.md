@@ -180,9 +180,9 @@ expect(1)->toBe(1);
 expect(1)->not()->toBe(2);
 expect(1)->notToBe(2);
 
-expect(['a'])->toEqual(['a']);
-expect(['a'])->not()->toEqual(true);
-expect(['a'])->notToEqual(true);
+expect(['foo'])->toEqual(['foo']);
+expect(['foo'])->not()->toEqual(true);
+expect(['foo'])->notToEqual(true);
 
 expect(null)->toBeNull();
 expect('pho')->not()->toBeNull();
@@ -231,6 +231,14 @@ expect(['a', 'b'])->notToContain('c');
 expect('tdd')->toMatch('/\w[D]{2}/i');
 expect('pho')->not()->toMatch('/\d+/');
 expect('pho')->notToMatch('/\d+/');
+
+expect('username')->toStartWith('user');
+expect('spec')->not()->toStartWith('test');
+expect('spec')->notToStartWith('test');
+
+expect('username')->toEndWith('name');
+expect('spec')->not()->toEndWith('s');
+expect('spec')->notToEndtWith('s');
 ```
 
 #### Print Matching
