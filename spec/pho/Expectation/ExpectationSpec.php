@@ -482,6 +482,64 @@ describe('Expectation', function() {
         });
     });
 
+    context('toThrow', function() {
+        it('returns if callable threw the exception', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(function() {
+                    throw new \Exception('test');
+                });
+                $expect->toThrow('\Exception');
+            });
+        });
+
+        it('throws exception if callable throws a different exception', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(function() {
+                    throw new \Exception('test');
+                });
+                $expect->toThrow('\ErrorException');
+            });
+        });
+
+        it('throws exception if callable does not throw an exception', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(function() {
+                    return;
+                });
+                $expect->toThrow('\Exception');
+            });
+        });
+    });
+
+    context('notToThrow', function() {
+        it('throws an exception if the callable threw the exception', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(function() {
+                    throw new \Exception('test');
+                });
+                $expect->notToThrow('\Exception');
+            });
+        });
+
+        it('returns if callable throws a different exception', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(function() {
+                    throw new \Exception('test');
+                });
+                $expect->notToThrow('\ErrorException');
+            });
+        });
+
+        it('returns if callable does not throw an exception', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(function() {
+                    return;
+                });
+                $expect->notToThrow('\Exception');
+            });
+        });
+    });
+
     context('toMatch', function() {
         it('returns if the string matches the pattern', function() {
             shouldReturn(function() {

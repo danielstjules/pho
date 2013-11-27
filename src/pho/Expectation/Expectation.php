@@ -14,6 +14,7 @@ use pho\Expectation\Matcher\InclusionMatcher;
 use pho\Expectation\Matcher\ArrayKeyMatcher;
 
 use pho\Expectation\Matcher\PrintMatcher;
+use pho\Expectation\Matcher\ExceptionMatcher;
 
 use pho\Expectation\Matcher\PatternMatcher;
 use pho\Expectation\Matcher\PrefixMatcher;
@@ -234,6 +235,22 @@ class Expectation
     public function toPrint($value)
     {
         $matcher = new PrintMatcher($value);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual, a callable function, threw an exception
+     * of an expected class.
+     *
+     * @param   string               $exception Name of the expected class
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toThrow($exception)
+    {
+        $matcher = new ExceptionMatcher($exception);
         $this->test($matcher);
 
         return $this;

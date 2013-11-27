@@ -269,7 +269,7 @@ expect(-2)->not()->toBeWithin(-1, 0);
 expect(-2)->notToBeWithin(-1, 0);
 ```
 
-#### Print Matching
+#### Closure Matching
 
 ``` php
 $callable = function() {
@@ -279,6 +279,14 @@ $callable = function() {
 expect($callable)->toPrint('test');
 expect($callable)->not()->toPrint('testing');
 expect($callable)->notToPrint('testing');
+
+$callable = function() {
+  throw new Custom\ExceptionException('error!');
+};
+
+expect($callable)->toThrow('Custom\ExceptionException');
+expect($callable)->not()->toThrow('\ErrorException');
+expect($callable)->notToThrow('\ErrorException');
 ```
 
 ## Reporters
