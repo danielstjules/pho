@@ -11,7 +11,7 @@ class PrintMatcher extends AbstractMatcher implements MatcherInterface
     /**
      * Creates a new PrintMatcher for comparing to an expected output.
      *
-     * @param mixed $expected The expected output
+     * @param string $expected The expected output
      */
     public function __construct($expected)
     {

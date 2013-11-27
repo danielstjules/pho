@@ -29,9 +29,9 @@ describe('PrintMatcher', function() {
                 echo 'testing' . PHP_EOL;
             };
 
-            $matcher = new PrintMatcher('testing' . PHP_EOL);
-            if (!$matcher->match($callable)) {
-                throw new \Exception('Does not return true');
+            $matcher = new PrintMatcher('testing');
+            if ($matcher->match($callable)) {
+                throw new \Exception('Does not return false');
             }
         });
     });

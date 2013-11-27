@@ -281,10 +281,10 @@ expect($callable)->not()->toPrint('testing');
 expect($callable)->notToPrint('testing');
 
 $callable = function() {
-  throw new Custom\ExceptionException('error!');
+  throw new Custom\Exception('error!');
 };
 
-expect($callable)->toThrow('Custom\ExceptionException');
+expect($callable)->toThrow('Custom\Exception');
 expect($callable)->not()->toThrow('\ErrorException');
 expect($callable)->notToThrow('\ErrorException');
 ```
