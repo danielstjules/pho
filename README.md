@@ -9,7 +9,9 @@ Feature requests and pull requests welcome!
  * [Writing Specs](#writing-specs)
  * [Running Specs](#running-specs)
  * [Expectations/Matchers](#expectationsmatchers)
+ * [Custom Matchers](#custom-matchers)
  * [Reporters](#reporters)
+ * [Mocking](#mocking)
  * [Namespace](#namespace)
  * [Options](#options)
 
@@ -293,6 +295,10 @@ expect($callable)->not()->toThrow('\ErrorException');
 expect($callable)->notToThrow('\ErrorException');
 ```
 
+## Custom Matchers
+
+Coming soon!
+
 ## Reporters
 
 #### dot (default)
@@ -332,6 +338,12 @@ Finished in 0.00106 seconds
 
 2 specs, 1 failure
 ```
+
+## Mocking
+
+Pho doesn't currently provide mocks/stubs out of the box. Instead, it's suggested
+that a mocking framework such as [prophecy](https://github.com/phpspec/prophecy)
+or [mockery](https://github.com/padraic/mockery) be used.
 
 ## Namespace
 
