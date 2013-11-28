@@ -24,23 +24,30 @@ describe('Spec', function() {
         expect($run)->toPrint('testvalue');
     });
 
-    context('passed', function() {
-        it('returns true if no exception was thrown', function() {
+    context('getResult', function() {
+        it('returns PASSED if no exception was thrown', function() {
             $closure = function() {};
             $spec = new Spec('spec', $closure, $this->suite);
             $spec->run();
 
-            expect($spec->passed())->toBeTrue();
+            expect($spec->getResult())->toBe(Spec::PASSED);
         });
 
-        it('returns false if an exception was thrown', function() {
+        it('returns FAILED if an exception was thrown', function() {
             $closure = function() {
                 throw new \Exception('exception');
             };
             $spec = new Spec('spec', $closure, $this->suite);
             $spec->run();
 
-            expect($spec->passed())->toBeFalse();
+            expect($spec->getResult())->toBe(Spec::FAILED);
+        });
+
+        it('returns INCOMPLETE if no closure was ran', function() {
+            $spec = new Spec('spec', null, $this->suite);
+            $spec->run();
+
+            expect($spec->getResult())->toBe(Spec::INCOMPLETE);
         });
     });
 

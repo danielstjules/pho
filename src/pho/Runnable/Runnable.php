@@ -15,8 +15,8 @@ abstract class Runnable
     protected $suite;
 
     /**
-     * Invokes a Runnable object's $closure closure, setting a error handler
-     * and catching all uncaught exceptions.
+     * Invokes a Runnable object's $closure, setting an error handler and
+     * catching all uncaught exceptions.
      */
     public function run()
     {

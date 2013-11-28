@@ -66,7 +66,7 @@ class Runner
      * @param string   $title   A title to be associated with the spec
      * @param \Closure $closure The closure to invoke when the spec is ran
      */
-    public function it($title, \Closure $closure)
+    public function it($title, \Closure $closure = null)
     {
         $spec = new Spec($title, $closure, $this->current);
         $this->current->addSpec($spec);

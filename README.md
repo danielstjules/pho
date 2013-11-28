@@ -59,6 +59,8 @@ describe('A suite', function() {
     it('can have specs that fail', function() {
         expect(false)->not()->toBe(false);
     });
+
+    it('can have incomplete specs');
 });
 ```
 

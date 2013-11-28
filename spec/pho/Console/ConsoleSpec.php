@@ -62,7 +62,7 @@ describe('Console', function() {
 
             it('prints version info', function() {
                 expect($this->printContents)
-                    ->toEqual('pho version 0.0.1' . PHP_EOL);
+                    ->toMatch('/pho version \d.\d.\d/');
             });
         });
 

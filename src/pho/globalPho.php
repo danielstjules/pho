@@ -35,7 +35,7 @@ function context($title, \Closure $closure)
  * @param string   $title   A title associated with this spec
  * @param \Closure $closure The closure associated with the spec
  */
-function it($title, \Closure $closure)
+function it($title, \Closure $closure = null)
 {
     pho\it($title, $closure);
 }

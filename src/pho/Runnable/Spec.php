@@ -6,7 +6,15 @@ use pho\Suite\Suite;
 
 class Spec extends Runnable
 {
+    const PASSED = 'passed';
+
+    const FAILED = 'failed';
+
+    const INCOMPLETE = 'incomplete';
+
     private $title;
+
+    private $result;
 
     /**
      * Constructs a Spec, to be associated with a particular suite, and ran
@@ -16,11 +24,31 @@ class Spec extends Runnable
      * @param \Closure $closure The closure to invoke when the spec is called
      * @param Suite    $suite   The suite within which this spec was defined
      */
-    public function __construct($title, \Closure $closure, Suite $suite)
+    public function __construct($title, \Closure $closure = null, Suite $suite)
     {
         $this->title = $title;
         $this->suite = $suite;
-        $this->closure = $closure->bindTo($suite);
+
+        if ($closure) {
+            $this->closure = $closure->bindTo($suite);
+        }
+    }
+
+    /**
+     * Invokes Runnable::run(), storing any exception in the corresponding
+     * property, followed by setting the specs' result.
+     */
+    public function run()
+    {
+        parent::run();
+
+        if ($this->closure && !$this->exception) {
+            $this->result = self::PASSED;
+        } elseif ($this->closure) {
+            $this->result = self::FAILED;
+        } else {
+            $this->result = self::INCOMPLETE;
+        }
     }
 
     /**
@@ -34,14 +62,12 @@ class Spec extends Runnable
     }
 
     /**
-     * Returns whether or not the spec passed, based on the existence of an
-     * exception in the object's $exception property.
-     *
-     * @return boolean True if the spec passed, false if it failed
+     * Returns the result of the spec, which after running, is one of PASSED,
+     * FAILED, or INCOMPLETE.
      */
-    public function passed()
+    public function getResult()
     {
-        return (!$this->exception instanceof \Exception);
+        return $this->result;
     }
 
     /**

@@ -18,6 +18,8 @@ abstract class AbstractReporter
 
     protected $failedSpecs;
 
+    protected $incompleteSpecs;
+
     /**
      * Inherited by Reporter classes to generate console output when pho is
      * ran using the command line.
@@ -74,8 +76,10 @@ abstract class AbstractReporter
         }
 
         $failedCount = count($this->failedSpecs);
+        $incompleteCount = count($this->incompleteSpecs);
         $specs = ($this->specCount == 1) ? 'spec' : 'specs';
         $failures = ($failedCount == 1) ? 'failure' : 'failures';
+        $incomplete = ($incompleteCount) ? ", $incompleteCount incomplete" : '';
 
         // Print ASCII art if enabled
         if ($this->console->options['ascii']) {
@@ -83,7 +87,8 @@ abstract class AbstractReporter
             $this->drawAscii();
         }
 
-        $summaryText = "\n{$this->specCount} $specs, $failedCount $failures";
+        $summaryText = "\n{$this->specCount} $specs, $failedCount $failures" .
+                       $incomplete;
 
         // Generate the summary based on whether or not it passed
         if ($failedCount) {

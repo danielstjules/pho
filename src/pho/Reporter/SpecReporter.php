@@ -80,9 +80,12 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
     {
         $leftPad = str_repeat(' ', self::TAB_SIZE * $this->depth);
 
-        if (!$spec->passed()) {
+        if ($spec->getResult() === Spec::FAILED) {
             $this->failedSpecs[] = $spec;
             $title = $this->formatter->red($spec->getTitle());
+        } else if ($spec->getResult() === Spec::INCOMPLETE) {
+            $this->incompleteSpecs[] = $spec;
+            $title = $this->formatter->cyan($spec->getTitle());
         } else {
             $title = $this->formatter->grey($spec->getTitle());
         }
