@@ -29,16 +29,6 @@ describe('AbstractReporter', function() {
     $reporter = new MockReporter($console);
     $this->reporter = $reporter;
 
-    context('beforeRun', function() {
-        it('prints a newline', function() {
-            $this->getParent()->reporter;
-            $beforeRun = function() {
-                $this->reporter->beforeRun();
-            };
-            expect($beforeRun)->toPrint(PHP_EOL);
-        });
-    });
-
     context('afterRun', function() {
         before(function() {
             // Add a spec and run corresponding reporter hooks

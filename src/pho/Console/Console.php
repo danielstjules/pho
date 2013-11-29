@@ -36,7 +36,7 @@ class Console
         // 'verbose'   => ['--verbose',   '-V', 'Enable verbose output']
     ];
 
-    private $reporters = ['dot', 'spec'];
+    private $reporters = ['dot', 'spec', 'list'];
 
     private $defaultDirs = ['test', 'spec'];
 

@@ -6,15 +6,12 @@ use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
-class SpecReporter extends AbstractReporter implements ReporterInterface
+class ListReporter extends AbstractReporter implements ReporterInterface
 {
-    const TAB_SIZE = 4;
-
     private $depth;
 
     /**
-     * Creates a SpecReporter object, used to render a nested view of test
-     * suites and specs.
+     * Creates a ListReporter object, used to render a list of specs.
      *
      * @param Console $console A console for writing output
      */
@@ -34,10 +31,6 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
         if ($this->depth == 0) {
             $this->console->writeLn('');
         }
-
-        $leftPad = str_repeat(' ', self::TAB_SIZE * $this->depth);
-        $title = $suite->getTitle();
-        $this->console->writeLn($leftPad . $title);
 
         $this->depth += 1;
     }
@@ -70,18 +63,16 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
      */
     public function afterSpec(Spec $spec)
     {
-        $leftPad = str_repeat(' ', self::TAB_SIZE * $this->depth);
-
         if ($spec->getResult() === Spec::FAILED) {
             $this->failedSpecs[] = $spec;
-            $title = $this->formatter->red($spec->getTitle());
+            $title = $this->formatter->red($spec);
         } else if ($spec->getResult() === Spec::INCOMPLETE) {
             $this->incompleteSpecs[] = $spec;
-            $title = $this->formatter->cyan($spec->getTitle());
+            $title = $this->formatter->cyan($spec);
         } else {
-            $title = $this->formatter->grey($spec->getTitle());
+            $title = $this->formatter->grey($spec);
         }
 
-        $this->console->writeLn($leftPad . $title);
+        $this->console->writeLn($title);
     }
 }

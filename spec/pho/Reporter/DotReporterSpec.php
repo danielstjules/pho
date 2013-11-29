@@ -63,7 +63,7 @@ describe('DotReporter', function() {
             expect($afterSpec)->toPrint('.');
         });
 
-        it('prints an F if a spec failed', function() {
+        it('prints an F in red if a spec failed', function() {
             $suite = new Suite('test', function(){});
             $spec = new Spec('testspec', function() {
                 throw new \Exception('test');
@@ -76,6 +76,19 @@ describe('DotReporter', function() {
 
             $console = $this->console;
             expect($afterSpec)->toPrint($console->formatter->red('F'));
+        });
+
+        it('prints an I in cyan if incomplete', function() {
+            $suite = new Suite('test', function(){});
+            $spec = new Spec('testspec', null, $suite);
+            $spec->run();
+
+            $afterSpec = function() use ($spec) {
+                $this->reporter->afterSpec($spec);
+            };
+
+            $console = $this->console;
+            expect($afterSpec)->toPrint($console->formatter->cyan('I'));
         });
     });
 });

@@ -25,6 +25,14 @@ class DotReporter extends AbstractReporter implements ReporterInterface
     }
 
     /**
+     * Ran prior to test suite execution to print a new line.
+     */
+    public function beforeRun()
+    {
+        $this->console->writeLn('');
+    }
+
+    /**
      * Ran before an individual spec.
      *
      * @param Spec $spec The spec before which to run this method

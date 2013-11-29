@@ -308,17 +308,17 @@ Coming soon!
 ```
 $ pho --reporter dot exampleSpec.php
 
-.F
+.FI
 
 Failures:
 
 "A suite can have specs that fail" FAILED
-/Users/danielstjules/Desktop/exampleSpec.php:9
+/Users/danielstjules/GitHub/pho/exampleSpec.php:9
 Expected false not to be false
 
-Finished in 0.00103 seconds
+Finished in 0.00125 seconds
 
-2 specs, 1 failure
+3 specs, 1 failure, 1 incomplete
 ```
 
 #### spec
@@ -329,16 +329,37 @@ $ pho --reporter spec exampleSpec.php
 A suite
     contains specs with expectations
     can have specs that fail
+    can have incomplete specs
 
 Failures:
 
 "A suite can have specs that fail" FAILED
-/Users/danielstjules/Desktop/exampleSpec.php:9
+/Users/danielstjules/GitHub/pho/exampleSpec.php:9
 Expected false not to be false
 
-Finished in 0.00106 seconds
+Finished in 0.0012 seconds
 
-2 specs, 1 failure
+3 specs, 1 failure, 1 incomplete
+```
+
+#### list
+
+```
+$ pho --reporter list exampleSpec.php
+
+A suite contains specs with expectations
+A suite can have specs that fail
+A suite can have incomplete specs
+
+Failures:
+
+"A suite can have specs that fail" FAILED
+/Users/danielstjules/GitHub/pho/exampleSpec.php:9
+Expected false not to be false
+
+Finished in 0.0012 seconds
+
+3 specs, 1 failure, 1 incomplete
 ```
 
 ## Mocking
