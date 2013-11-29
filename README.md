@@ -313,7 +313,7 @@ $ pho --reporter dot exampleSpec.php
 Failures:
 
 "A suite can have specs that fail" FAILED
-/Users/danielstjules/GitHub/pho/exampleSpec.php:9
+/Users/danielstjules/Desktop/exampleSpec.php:9
 Expected false not to be false
 
 Finished in 0.00125 seconds
@@ -334,7 +334,7 @@ A suite
 Failures:
 
 "A suite can have specs that fail" FAILED
-/Users/danielstjules/GitHub/pho/exampleSpec.php:9
+/Users/danielstjules/Desktop/exampleSpec.php:9
 Expected false not to be false
 
 Finished in 0.0012 seconds
@@ -354,7 +354,7 @@ A suite can have incomplete specs
 Failures:
 
 "A suite can have specs that fail" FAILED
-/Users/danielstjules/GitHub/pho/exampleSpec.php:9
+/Users/danielstjules/Desktop/exampleSpec.php:9
 Expected false not to be false
 
 Finished in 0.0012 seconds
