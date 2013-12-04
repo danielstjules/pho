@@ -297,10 +297,6 @@ expect($callable)->not()->toThrow('\ErrorException');
 expect($callable)->notToThrow('\ErrorException');
 ```
 
-## Custom Matchers
-
-Coming soon!
-
 ## Reporters
 
 #### dot (default)
