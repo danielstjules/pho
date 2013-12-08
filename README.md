@@ -9,7 +9,6 @@ Feature requests and pull requests welcome!
  * [Writing Specs](#writing-specs)
  * [Running Specs](#running-specs)
  * [Expectations/Matchers](#expectationsmatchers)
- * [Custom Matchers](#custom-matchers)
  * [Reporters](#reporters)
  * [Mocking](#mocking)
  * [Namespace](#namespace)
