@@ -120,25 +120,21 @@ describe('Suite with Hooks', function() {
     $this->count = 0;
 
     beforeEach(function() {
-        $count = $this->count;
-        $this->count = $count + 1;
+        $this->count = $this->count + 1;
     });
 
     it('has a count equal to 1', function() {
-        $count = $this->count;
-        expect($count)->toEqual(1);
+        expect($this->count)->toEqual(1);
         // A single beforeEach ran
     });
 
     context('nested suite', function() {
         beforeEach(function() {
-            $count = $this->count;
-            $this->count = $count + 1;
+            $this->count = $this->count + 1;
         });
 
         it('has a count equal to 3', function() {
-            $count = $this->count;
-            expect($count)->toEqual(3);
+            expect($this->count)->toEqual(3);
             // Both beforeEach closures incremented the value
         });
     });
