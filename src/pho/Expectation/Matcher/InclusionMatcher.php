@@ -4,42 +4,74 @@ namespace pho\Expectation\Matcher;
 
 class InclusionMatcher extends AbstractMatcher implements MatcherInterface
 {
-    private $needle;
+    private $needles;
+
+    private $matchAll;
 
     private $haystack;
 
     private $type;
 
+    private $found;
+
+    private $missing;
+
     /**
-     * Creates a new InclusionMatcher for testing whether or not some needle
-     * value is included in an array or as a substring of a string.
+     * Creates a new InclusionMatcher for testing whether or not the values in
+     * the $needles array are included in an array or as a substring of a
+     * string.
      *
-     * @param int $needle The string or element to check for inclusion
+     * @param array   $needles  The strings or elements to check for inclusion
+     * @param boolean $matchAll Whether or not to match all needles, or any
      */
-    public function __construct($needle)
+    public function __construct($needles, $matchAll = true)
     {
-        $this->needle = $needle;
+        $this->needles = $needles;
+        $this->matchAll = $matchAll;
     }
 
     /**
-     * Checks whether or not the needle is found in the supplied $haystack.
-     * Returns true if the value if the needle is found, false otherwise.
+     * Checks whether or not the needles are found in the supplied $haystack.
+     * Returns true if the needles are found, false otherwise.
      *
      * @param  mixed   $haystack An array or string through which to search
-     * @return boolean Whether or not the needle was found
+     * @return boolean Whether or not the needles were found
      * @throws \InvalidArgumentException If $haystack isn't an array or string
      */
     public function match($haystack)
     {
-        if (is_string($haystack)) {
-            $this->type = 'string';
-            return (strpos($haystack, $this->needle) !== false);
-        } elseif (is_array($haystack)) {
-            $this->type = 'array';
-            return (in_array($this->needle, $haystack));
+        $this->found = [];
+        $this->missing = [];
+
+        if (!is_string($haystack) && !is_array($haystack)) {
+            throw new \InvalidArgumentException('Argument must be an array or string');
         }
 
-        throw new \InvalidArgumentException('Argument must be an array or string');
+        if (is_string($haystack)) {
+            $this->type = 'string';
+            foreach ($this->needles as $needle) {
+                if (strpos($haystack, $needle) !== false) {
+                    $this->found[] = $needle;
+                } else {
+                    $this->missing[] = $needle;
+                }
+            }
+        } elseif (is_array($haystack)) {
+            $this->type = 'array';
+            foreach ($this->needles as $needle) {
+                if (in_array($needle, $haystack)) {
+                    $this->found[] = $needle;
+                } else {
+                    $this->missing[] = $needle;
+                }
+            }
+        }
+
+        if ($this->matchAll) {
+            return (count($this->missing) === 0);
+        }
+
+        return (count($this->found) > 0);
     }
 
     /**
@@ -52,9 +84,11 @@ class InclusionMatcher extends AbstractMatcher implements MatcherInterface
     public function getFailureMessage($inverse = false)
     {
         if (!$inverse) {
-            return "Expected {$this->type} to contain {$this->needle}";
+            $missing = implode(', ', $this->missing);
+            return "Expected {$this->type} to contain {$missing}";
         } else {
-            return "Expected {$this->type} not to contain {$this->needle}";
+            $found = implode(', ', $this->found);
+            return "Expected {$this->type} not to contain {$found}";
         }
     }
 }

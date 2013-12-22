@@ -209,16 +209,16 @@ class Expectation
     }
 
     /**
-     * Tests whether or not $actual, a string or an array, contains a substring
-     * or an element with the supplied $value.
+     * Tests whether or not $actual, a string or an array, contains a variable
+     * number of substrings or elements.
      *
-     * @param   mixed                $value The value expected to be included
+     * @param   mixed                $value,.. The values expected to be included
      * @returns Expectation          The current expectation
      * @throws  ExpectationException If the positive or negative match fails
      */
-    public function toContain($value)
+    public function toContain()
     {
-        $matcher = new InclusionMatcher($value);
+        $matcher = new InclusionMatcher(func_get_args(), !$this->inverse);
         $this->test($matcher);
 
         return $this;
@@ -409,10 +409,10 @@ class Expectation
      * methods. This is done by removing the 'not' and converting the
      * first character to lowercase.
      *
-     * @param string $method The method to call
-     * @param mixed  $arg    An optional argument to pass to the method
+     * @param string $method    The method to call
+     * @param mixed  $arguments An optional argument to pass to the method
      */
-    public function __call($method, $argument = null)
+    public function __call($method, $arguments)
     {
         // Check if the method starts with 'not'
         if (strpos($method, 'not') === 0 && strlen($method) > 3) {
@@ -422,7 +422,7 @@ class Expectation
         // If method exists, call not() followed by the method
         if (isset($methodName) && method_exists($this, $methodName)) {
             $this->not();
-            call_user_func_array([$this, $methodName], $argument);
+            call_user_func_array([$this, $methodName], $arguments);
         } else {
             $exceptionMessage = "Call to undefined method: Expectation::$method";
             throw new \BadMethodCallException($exceptionMessage);

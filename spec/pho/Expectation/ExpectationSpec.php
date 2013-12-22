@@ -383,61 +383,125 @@ describe('Expectation', function() {
     });
 
     context('toContain', function() {
-        it('returns if the array contains the value', function() {
-            shouldReturn(function() {
-                $expect = new Expectation(['test', 'spec']);
-                $expect->toContain('spec');
+        context('with a single argument', function() {
+            it('returns if the array contains the value', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->toContain('spec');
+                });
+            });
+
+            it('throws exception if the value is not included', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->toContain('bdd');
+                });
+            });
+
+            it('returns if the string contains the substring', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation('testing');
+                    $expect->toContain('test');
+                });
+            });
+
+            it('throws exception if it the substring is not included', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation('testing');
+                    $expect->toContain('TEST');
+                });
             });
         });
 
-        it('throws exception if the array does not contain the value', function() {
-            shouldThrowException(function() {
-                $expect = new Expectation(['test', 'spec']);
-                $expect->toContain('bdd');
+        context('with multiple arguments', function() {
+            it('returns if the array contains all values', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->toContain('spec', 'test');
+                });
             });
-        });
 
-        it('returns if the string contains the substring', function() {
-            shouldReturn(function() {
-                $expect = new Expectation('testing');
-                $expect->toContain('test');
+            it('throws exception if not all values are included', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->toContain('test', 'bdd');
+                });
             });
-        });
 
-        it('throws exception if it does not contain the substring', function() {
-            shouldThrowException(function() {
-                $expect = new Expectation('testing');
-                $expect->toContain('TEST');
+            it('returns if the string contains the substring', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation('testing');
+                    $expect->toContain('test', 'ing');
+                });
+            });
+
+            it('throws exception if not all substrings are included', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation('testing');
+                    $expect->toContain('test', 'ing', 'TEST');
+                });
             });
         });
     });
 
     context('notToContain', function() {
-        it('returns if the array does not contain the value', function() {
-            shouldReturn(function() {
-                $expect = new Expectation(['test', 'spec']);
-                $expect->notToContain('bdd');
+        context('with a single argument', function() {
+            it('returns if the array does not contain the value', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->notToContain('bdd');
+                });
+            });
+
+            it('throws exception if the array contains the value', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->notToContain('spec');
+                });
+            });
+
+            it('returns if the string does not contain the substring', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation('testing');
+                    $expect->notToContain('TEST');
+                });
+            });
+
+            it('throws exception if it contains the substring', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation('testing');
+                    $expect->notToContain('test');
+                });
             });
         });
 
-        it('throws exception if the array contains the value', function() {
-            shouldThrowException(function() {
-                $expect = new Expectation(['test', 'spec']);
-                $expect->notToContain('spec');
+        context('with multiple arguments', function() {
+            it('returns if the array does not contain any of the values', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->notToContain('bdd', 'tests');
+                });
             });
-        });
 
-        it('returns if the string does not contain the substring', function() {
-            shouldReturn(function() {
-                $expect = new Expectation('testing');
-                $expect->notToContain('TEST');
+            it('throws exception if any value is included', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation(['test', 'spec']);
+                    $expect->notToContain('bdd', 'spec');
+                });
             });
-        });
 
-        it('throws exception if it contains the substring', function() {
-            shouldThrowException(function() {
-                $expect = new Expectation('testing');
-                $expect->notToContain('test');
+            it('returns if the string does not include any substring', function() {
+                shouldReturn(function() {
+                    $expect = new Expectation('testing');
+                    $expect->notToContain('TEST', 'ING');
+                });
+            });
+
+            it('throws exception if it includes a substring', function() {
+                shouldThrowException(function() {
+                    $expect = new Expectation('testing');
+                    $expect->notToContain('tests', 'test');
+                });
             });
         });
     });
