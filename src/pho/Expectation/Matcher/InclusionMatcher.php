@@ -83,12 +83,14 @@ class InclusionMatcher extends AbstractMatcher implements MatcherInterface
      */
     public function getFailureMessage($inverse = false)
     {
+        $quantifier = (!$this->matchAll) ? 'one of ' : '';
+
         if (!$inverse) {
             $missing = implode(', ', $this->missing);
-            return "Expected {$this->type} to contain {$missing}";
+            return "Expected {$this->type} to contain {$quantifier}{$missing}";
         } else {
             $found = implode(', ', $this->found);
-            return "Expected {$this->type} not to contain {$found}";
+            return "Expected {$this->type} not to contain {$quantifier}{$found}";
         }
     }
 }

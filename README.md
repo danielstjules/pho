@@ -227,6 +227,10 @@ expect('testing')->toContain('test', 'ing'); // Accepts multiple args
 expect(['tdd', 'test'])->not()->toContain('bdd', 'spec');
 expect(['tdd', 'test'])->notToContain('bdd', 'spec');
 
+expect('testing')->toContainAnyOf('test', 'spec');
+expect(['tdd', 'test'])->not()->toContainAnyOf('bdd', 'test');
+expect(['tdd', 'test'])->notToContainAnyOf('bdd', 'test');
+
 expect(['name' => 'pho'])->toHaveKey('name');
 expect(['name' => 'pho'])->not()->toHaveKey('id');
 expect(['name' => 'pho'])->notToHaveKey('id');

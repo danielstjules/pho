@@ -506,6 +506,66 @@ describe('Expectation', function() {
         });
     });
 
+    context('toContainAnyOf', function() {
+        it('returns if the array contains one of the values', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(['test', 'spec']);
+                $expect->toContainAnyOf('bdd', 'spec');
+            });
+        });
+
+        it('throws exception if none of the values are included', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(['test', 'spec']);
+                $expect->toContainAnyOf('tdd', 'bdd');
+            });
+        });
+
+        it('returns if the string contains one of the substrings', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('testing');
+                $expect->toContainAnyOf('spec', 'test');
+            });
+        });
+
+        it('throws exception if none of the substrings are found', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('testing');
+                $expect->toContainAnyOf('TEST', 'ING');
+            });
+        });
+    });
+
+    context('notToContainAnyOf', function() {
+        it('returns if the array does not contain any of the values', function() {
+            shouldReturn(function() {
+                $expect = new Expectation(['test', 'spec']);
+                $expect->notToContainAnyOf('bdd', 'tdd');
+            });
+        });
+
+        it('throws exception if any of the values are included', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation(['test', 'spec']);
+                $expect->notToContainAnyOf('tdd', 'test');
+            });
+        });
+
+        it('returns if the string does not contain any of the substrings', function() {
+            shouldReturn(function() {
+                $expect = new Expectation('testing');
+                $expect->notToContainAnyOf('bdd', 'spec');
+            });
+        });
+
+        it('throws exception if any of the substrings are found', function() {
+            shouldThrowException(function() {
+                $expect = new Expectation('testing');
+                $expect->notToContainAnyOf('TEST', 'ing');
+            });
+        });
+    });
+
     context('toPrint', function() {
         it('returns if callable printed the value', function() {
             shouldReturn(function() {
