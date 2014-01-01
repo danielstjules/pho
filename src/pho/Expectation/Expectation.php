@@ -212,29 +212,13 @@ class Expectation
      * Tests whether or not $actual, a string or an array, contains a variable
      * number of substrings or elements.
      *
-     * @param   mixed                $value,.. The values to be included
+     * @param   mixed                $value,.. The values expected to be included
      * @returns Expectation          The current expectation
      * @throws  ExpectationException If the positive or negative match fails
      */
     public function toContain()
     {
         $matcher = new InclusionMatcher(func_get_args(), !$this->inverse);
-        $this->test($matcher);
-
-        return $this;
-    }
-
-    /**
-     * Tests whether or not $actual, a string or an array, contains one of a
-     * variable number of substrings or elements.
-     *
-     * @param   mixed                $value,.. The values to look for
-     * @returns Expectation          The current expectation
-     * @throws  ExpectationException If the positive or negative match fails
-     */
-    public function toContainAnyOf()
-    {
-        $matcher = new InclusionMatcher(func_get_args(), false);
         $this->test($matcher);
 
         return $this;

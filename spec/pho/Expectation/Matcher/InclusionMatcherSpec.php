@@ -141,48 +141,24 @@ describe('InclusionMatcher', function() {
     });
 
     context('getFailureMessage', function() {
-        context('match all', function() {
-            it('lists the expected type and needle', function() {
-                $matcher = new InclusionMatcher(['Testing', 'Refactoring']);
-                $matcher->match('TestString');
-                $expected = 'Expected string to contain Testing, Refactoring';
+        it('lists the expected type and needle', function() {
+            $matcher = new InclusionMatcher(['Testing']);
+            $matcher->match('TestString');
+            $expected = 'Expected string to contain Testing';
 
-                if ($expected !== $matcher->getFailureMessage()) {
-                    throw new \Exception('Did not return expected failure message');
-                }
-            });
-
-            it('lists the expected type and needle with inversed logic', function() {
-                $matcher = new InclusionMatcher(['Test', 'String']);
-                $matcher->match('TestString');
-                $expected = 'Expected string not to contain Test, String';
-
-                if ($expected !== $matcher->getFailureMessage(true)) {
-                    throw new \Exception('Did not return expected failure message');
-                }
-            });
+            if ($expected !== $matcher->getFailureMessage()) {
+                throw new \Exception('Did not return expected failure message');
+            }
         });
 
-        context('match any', function() {
-            it('lists the expected type and needle', function() {
-                $matcher = new InclusionMatcher(['Testing', 'Specs'], false);
-                $matcher->match('TestString');
-                $expected = 'Expected string to contain one of Testing, Specs';
+        it('lists the expected type and needle with inversed logic', function() {
+            $matcher = new InclusionMatcher(['Test']);
+            $matcher->match('TestString');
+            $expected = 'Expected string not to contain Test';
 
-                if ($expected !== $matcher->getFailureMessage()) {
-                    throw new \Exception('Did not return expected failure message');
-                }
-            });
-
-            it('lists the expected type and needle with inversed logic', function() {
-                $matcher = new InclusionMatcher(['Test', 'String'], false);
-                $matcher->match('TestString');
-                $expected = 'Expected string not to contain one of Test, String';
-
-                if ($expected !== $matcher->getFailureMessage(true)) {
-                    throw new \Exception('Did not return expected failure message');
-                }
-            });
+            if ($expected !== $matcher->getFailureMessage(true)) {
+                throw new \Exception('Did not return expected failure message');
+            }
         });
     });
 });
