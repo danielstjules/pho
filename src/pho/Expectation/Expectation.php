@@ -30,6 +30,8 @@ class Expectation
 
     private $inverse;
 
+    private static $customMatchers = [];
+
     /**
      * Creates a new expectation for supplied value.
      *
@@ -39,6 +41,19 @@ class Expectation
     {
         $this->actual = $actual;
         $this->inverse = false;
+    }
+
+    /**
+     * Adds a custom matcher given a name (ie: toBeA), and the namespaced
+     * class as a string. The passed class is expected to implement
+     * pho\Expectation\Matcher\MatcherInterface.
+     *
+     * @param string $name            Method name to assign to the matcher
+     * @param string $namespacedClass The namespaced class
+     */
+    public static function addMatcher($name, $namespacedClass)
+    {
+        self::$customMatchers[$name] = $namespacedClass;
     }
 
     /**
@@ -387,6 +402,32 @@ class Expectation
     }
 
     /**
+     * Calls a custom matcher. The matcher is expected to implement
+     * pho\Expectation\Matcher\MatcherInterface. A new instance is created,
+     * and its match method is called with a variable number of arguments. If
+     * match returns false, getFailureMessage is passed as the description to
+     * an ExpectationException.
+     *
+     * @param   string               $name   The name of the custom matcher
+     * @param   mixed                $arg,.. Arguments to be passed
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    private function invokeCustomMatcher($name)
+    {
+        $class = self::$customMatchers[$name];
+        $args = array_slice(func_get_args(), 1);
+
+        $matcher = call_user_func_array(
+            [new \ReflectionClass($class), 'newInstance'],
+            $args
+        );
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
      * Runs the matcher with $actual, and throws an exception if the xor of the
      * returned value and $inverse is false.
      *
@@ -406,23 +447,34 @@ class Expectation
 
     /**
      * Attempts to resolve calls to the 'not' versions of the Expectation
-     * methods. This is done by removing the 'not' and converting the
+     * methods, as well as any additional custom matchers. Resolving the
+     * negated versions is done by removing the 'not' and converting the
      * first character to lowercase.
      *
      * @param string $method    The method to call
-     * @param mixed  $arguments An optional argument to pass to the method
+     * @param mixed  $arguments Optional arguments to pass to the method
      */
     public function __call($method, $arguments)
     {
         // Check if the method starts with 'not'
+        $negated = false;
         if (strpos($method, 'not') === 0 && strlen($method) > 3) {
             $methodName = lcfirst(substr($method, 3));
+            $negated = true;
         }
 
-        // If method exists, call not() followed by the method
-        if (isset($methodName) && method_exists($this, $methodName)) {
+        // If method exists, call not() followed by the method. Otherwise look
+        // through the custom matchers.
+        if ($negated && method_exists($this, $methodName)) {
             $this->not();
             call_user_func_array([$this, $methodName], $arguments);
+        } elseif (!$negated && isset(self::$customMatchers[$method])) {
+            $args = array_unshift($arguments, $method);
+            call_user_func_array([$this, 'invokeCustomMatcher'], $arguments);
+        } elseif ($negated && isset(self::$customMatchers[$methodName])) {
+            $this->not();
+            $args = array_unshift($arguments, $methodName);
+            call_user_func_array([$this, 'invokeCustomMatcher'], $arguments);
         } else {
             $exceptionMessage = "Call to undefined method: Expectation::$method";
             throw new \BadMethodCallException($exceptionMessage);
