@@ -9,6 +9,7 @@ Feature requests and pull requests welcome!
  * [Writing Specs](#writing-specs)
  * [Running Specs](#running-specs)
  * [Expectations/Matchers](#expectationsmatchers)
+ * [Custom Matchers](#custom-matchers)
  * [Reporters](#reporters)
  * [Mocking](#mocking)
  * [Namespace](#namespace)
@@ -294,6 +295,71 @@ $callable = function() {
 expect($callable)->toThrow('Custom\Exception');
 expect($callable)->not()->toThrow('\ErrorException');
 expect($callable)->notToThrow('\ErrorException');
+```
+
+## Custom Matchers
+
+Custom matchers can be added by creating a class that implements
+`pho\Expectation\Matcher\MatcherInterface` and registering the matcher with
+`pho\Expectation\Expectation::addMatcher()`. Below is an example of a basic
+matcher:
+
+``` php
+namespace example;
+
+use pho\Expectation\Matcher\MatcherInterface;
+
+class ExampleMatcher implements MatcherInterface
+{
+    protected $expectedValue;
+
+    public function __construct($expectedValue)
+    {
+        $this->expectedValue = $expectedValue;
+    }
+
+    public function match($actualValue)
+    {
+        return ($actualValue === $this->expectedValue);
+    }
+
+    public function getFailureMessage($inverse = false)
+    {
+        if (!$inverse) {
+            return "Expected value to be {$this->expectedValue}";
+        } else {
+            return "Expected value not to be {$this->expectedValue}";
+        }
+    }
+}
+```
+
+Registering it:
+
+``` php
+use pho\Expectation\Expectation;
+
+// Register the matcher
+Expectation::addMatcher('toHaveValue', '\example\ExampleMatcher');
+```
+
+And that's it! It's ready for use.
+
+``` php
+// Testing your newly created matcher
+describe('toHaveValue', function() {
+    it('returns if expectedValue and actualValue are strictly equal', function() {
+        expect(10)->toHaveValue(10);
+    });
+
+    it('throws ExpectationException otherwise', function() {
+        $callMatcher = function() {
+            expect(10)->notToHaveValue(10);
+        };
+
+        expect($callMatcher)->toThrow('\pho\Exception\ExpectationException');
+    });
+});
 ```
 
 ## Reporters
