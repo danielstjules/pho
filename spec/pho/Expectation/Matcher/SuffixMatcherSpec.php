@@ -41,7 +41,7 @@ describe('SuffixMatcher', function() {
             }
         });
 
-        it('lists the expected suffix with inversed logic', function() {
+        it('lists the expected suffix with negated logic', function() {
             $matcher = new SuffixMatcher('test');
             $matcher->match('test123');
             $expected = 'Expected "test123" not to end with "test"';

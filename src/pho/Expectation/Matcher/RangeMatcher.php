@@ -35,18 +35,18 @@ class RangeMatcher extends AbstractMatcher implements MatcherInterface
     }
 
     /**
-     * Returns an error message indicating why the match would have failed given
-     * the passed value. Returns the inverse of the message if $inverse is true.
+     * Returns an error message indicating why the match failed, and the
+     * negation of the message if $negated is true.
      *
-     * @param  boolean $inverse Whether or not to print the inverse message
+     * @param  boolean $negated Whether or not to print the negated message
      * @return string  The error message
      */
-    public function getFailureMessage($inverse = false)
+    public function getFailureMessage($negated = false)
     {
         $x = $this->start;
         $y = $this->end;
 
-        if (!$inverse) {
+        if (!$negated) {
             return "Expected {$this->actual} to be within [$x, $y]";
         } else {
             return "Expected {$this->actual} not to be within [$x, $y]";

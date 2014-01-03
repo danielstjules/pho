@@ -40,7 +40,7 @@ describe('LooseEqualityMatcher', function() {
             }
         });
 
-        it('lists the expected equality with inversed logic', function() {
+        it('lists the expected equality with negated logic', function() {
             $matcher = new LooseEqualityMatcher('test');
             $matcher->match('test');
             $expected = 'Expected "test" not to equal "test"';

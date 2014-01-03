@@ -323,9 +323,9 @@ class ExampleMatcher implements MatcherInterface
         return ($actualValue === $this->expectedValue);
     }
 
-    public function getFailureMessage($inverse = false)
+    public function getFailureMessage($negated = false)
     {
-        if (!$inverse) {
+        if (!$negated) {
             return "Expected value to be {$this->expectedValue}";
         } else {
             return "Expected value not to be {$this->expectedValue}";

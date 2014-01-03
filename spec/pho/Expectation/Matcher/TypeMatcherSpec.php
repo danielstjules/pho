@@ -40,7 +40,7 @@ describe('TypeMatcher', function() {
             }
         });
 
-        it('lists the expected and actual type with inversed logic', function() {
+        it('lists the expected and actual type with negated logic', function() {
             $matcher = new TypeMatcher('integer');
             $matcher->match(0);
             $expected = 'Expected a type other than integer';

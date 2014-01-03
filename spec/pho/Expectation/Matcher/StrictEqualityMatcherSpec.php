@@ -40,7 +40,7 @@ describe('StrictEqualityMatcher', function() {
             }
         });
 
-        it('lists the expected equality with inversed logic', function() {
+        it('lists the expected equality with negated logic', function() {
             $matcher = new StrictEqualityMatcher(null);
             $matcher->match(null);
             $expected = 'Expected null not to be null';

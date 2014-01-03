@@ -40,7 +40,7 @@ describe('MaximumMatcher', function() {
             }
         });
 
-        it('lists the maximum and actual values with inversed logic', function() {
+        it('lists the maximum and actual values with negated logic', function() {
             $matcher = new MaximumMatcher(2.2);
             $matcher->match(2.1999);
             $expected = 'Expected 2.1999 not to be less than 2.2';

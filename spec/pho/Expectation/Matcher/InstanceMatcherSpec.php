@@ -40,7 +40,7 @@ describe('InstanceMatcher', function() {
             }
         });
 
-        it('lists the expected type and needle with inversed logic', function() {
+        it('lists the expected type and needle with negated logic', function() {
             $matcher = new InstanceMatcher('stdClass');
             $matcher->match(new stdClass());
             $expected = 'Expected an instance other than stdClass';

@@ -151,7 +151,7 @@ describe('InclusionMatcher', function() {
             }
         });
 
-        it('lists the expected type and needle with inversed logic', function() {
+        it('lists the expected type and needle with negated logic', function() {
             $matcher = new InclusionMatcher(['Test']);
             $matcher->match('TestString');
             $expected = 'Expected string not to contain Test';

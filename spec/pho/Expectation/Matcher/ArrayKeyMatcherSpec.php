@@ -40,7 +40,7 @@ describe('ArrayKeyMatcher', function() {
             }
         });
 
-        it('lists the arraykey and actual values with inversed logic', function() {
+        it('lists the arraykey and actual values with negated logic', function() {
             $matcher = new ArraykeyMatcher('test');
             $matcher->match(['test' => 'value']);
             $expected = 'Expected array not to have the key "test"';

@@ -15,12 +15,12 @@ interface MatcherInterface
 
     /**
      * The method should return an error message indicating why the match would
-     * have failed. If the optional parameter $inverse is true, it should
+     * have failed. If the optional parameter $negated is true, it should
      * return a message corresponding to the negative match.
      *
-     * @param  boolean $inverse Whether to print a message corresponding
-     *                          to the positive match or its inverse
+     * @param  boolean $negated Whether to print a message corresponding
+     *                          to the positive match or its negated
      * @return string  The error message
      */
-    public function getFailureMessage($inverse = false);
+    public function getFailureMessage($negated = false);
 }

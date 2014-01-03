@@ -78,7 +78,7 @@ describe('ExceptionMatcher', function() {
             }
         });
 
-        it('lists expected and resulting output with inversed logic', function() {
+        it('lists expected and resulting output with negated logic', function() {
             $callable = function() {
                 throw new pho\Exception\ErrorException(E_ERROR, 'test');
             };

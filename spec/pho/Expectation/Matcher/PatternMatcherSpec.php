@@ -41,7 +41,7 @@ describe('PatternMatcher', function() {
             }
         });
 
-        it('lists the expected pattern with inversed logic', function() {
+        it('lists the expected pattern with negated logic', function() {
             $matcher = new PatternMatcher('/\w*/');
             $matcher->match('abc');
             $expected = 'Expected "abc" not to match /\w*/';

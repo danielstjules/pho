@@ -38,13 +38,13 @@ class ExceptionMatcher extends AbstractMatcher implements MatcherInterface
     }
 
     /**
-     * Returns an error message indicating why the match would have failed given
-     * the passed value. Returns the inverse of the message if $inverse is true.
+     * Returns an error message indicating why the match failed, and the
+     * negation of the message if $negated is true.
      *
-     * @param  boolean $inverse Whether or not to print the inverse message
+     * @param  boolean $negated Whether or not to print the negated message
      * @return string  The error message
      */
-    public function getFailureMessage($inverse = false)
+    public function getFailureMessage($negated = false)
     {
         $explanation = 'none thrown';
         if ($this->thrown) {
@@ -52,7 +52,7 @@ class ExceptionMatcher extends AbstractMatcher implements MatcherInterface
             $explanation = "got $class";
         }
 
-        if (!$inverse) {
+        if (!$negated) {
             return "Expected {$this->expected} to be thrown, {$explanation}";
         } else {
             return "Expected {$this->expected} not to be thrown";

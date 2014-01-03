@@ -40,7 +40,7 @@ describe('RangeMatcher', function() {
             }
         });
 
-        it('lists the range and actual values with inversed logic', function() {
+        it('lists the range and actual values with negated logic', function() {
             $matcher = new RangeMatcher(1.1, 10);
             $matcher->match(1.1);
             $expected = 'Expected 1.1 not to be within [1.1, 10]';

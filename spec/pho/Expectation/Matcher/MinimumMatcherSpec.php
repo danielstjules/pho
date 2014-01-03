@@ -40,7 +40,7 @@ describe('MinimumMatcher', function() {
             }
         });
 
-        it('lists the minimum and actual values with inversed logic', function() {
+        it('lists the minimum and actual values with negated logic', function() {
             $matcher = new MinimumMatcher(2);
             $matcher->match(3.1);
             $expected = 'Expected 3.1 not to be greater than 2';

@@ -28,7 +28,7 @@ class Expectation
 {
     private $actual;
 
-    private $inverse;
+    private $negated;
 
     private static $customMatchers = [];
 
@@ -40,7 +40,7 @@ class Expectation
     public function __construct($actual = null)
     {
         $this->actual = $actual;
-        $this->inverse = false;
+        $this->negated = false;
     }
 
     /**
@@ -57,13 +57,13 @@ class Expectation
     }
 
     /**
-     * Inverts the logic of the expectation, and returns the object.
+     * Negates the logic of the expectation, and returns the object.
      *
-     * @returns Expectation The object with inverted logic
+     * @returns Expectation The object with negated logic
      */
     public function not()
     {
-        $this->inverse = true;
+        $this->negated = true;
 
         return $this;
     }
@@ -233,7 +233,7 @@ class Expectation
      */
     public function toContain()
     {
-        $matcher = new InclusionMatcher(func_get_args(), !$this->inverse);
+        $matcher = new InclusionMatcher(func_get_args(), !$this->negated);
         $this->test($matcher);
 
         return $this;
@@ -429,7 +429,7 @@ class Expectation
 
     /**
      * Runs the matcher with $actual, and throws an exception if the xor of the
-     * returned value and $inverse is false.
+     * returned value and $negated is false.
      *
      * @param   MatcherInterface     $matcher
      * @returns Expectation          The current expectation
@@ -439,8 +439,8 @@ class Expectation
     {
         $match = $matcher->match($this->actual);
 
-        if (!($this->inverse xor $match)) {
-            $failureMessage = $matcher->getFailureMessage($this->inverse);
+        if (!($this->negated xor $match)) {
+            $failureMessage = $matcher->getFailureMessage($this->negated);
             throw new ExpectationException($failureMessage);
         }
     }

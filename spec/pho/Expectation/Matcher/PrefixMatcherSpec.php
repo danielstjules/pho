@@ -41,7 +41,7 @@ describe('PrefixMatcher', function() {
             }
         });
 
-        it('lists the expected prefix with inversed logic', function() {
+        it('lists the expected prefix with negated logic', function() {
             $matcher = new PrefixMatcher('test');
             $matcher->match('test123');
             $expected = 'Expected "test123" not to start with "test"';

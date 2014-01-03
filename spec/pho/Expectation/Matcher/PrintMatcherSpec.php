@@ -49,7 +49,7 @@ describe('PrintMatcher', function() {
             }
         });
 
-        it('lists expected and resulting output with inversed logic', function() {
+        it('lists expected and resulting output with negated logic', function() {
             $matcher = new PrintMatcher('testing');
             $matcher->match(function() {
                 echo 'testing';

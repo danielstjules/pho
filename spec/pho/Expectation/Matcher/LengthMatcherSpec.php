@@ -67,7 +67,7 @@ describe('LengthMatcher', function() {
             }
         });
 
-        it('lists the expected length with inversed logic', function() {
+        it('lists the expected length with negated logic', function() {
             $matcher = new LengthMatcher(3);
             $matcher->match(['a', 'b', 'c']);
             $expected = 'Expected array not to have a length of 3';
