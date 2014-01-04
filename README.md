@@ -343,23 +343,12 @@ use pho\Expectation\Expectation;
 Expectation::addMatcher('toHaveValue', '\example\ExampleMatcher');
 ```
 
-And that's it! It's ready for use.
+And that's it! You would now have access to the following:
 
 ``` php
-// Testing your newly created matcher
-describe('toHaveValue', function() {
-    it('returns if expectedValue and actualValue are strictly equal', function() {
-        expect(10)->toHaveValue(10);
-    });
-
-    it('throws ExpectationException otherwise', function() {
-        $callMatcher = function() {
-            expect(10)->notToHaveValue(10);
-        };
-
-        expect($callMatcher)->toThrow('\pho\Exception\ExpectationException');
-    });
-});
+expect($actual)->toHaveValue($expected);
+expect($actual)->not()->toHaveValue($expected);
+expect($actual)->notToHaveValue($expected);
 ```
 
 ## Reporters
