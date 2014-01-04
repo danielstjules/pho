@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Mock;
+namespace pho\spec\Expectation\Matcher;
 
 use pho\Expectation\Expectation;
 use pho\Expectation\Matcher\MatcherInterface;

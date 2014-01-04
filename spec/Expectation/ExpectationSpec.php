@@ -1,6 +1,6 @@
 <?php
 
-namespace spec;
+namespace pho\spec\Expectation;
 
 use pho\Expectation\Expectation;
 use pho\Exception\ExpectationException;
@@ -785,7 +785,8 @@ describe('Expectation', function() {
     context('custom matchers', function() {
         it('can be added with addMatcher', function() {
             shouldThrowException(function() {
-                Expectation::addMatcher('toTest', '\spec\Mock\MockMatcher');
+                Expectation::addMatcher('toTest',
+                    'pho\spec\Expectation\Matcher\MockMatcher');
                 $expect = new Expectation('a');
                 $expect->toTest('b');
             });
@@ -796,7 +797,8 @@ describe('Expectation', function() {
 
         it('can be called in their negated form', function() {
             shouldThrowException(function() {
-                Expectation::addMatcher('toTest', '\spec\Mock\MockMatcher');
+                Expectation::addMatcher('toTest',
+                    'pho\spec\Expectation\Matcher\MockMatcher');
                 $expect = new Expectation('a');
                 $expect->notToTest('a');
             });

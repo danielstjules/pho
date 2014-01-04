@@ -16,8 +16,12 @@
     "require": {
         "php": ">=5.4.0"
     },
+    "support": {
+        "issues": "https://github.com/danielstjules/pho/issues",
+        "source": "https://github.com/danielstjules/pho"
+    },
     "autoload": {
-        "psr-0": { "pho": "src/" }
+        "psr-4": { "pho\\": "src/" }
     },
     "bin": ["bin/pho"]
 }

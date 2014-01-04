@@ -25,4 +25,4 @@ if (!$composerInstall) {
 
 unset($composerInstall, $files, $file);
 
-require_once(realpath(dirname(__FILE__) . '/..') . '/src/pho/pho.php');
+require_once(realpath(dirname(__FILE__) . '/..') . '/src/pho.php');
