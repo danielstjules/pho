@@ -107,7 +107,7 @@ if ($console->getErrorStatus() !== null) {
 
 // Load global namespaced functions if required
 if (!$console->options['namespace']) {
-    $path = realpath(dirname(__FILE__) . '/globalPho.php');
+    $path = dirname(__FILE__) . '/globalPho.php';
     require_once($path);
 }
 
