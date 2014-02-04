@@ -115,41 +115,27 @@ ran. `beforeEach` and `afterEach` both run their closures once per spec. Note
 that `beforeEach` and `afterEach` are both stackable, and will apply to specs
 within nested suites.
 
-*Note*: Tests cannot be failed within a test hook. If you need to check
-expectations after running a spec, make sure you do so within the spec. In the
-following example this is achieved using the `$check` closure.
-
 ``` php
 describe('Suite with Hooks', function() {
     $this->count = 0;
-
-    $check = function() {
-        expect($this->count)->toBeGreaterThan(1);
-    };
 
     beforeEach(function() {
         $this->count = $this->count + 1;
     });
 
-    it('has a count equal to 1', function() use ($check) {
+    it('has a count equal to 1', function() {
         expect($this->count)->toEqual(1);
         // A single beforeEach ran
-
-        // Check any lingering expectations
-        $check();
     });
 
-    context('nested suite', function() use ($check) {
+    context('nested suite', function() {
         beforeEach(function() {
             $this->count = $this->count + 1;
         });
 
-        it('has a count equal to 3', function() use ($check) {
+        it('has a count equal to 3', function() {
             expect($this->count)->toEqual(3);
             // Both beforeEach closures incremented the value
-
-            // Check any lingering expectations
-            $check();
         });
     });
 });
@@ -431,6 +417,28 @@ Finished in 0.0012 seconds
 Pho doesn't currently provide mocks/stubs out of the box. Instead, it's suggested
 that a mocking framework such as [prophecy](https://github.com/phpspec/prophecy)
 or [mockery](https://github.com/padraic/mockery) be used.
+
+*Note*: Tests cannot be failed within a test hook. If you need to check
+mock object expectations after running a spec, make sure you do so within the
+spec body. In the following example this is achieved using the `$teardown`
+closure, although the name is not significant.
+
+```php
+describe("a suite", function () {
+    // Any last checks that could fail a test would go here
+    $this->teardown = function () {
+        Mockery::close();
+    });
+
+    it("should check mock object expectations", function () {
+        $mock = Mockery::mock('simplemock');
+        $mock->shouldReceive('foo')->with(5)->once()->andReturn(10);
+        expect($mock->foo(5))->toBe(10);
+
+        $this->teardown();
+    });
+});
+```
 
 ## Namespace
 
