@@ -112,7 +112,7 @@ describe('SomeClass', function() {
 Hooks are available for running functions as setups and teardowns. `before` is
 ran prior to any specs in a suite, and `after`, once all in the suite have been
 ran. `beforeEach` and `afterEach` both run their closures once per spec. Note
-that `beforeEach` and `afterEach` are both stacklable, and will apply to specs
+that `beforeEach` and `afterEach` are both stackable, and will apply to specs
 within nested suites.
 
 ``` php
@@ -417,6 +417,28 @@ Finished in 0.0012 seconds
 Pho doesn't currently provide mocks/stubs out of the box. Instead, it's suggested
 that a mocking framework such as [prophecy](https://github.com/phpspec/prophecy)
 or [mockery](https://github.com/padraic/mockery) be used.
+
+*Note*: Tests cannot be failed within a test hook. If you need to check
+mock object expectations after running a spec, make sure you do so within the
+spec body. In the following example this is achieved using the `$teardown`
+closure, although the name is not significant.
+
+```php
+describe("a suite", function () {
+    // Any last checks that could fail a test would go here
+    $this->teardown = function () {
+        Mockery::close();
+    });
+
+    it("should check mock object expectations", function () {
+        $mock = Mockery::mock('simplemock');
+        $mock->shouldReceive('foo')->with(5)->once()->andReturn(10);
+        expect($mock->foo(5))->toBe(10);
+
+        $this->teardown();
+    });
+});
+```
 
 ## Namespace
 
