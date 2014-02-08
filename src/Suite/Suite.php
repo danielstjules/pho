@@ -156,6 +156,7 @@ class Suite
      * Returns the value for the given key. If not defined within the suite's
      * store, tries to retrieve the value from the parent suite.
      *
+     * @param  mixed $key The key at which the value is stored
      * @return mixed The stored value, or null if none exists
      */
     public function __get($key)
@@ -170,13 +171,42 @@ class Suite
     }
 
     /**
-     * Sets the value stored at the given key for this suite.
+     * Invokes a callable stored at the given key. If not found in the suite's
+     * store, tries to retrieve the callable from the parent suite. Throws
+     * an exception if it does not exist.
      *
-     * @param mixed $key They key to update
-     * @param mixed $val The value to set at the given key
+     * @param  string $key       The key at which the callable is located
+     * @param  mixed  $arguments Optional arguments to pass to the function
+     * @throws BadFunctionCallException If no callable exists at the key
+     */
+    public function __call($key, $args = [])
+    {
+        if (isset($this->store[$key]) && is_callable($this->store[$key])) {
+            return call_user_func_array($this->store[$key], $args);
+        } elseif ($this->parent === null) {
+            throw new \BadFunctionCallException('No callable exists at the ' .
+                'given key');
+        }
+
+        return call_user_func_array([$this->parent, $key], $args);
+    }
+
+    /**
+     * Sets the value stored at the given key for this suite. Throws an
+     * exception if the key conflicts with the name of an existing method
+     * in the Suite class.
+     *
+     * @param  mixed      $key The key to update
+     * @param  mixed      $val The value to set at the given key
+     * @throws \Exception If a method with the key as a name exists
      */
     public function __set($key, $val)
     {
+        if (method_exists($this, $key)) {
+            throw new \Exception('Cannot set value in suite: key conflicts' .
+                'with an internal method');
+        }
+
         $this->store[$key] = $val;
     }
 }

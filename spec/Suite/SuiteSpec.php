@@ -29,6 +29,14 @@ describe('Suite', function() {
             expect($child->key2)->toEqual('childValue');
             expect($parent->key2)->toEqual('parentValue');
         });
+
+        it('throws an exception if it conflicts with a method', function() use ($child) {
+            $overwriteAttempt = function() {
+                $this->addSpec = 'should fail';
+            };
+
+            expect($overwriteAttempt)->toThrow('\Exception');
+        });
     });
 
     context('__get', function() use ($child, $parent) {
@@ -42,6 +50,44 @@ describe('Suite', function() {
 
         it('returns null if not found in parents', function() use ($child) {
             expect($child->randomkey)->toBeNull();
+        });
+    });
+
+    context('__call', function() use ($child, $parent) {
+        $parent->callable1 = function() {
+            return 'Callable 1';
+        };
+
+        $child->callable2 = function() {
+            return 'Callable 2';
+        };
+
+        $child->callableWithArgs = function($arg1, $arg2) {
+            return "$arg1 $arg2";
+        };
+
+        it('invokes the stored callable', function() use ($child) {
+            expect($child->callable2())->toBe('Callable 2');
+        });
+
+        it('invokes the stored callable with arguments', function() use ($child) {
+            $invokeCallable = function() use ($child) {
+                return $child->callableWithArgs('test', 'callable');
+            };
+
+            expect($invokeCallable())->toBe('test callable');
+        });
+
+        it("if not set, invokes the parent's callable", function() use ($child) {
+            expect($child->callable1())->toBe('Callable 1');
+        });
+
+        it('throws an exception if not found in the parent', function() use ($child) {
+            $callInvalidKey = function() use ($child) {
+                $child->invalidKey();
+            };
+
+            expect($callInvalidKey)->toThrow('\BadFunctionCallException');
         });
     });
 });
