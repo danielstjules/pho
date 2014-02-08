@@ -424,13 +424,13 @@ spec body. In the following example this is achieved using the `$teardown`
 closure, although the name is not significant.
 
 ```php
-describe("a suite", function () {
+describe('A suite', function() {
     // Any last checks that could fail a test would go here
-    $this->teardown = function () {
+    $this->teardown = function() {
         Mockery::close();
-    });
+    };
 
-    it("should check mock object expectations", function () {
+    it('should check mock object expectations', function() {
         $mock = Mockery::mock('simplemock');
         $mock->shouldReceive('foo')->with(5)->once()->andReturn(10);
         expect($mock->foo(5))->toBe(10);
