@@ -3,7 +3,6 @@
 namespace pho\Reporter;
 
 use pho\Console\Console;
-use pho\Suite\Suite;
 use pho\Runnable\Spec;
 
 class DotReporter extends AbstractReporter implements ReporterInterface
@@ -64,6 +63,10 @@ class DotReporter extends AbstractReporter implements ReporterInterface
             $this->incompleteSpecs[] = $spec;
             $incomplete = $this->formatter->cyan('I');
             $this->console->write($incomplete);
+        } else if ($spec->getResult() === Spec::PENDING) {
+            $this->pendingSpecs[] = $spec;
+            $pending = $this->formatter->yellow('P');
+            $this->console->write($pending);
         } else {
             $this->console->write('.');
         }

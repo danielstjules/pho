@@ -20,6 +20,8 @@ class Suite
 
     private $store;
 
+    private $pending;
+
     /**
      * Constructs a test suite, which may contain nested suites and specs. The
      * anonymous function passed to the constructor contains the body of the
@@ -37,6 +39,7 @@ class Suite
         $this->suites = [];
         $this->store = [];
         $this->parent = $parent;
+        $this->pending = false;
     }
 
     /**
@@ -98,6 +101,14 @@ class Suite
     }
 
     /**
+     * Mark Suite as pending.
+     */
+    public function setPending()
+    {
+        $this->pending = true;
+    }
+
+    /**
      * Returns an array of suites, which consists of nested suites.
      *
      * @return array The array of suites
@@ -114,6 +125,9 @@ class Suite
      */
     public function addSuite($suite)
     {
+        if (true === $this->pending) {
+            $suite->setPending();
+        }
         $this->suites[] = $suite;
     }
 

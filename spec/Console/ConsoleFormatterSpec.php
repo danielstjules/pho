@@ -52,6 +52,11 @@ describe('ConsoleFormatter', function() {
             expect($formattedText)->toEqual("\033[36mtest\033[0m");
         });
 
+        it('can set the color yellow', function() use ($formatter) {
+            $formattedText = $formatter->yellow('test');
+            expect($formattedText)->toEqual("\033[33mtest\033[0m");
+        });
+
         it('can set the color white', function() use ($formatter) {
             $formattedText = $formatter->white('test');
             expect($formattedText)->toEqual("\033[37mtest\033[0m");

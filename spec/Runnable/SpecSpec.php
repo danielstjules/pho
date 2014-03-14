@@ -49,6 +49,14 @@ describe('Spec', function() {
 
             expect($spec->getResult())->toBe(Spec::INCOMPLETE);
         });
+
+        it('returns PENDING if marked as pending', function() {
+            $spec = new Spec('spec', null, $this->suite);
+            $spec->setPending();
+            $spec->run();
+
+            expect($spec->getResult())->toBe(Spec::PENDING);
+        });
     });
 
     context('__toString', function() {

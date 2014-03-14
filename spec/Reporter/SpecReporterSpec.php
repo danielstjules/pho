@@ -104,5 +104,21 @@ describe('SpecReporter', function() {
             $specTitle = $console->formatter->cyan($this->spec->getTitle());
             expect($afterSpec)->toPrint($specTitle . PHP_EOL);
         });
+
+        it('prints the spec title in yellow if pending', function() {
+            $suite = new Suite('test', function(){});
+            $spec = new Spec('testspec', null, $suite);
+            $spec->setPending();
+            $spec->run();
+
+            $afterSpec = function() use ($spec) {
+                $reporter = new SpecReporter($this->console);
+                $reporter->afterSpec($spec);
+            };
+
+            $console = $this->console;
+            $specTitle = $console->formatter->yellow($this->spec->getTitle());
+            expect($afterSpec)->toPrint($specTitle . PHP_EOL);
+        });
     });
 });
