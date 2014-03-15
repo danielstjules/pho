@@ -18,6 +18,19 @@ function describe($title, \Closure $closure)
 }
 
 /**
+ * Calls the runner's xdescribe() method, creating a pending test suite with the provided
+ * closure.
+ *
+ * @param string   $title   A title associated with this suite
+ * @param \Closure $closure The closure associated with the suite, which may
+ *                          contain nested suites and specs
+ */
+function xdescribe($title, \Closure $closure)
+{
+    pho\xdescribe($title, $closure);
+}
+
+/**
  * An alias for describe. Creates a test suite with the given closure.
  *
  * @param string   $title   A title associated with this suite
@@ -30,6 +43,18 @@ function context($title, \Closure $closure)
 }
 
 /**
+ * An alias for xdescribe. Creates a pending test suite with the given closure.
+ *
+ * @param string   $title   A title associated with this suite
+ * @param \Closure $closure The closure associated with the suite, which may
+ *                          contain nested suites and specs
+ */
+function xcontext($title, \Closure $closure)
+{
+    pho\xcontext($title, $closure);
+}
+
+/**
  * Calls the runner's it() method, creating a test spec with the provided closure.
  *
  * @param string   $title   A title associated with this spec
@@ -38,6 +63,17 @@ function context($title, \Closure $closure)
 function it($title, \Closure $closure = null)
 {
     pho\it($title, $closure);
+}
+
+/**
+ * Calls the runner's xit() method, creating a pending test spec with the provided closure.
+ *
+ * @param string   $title   A title associated with this spec
+ * @param \Closure $closure The closure associated with the spec
+ */
+function xit($title, \Closure $closure = null)
+{
+    pho\xit($title, $closure);
 }
 
 /**

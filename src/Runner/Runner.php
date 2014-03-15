@@ -61,6 +61,34 @@ class Runner
     }
 
     /**
+     * Constructs a test Suite, assigning it the given title and anonymous
+     * function. If it's a child of another suite, a reference to the parent
+     * suite is stored. This is done by tracking the current and previously
+     * defined suites.
+     * After all, mark the Suit as pending.
+     *
+     * @param string   $title   A title to be associated with the suite
+     * @param \Closure $closure The closure to invoke when the suite is ran
+     */
+    public function xdescribe($title, \Closure $closure)
+    {
+        $previous = $this->current;
+        $suite = new Suite($title, $closure, $previous);
+        $suite->setPending();
+
+        // If current is null, this is the root suite for the file
+        if ($this->current === null) {
+            $this->suites[] = $suite;
+        } else {
+            $this->current->addSuite($suite);
+        }
+
+        $this->current = $suite;
+        $suite->getClosure()->__invoke();
+        $this->current = $previous;
+    }
+
+    /**
      * Constructs a new Spec, adding it to the list of specs in the current suite.
      *
      * @param string   $title   A title to be associated with the spec
@@ -69,6 +97,19 @@ class Runner
     public function it($title, \Closure $closure = null)
     {
         $spec = new Spec($title, $closure, $this->current);
+        $this->current->addSpec($spec);
+    }
+
+    /**
+     * Constructs a new Spec, adding it to the list of specs in the current suite and mark it as pending.
+     *
+     * @param string   $title   A title to be associated with the spec
+     * @param \Closure $closure The closure to invoke when the spec is ran
+     */
+    public function xit($title, \Closure $closure = null)
+    {
+        $spec = new Spec($title, $closure, $this->current);
+        $spec->setPending();
         $this->current->addSpec($spec);
     }
 
@@ -172,9 +213,9 @@ class Runner
                     $optionString .= "--$key $val ";
                 }
             }
-
+            
             // Run pho in another process and echo its stdout
-            $process = proc_open("pho $optionString $paths", $descriptor, $pipes);
+            $process = proc_open("{$_SERVER['SCRIPT_FILENAME']} {$optionString} {$paths}", $descriptor, $pipes);
 
             if (is_resource($process)) {
                 while ($buffer = fread($pipes[1], 16)) {

@@ -90,5 +90,19 @@ describe('DotReporter', function() {
             $console = $this->console;
             expect($afterSpec)->toPrint($console->formatter->cyan('I'));
         });
+
+        it('prints an P in yellow if pending', function() {
+            $suite = new Suite('test', function(){});
+            $spec = new Spec('testspec', null, $suite);
+            $spec->setPending();
+            $spec->run();
+
+            $afterSpec = function() use ($spec) {
+                $this->reporter->afterSpec($spec);
+            };
+
+            $console = $this->console;
+            expect($afterSpec)->toPrint($console->formatter->yellow('P'));
+        });
     });
 });

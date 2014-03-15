@@ -77,5 +77,21 @@ describe('ListReporter', function() {
             $specTitle = $console->formatter->cyan($this->spec);
             expect($afterSpec)->toPrint($specTitle . PHP_EOL);
         });
+
+        it('prints the full spec string in yellow if pending', function() {
+            $suite = new Suite('test', function(){});
+            $spec = new Spec('testspec', null, $suite);
+            $spec->setPending();
+            $spec->run();
+
+            $afterSpec = function() use ($spec) {
+                $reporter = new ListReporter($this->console);
+                $reporter->afterSpec($spec);
+            };
+
+            $console = $this->console;
+            $specTitle = $console->formatter->yellow($this->spec);
+            expect($afterSpec)->toPrint($specTitle . PHP_EOL);
+        });
     });
 });

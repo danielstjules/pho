@@ -2,6 +2,20 @@
 
 namespace pho\Console;
 
+/**
+ * Console formater class
+ *
+ * @package pho\Console
+ * @method string black(string $input) Set string color for console output to black
+ * @method string grey(string $input) Set string color for console output to grey
+ * @method string red(string $input) Set string color for console output to red
+ * @method string green(string $input) Set string color for console output to green
+ * @method string cyan(string $input) Set string color for console output to cyan
+ * @method string yellow(string $input) Set string color for console output to yellow
+ * @method string white(string $input) Set string color for console output to white
+ * @method string bold(string $input) Set string style for console output to bold
+ * @method string italic(string $input) Set string style for console output to italic
+ */
 class ConsoleFormatter
 {
     private static $foregroundColours = [
@@ -10,6 +24,7 @@ class ConsoleFormatter
         'red'   => ["\033[31m", "\033[0m"],
         'green' => ["\033[32m", "\033[0m"],
         'cyan'  => ["\033[36m", "\033[0m"],
+        'yellow'  => ["\033[33m", "\033[0m"],
         'white' => ["\033[37m", "\033[0m"],
     ];
 

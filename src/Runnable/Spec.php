@@ -12,9 +12,13 @@ class Spec extends Runnable
 
     const INCOMPLETE = 'incomplete';
 
+    const PENDING = 'pending';
+
     private $title;
 
     private $result;
+
+    private $pending;
 
     /**
      * Constructs a Spec, to be associated with a particular suite, and ran
@@ -35,19 +39,31 @@ class Spec extends Runnable
     }
 
     /**
+     * Mark a Spec as pending.
+     */
+    public function setPending()
+    {
+        $this->pending = true;
+    }
+
+    /**
      * Invokes Runnable::run(), storing any exception in the corresponding
      * property, followed by setting the specs' result.
      */
     public function run()
     {
-        parent::run();
-
-        if ($this->closure && !$this->exception) {
-            $this->result = self::PASSED;
-        } elseif ($this->closure) {
-            $this->result = self::FAILED;
+        if (true === $this->pending) {
+            $this->result = self::PENDING;
         } else {
-            $this->result = self::INCOMPLETE;
+            parent::run();
+
+            if ($this->closure && !$this->exception) {
+                $this->result = self::PASSED;
+            } elseif ($this->closure) {
+                $this->result = self::FAILED;
+            } else {
+                $this->result = self::INCOMPLETE;
+            }
         }
     }
 

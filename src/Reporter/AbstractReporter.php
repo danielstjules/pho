@@ -4,7 +4,6 @@ namespace pho\Reporter;
 
 use pho\Console\Console;
 use pho\Suite\Suite;
-use pho\Runnable\Spec;
 
 abstract class AbstractReporter
 {
@@ -20,6 +19,8 @@ abstract class AbstractReporter
 
     protected $incompleteSpecs;
 
+    protected $pendingSpecs;
+
     /**
      * Inherited by Reporter classes to generate console output when pho is
      * ran using the command line.
@@ -33,6 +34,8 @@ abstract class AbstractReporter
         $this->startTime = microtime(true);
         $this->specCount = 0;
         $this->failedSpecs = [];
+        $this->incompleteSpecs = [];
+        $this->pendingSpecs = [];
     }
 
     /**
@@ -77,9 +80,11 @@ abstract class AbstractReporter
 
         $failedCount = count($this->failedSpecs);
         $incompleteCount = count($this->incompleteSpecs);
+        $pendingCount = count($this->pendingSpecs);
         $specs = ($this->specCount == 1) ? 'spec' : 'specs';
         $failures = ($failedCount == 1) ? 'failure' : 'failures';
         $incomplete = ($incompleteCount) ? ", $incompleteCount incomplete" : '';
+        $pending = ($pendingCount) ? ", $pendingCount pending" : '';
 
         // Print ASCII art if enabled
         if ($this->console->options['ascii']) {
@@ -88,7 +93,7 @@ abstract class AbstractReporter
         }
 
         $summaryText = "\n{$this->specCount} $specs, $failedCount $failures" .
-                       $incomplete;
+                       $incomplete . $pending;
 
         // Generate the summary based on whether or not it passed
         if ($failedCount) {
