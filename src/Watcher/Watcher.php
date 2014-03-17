@@ -51,7 +51,7 @@ class Watcher
      * Adds a closure to be invoked when a path being watched is modified.
      * All listeners are invoked in the order in which they were added.
      *
-     * @param callbable $listener The listener to invoke on change
+     * @param \Closure $listener The listener to invoke on change
      */
     public function addListener(\Closure $listener)
     {
@@ -74,6 +74,7 @@ class Watcher
         } else {        
             $mask = IN_MODIFY | IN_ATTRIB | IN_CLOSE_WRITE | IN_MOVE | IN_CREATE | IN_DELETE | IN_DELETE_SELF | IN_MOVE_SELF;
             $elementList = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($path)));
+            /** @type $element \SplFileObject */
             foreach ($elementList as $element) {
                 if ($element->isDir()) {
                     $watchDescriptor = inotify_add_watch($this->inotify, $element->getRealPath(), $mask);
@@ -176,6 +177,7 @@ class Watcher
         $path = realpath($path);
         $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
+        /** @type $file \SplFileObject */
         foreach ($files as $file) {
             $modifiedTime = $file->getMTime();
             $this->modifiedTimes[$file->getRealPath()] = $modifiedTime;
