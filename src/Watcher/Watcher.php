@@ -23,26 +23,25 @@ class Watcher
 
         if (function_exists('inotify_init')) {
             $this->inotify = inotify_init();
-            
-            // use inotify without blocking
-            $read = array($this->inotify);
+
+            $read = [$this->inotify];
             $write = null;
             $except = null;
-            if (false !== stream_select($read, $write, $except, 0)) {
+
+            if (stream_select($read, $write, $except, 0) !== false) {
                 stream_set_blocking($this->inotify, 0);
             } else {
-                unset($this->inotify);
                 $this->inotify = null;
             }
         }
     }
-    
+
     /**
-     * Cleanup while destructing the instance of Watcher
+     * Cleans up the instance of Watcher by closing its inotify resource.
      */
     public function __destruct()
     {
-        if (!is_null($this->inotify)) {
+        if ($this->inotify) {
             fclose($this->inotify);
         }
     }
@@ -68,19 +67,28 @@ class Watcher
      */
     public function watchPath($path)
     {
-        if (is_null($this->inotify)) {
+        if (!$this->inotify) {
             $this->paths[] = $path;
             $this->addModifiedTimes($path);
-        } else {        
-            $mask = IN_MODIFY | IN_ATTRIB | IN_CLOSE_WRITE | IN_MOVE | IN_CREATE | IN_DELETE | IN_DELETE_SELF | IN_MOVE_SELF;
-            $elementList = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($path)));
-            /** @type $element \SplFileObject */
-            foreach ($elementList as $element) {
-                if ($element->isDir()) {
-                    $watchDescriptor = inotify_add_watch($this->inotify, $element->getRealPath(), $mask);
-                    $this->paths[$watchDescriptor] = $element->getRealPath();
-                }
+
+            return;
+        }
+
+        $mask = IN_MODIFY | IN_ATTRIB | IN_CLOSE_WRITE | IN_MOVE | IN_CREATE |
+                IN_DELETE | IN_DELETE_SELF | IN_MOVE_SELF;
+
+        $directoryIterator = new \RecursiveDirectoryIterator(realpath($path));
+        $subPaths = new \RecursiveIteratorIterator($directoryIterator);
+
+        // Iterate over instances of \SplFileObject
+        foreach ($subpaths as $subPath) {
+            if (!$subPath->isDir()) {
+                return;
             }
+
+            $watchDescriptor = inotify_add_watch($this->inotify,
+                $subPath->getRealPath(), $mask);
+            $this->paths[$watchDescriptor] = $subPath->getRealPath();
         }
     }
 
@@ -90,10 +98,10 @@ class Watcher
     public function watch()
     {
         while (true) {
-            if (is_null($this->inotify)) {
-                $this->watchTimeBased();
-            } else {
+            if ($this->inotify) {
                 $this->watchInotify();
+            } else {
+                $this->watchTimeBased();
             }
 
             sleep(1);
@@ -101,9 +109,9 @@ class Watcher
     }
 
     /**
-     * Monitor the paths for any changes based on the modify time information. When a change
-     * is detected, all listeners are invoked, and the list of paths is once
-     * again traversed to acquire updated modification timestamps.
+     * Monitor the paths for any changes based on the modify time information.
+     * When a change is detected, all listeners are invoked, and the list of
+     * paths is once again traversed to acquire updated modification timestamps.
      */
     private function watchTimeBased()
     {
@@ -131,32 +139,29 @@ class Watcher
     }
 
     /**
-     * Monitor the paths for any changes based on the modify time information. When a change
-     * is detected, all listeners are invoked, and the list of paths is once
-     * again traversed to acquire updated modification timestamps.
+     * Monitor the paths for any changes based on the modify time information.
+     * When a change is detected, all listeners are invoked, and the list of
+     * paths is once again traversed to acquire updated modification timestamps.
      */
     private function watchInotify()
     {
-        $modified = false;
+        if (($eventList = inotify_read($this->inotify)) === false) {
+            return;
+        }
 
-        if (false !== ($eventList = inotify_read($this->inotify))) {
-            $modified = true;
-            foreach ($eventList as $event) {
-                switch (true) {
-                    case ($event['mask'] & IN_DELETE_SELF):
-                    case ($event['mask'] & IN_MOVE_SELF):
-                        $watchDescriptor = $event['wd'];
-                        if (true === inotify_rm_watch($this->inotify, $watchDescriptor)) {
-                            unset($this->paths[$watchDescriptor]);
-                        }
-                        break;
+        foreach ($eventList as $event) {
+            $mask = $event['mask'];
+
+            if ($mask & IN_DELETE_SELF || $mask & IN_MOVE_SELF) {
+                $watchDescriptor = $event['wd'];
+                if (inotify_rm_watch($this->inotify, $watchDescriptor)) {
+                    unset($this->paths[$watchDescriptor]);
                 }
+                break;
             }
         }
 
-        if ($modified) {
-            $this->runListeners();
-        }
+        $this->runListeners();
     }
 
     /**
@@ -174,10 +179,10 @@ class Watcher
             return;
         }
 
-        $path = realpath($path);
-        $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+        $directoryIterator = new \RecursiveDirectoryIterator(realpath($path));
+        $files = new \RecursiveIteratorIterator($directoryIterator);
 
-        /** @type $file \SplFileObject */
+        // Iterate over instances of \SplFileObject
         foreach ($files as $file) {
             $modifiedTime = $file->getMTime();
             $this->modifiedTimes[$file->getRealPath()] = $modifiedTime;

@@ -1,4 +1,5 @@
 vendor/
 .DS_Store
 .idea
-/composer.phar
+composer.phar
+composer.lock
