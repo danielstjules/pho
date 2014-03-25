@@ -82,13 +82,11 @@ class Watcher
 
         // Iterate over instances of \SplFileObject
         foreach ($subpaths as $subPath) {
-            if (!$subPath->isDir()) {
-                return;
+            if ($subPath->isDir()) {
+                $watchDescriptor = inotify_add_watch($this->inotify,
+                    $subPath->getRealPath(), $mask);
+                $this->paths[$watchDescriptor] = $subPath->getRealPath();
             }
-
-            $watchDescriptor = inotify_add_watch($this->inotify,
-                $subPath->getRealPath(), $mask);
-            $this->paths[$watchDescriptor] = $subPath->getRealPath();
         }
     }
 
