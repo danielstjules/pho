@@ -213,7 +213,7 @@ class Runner
                     $optionString .= "--$key $val ";
                 }
             }
-            
+
             // Run pho in another process and echo its stdout
             $process = proc_open("{$_SERVER['SCRIPT_FILENAME']} {$optionString} {$paths}", $descriptor, $pipes);
 
