@@ -146,9 +146,11 @@ class ConsoleOptionParser
             // It's a valid option and accepts arguments, add the next argument
             // as its value. Otherwise, just set the option to true
             $option = $this->getConsoleOption($args[$i]);
-            if ($option->acceptsArguments() && $i < count($args)) {
-                $option->setValue($args[$i + 1]);
-                $i++;
+            if ($option->acceptsArguments()) {
+                if (isset($args[$i+1])) {
+                    $option->setValue($args[$i + 1]);
+                    $i++;
+                }
             } else {
                 $option->setValue(true);
             }

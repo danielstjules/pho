@@ -114,6 +114,21 @@ describe('ConsoleOptionParser', function() {
             ]);
         });
 
+        it('ignores option arguments at final position', function() use ($addOptions) {
+            $parser = new ConsoleOptionParser();
+            $addOptions($parser);
+
+            $parser->parseArguments(['--reporter']);
+            $options = $parser->getOptions();
+
+            expect($options)->toEqual([
+                'watch'    => false,
+                'ascii'    => false,
+                'reporter' => false,
+                'filter'   => false
+            ]);
+        });
+
         it('stores invalid options', function() use ($addOptions) {
             $parser = new ConsoleOptionParser();
             $addOptions($parser);
