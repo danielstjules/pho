@@ -1,9 +1,9 @@
-![pho](http://danielstjules.com/pho/logo.png)
+![pho](http://danielstjules.com/github/pho-logo.png)
 
 BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 Feature requests and pull requests welcome!
 
-[![Build Status](https://travis-ci.org/danielstjules/pho.png)](https://travis-ci.org/danielstjules/pho)
+[![Build Status](https://travis-ci.org/danielstjules/pho.svg?branch=master)](https://travis-ci.org/danielstjules/pho)
 
  * [Installation](#installation)
  * [Writing Specs](#writing-specs)
@@ -64,7 +64,7 @@ describe('A suite', function() {
 });
 ```
 
-![intro-screenshot](http://danielstjules.com/pho/intro.png)
+![intro-screenshot](http://danielstjules.com/github/pho-intro.png)
 
 Objects may be passed between suites and specs with php's `use` keyword. Here's
 an example:
@@ -149,7 +149,7 @@ ending with `Spec.php`, ie: userSpec.php. Furthermore, continuous testing is as
 easy as using the `--watch` option, which will monitor all files in the path for
 changes, and rerun specs on save.
 
-![watch](http://danielstjules.com/pho/watch2.gif)
+![watch](http://danielstjules.com/github/pho-watch.gif)
 
 ## Expectations/Matchers
 
