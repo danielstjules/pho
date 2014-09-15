@@ -136,6 +136,17 @@ describe('Console', function() {
             $expectedClass = 'pho\Reporter\SpecReporter';
             expect($console->getReporterClass())->toEqual($expectedClass);
         });
+        context('when reporter not found', function() {
+            before(function() {
+                $this->console = new Console(['-r', 'unkown'], 'php://output');
+                $this->console->parseArguments();
+            });
+            it('throw pho\Exception\ReporterNotFoundException exception', function() {
+                expect(function() {
+                    $this->console->getReporterClass();
+                })->toThrow('pho\Exception\ReporterNotFoundException');
+            });
+        });
     });
 
     context('write', function() {

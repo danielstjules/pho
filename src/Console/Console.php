@@ -3,10 +3,15 @@
 namespace pho\Console;
 
 use pho\Reporter;
+use ReflectionClass;
+use ReflectionException;
+use pho\Exception\ReporterNotFoundException;
 
 class Console
 {
     const VERSION = '1.0.0';
+
+    const DEFAULT_REPORTER = 'pho\\Reporter\\DotReporter';
 
     public  $formatter;
 
@@ -35,8 +40,6 @@ class Console
         // 'processes' => ['--processes', '-p', 'Number of processes to use', 'processes'],
         // 'verbose'   => ['--verbose',   '-V', 'Enable verbose output']
     ];
-
-    private $reporters = ['dot', 'spec', 'list'];
 
     private $defaultDirs = ['test', 'spec'];
 
@@ -73,17 +76,26 @@ class Console
      * command line arguments, defaulting to DotReporter if not specified.
      *
      * @return string The namespaced class name of the reporter
+     * @throws \pho\Exception\ReporterNotFoundException
      */
     public function getReporterClass()
     {
         $reporter = $this->options['reporter'];
 
-        if (!$reporter || !in_array($reporter, $this->reporters)) {
-            return 'pho\Reporter\DotReporter';
+        if ($reporter === false) {
+            return self::DEFAULT_REPORTER;
         }
 
         $reporterClass = ucfirst($reporter) . 'Reporter';
-        return "pho\\Reporter\\$reporterClass";
+        $reporterClass = "pho\\Reporter\\$reporterClass";
+
+        try {
+            $reflection = new ReflectionClass($reporterClass);
+        } catch (ReflectionException $exception) {
+            throw new ReporterNotFoundException($exception);
+        }
+
+        return $reflection->getName();
     }
 
     /**
