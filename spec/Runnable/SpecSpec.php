@@ -67,4 +67,93 @@ describe('Spec', function() {
             expect((string) $spec)->toEqual('TestSuite SpecTitle');
         });
     });
+
+    describe('isPassed', function() {
+        context('when passed', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
+                $this->spec->run();
+            });
+            it('return true', function() {
+                expect($this->spec->isPassed())->toBeTrue();
+            });
+        });
+        context('when not passed', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', function() {
+                    throw new Exception('faild');
+                }, $this->suite);
+                $this->spec->run();
+            });
+            it('return false', function() {
+                expect($this->spec->isPassed())->toBeFalse();
+            });
+        });
+    });
+
+    describe('isFailed', function() {
+        context('when failed', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', function() {
+                    throw new Exception('faild');
+                }, $this->suite);
+                $this->spec->run();
+            });
+            it('return true', function() {
+                expect($this->spec->isFailed())->toBeTrue();
+            });
+        });
+        context('when not failed', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
+                $this->spec->run();
+            });
+            it('return false', function() {
+                expect($this->spec->isFailed())->toBeFalse();
+            });
+        });
+    });
+
+    describe('isIncomplete', function() {
+        context('when incomplete', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', null, $this->suite);
+                $this->spec->run();
+            });
+            it('return true', function() {
+                expect($this->spec->isIncomplete())->toBeTrue();
+            });
+        });
+        context('when not incomplete', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
+                $this->spec->run();
+            });
+            it('return false', function() {
+                expect($this->spec->isIncomplete())->toBeFalse();
+            });
+        });
+    });
+
+    describe('isPending', function() {
+        context('when pending', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', null, $this->suite);
+                $this->spec->setPending();
+            });
+            it('return true', function() {
+                expect($this->spec->isPending())->toBeTrue();
+            });
+        });
+        context('when not pending', function() {
+            before(function() {
+                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
+                $this->spec->run();
+            });
+            it('return false', function() {
+                expect($this->spec->isPending())->toBeFalse();
+            });
+        });
+    });
+
 });
