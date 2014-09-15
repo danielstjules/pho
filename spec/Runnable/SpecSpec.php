@@ -2,7 +2,6 @@
 
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
-use pho\Runnable\Runnable;
 
 describe('Spec', function() {
     before(function() {
