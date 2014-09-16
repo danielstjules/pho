@@ -63,13 +63,13 @@ class ListReporter extends AbstractReporter implements ReporterInterface
      */
     public function afterSpec(Spec $spec)
     {
-        if ($spec->getResult() === Spec::FAILED) {
+        if ($spec->isFailed()) {
             $this->failedSpecs[] = $spec;
             $title = $this->formatter->red($spec);
-        } else if ($spec->getResult() === Spec::INCOMPLETE) {
+        } else if ($spec->isIncomplete()) {
             $this->incompleteSpecs[] = $spec;
             $title = $this->formatter->cyan($spec);
-        } else if ($spec->getResult() === Spec::PENDING) {
+        } else if ($spec->isPending()) {
             $this->pendingSpecs[] = $spec;
             $title = $this->formatter->yellow($spec);
         } else {
