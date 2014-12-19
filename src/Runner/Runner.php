@@ -168,6 +168,8 @@ class Runner
      */
     public function run()
     {
+        $this->bootstrap(self::$console->options['bootstrap']);
+        
         // Get and instantiate the reporter class, load files
         $reporterClass = self::$console->getReporterClass();
         $this->reporter = new $reporterClass(self::$console);
@@ -357,5 +359,36 @@ class Runner
         if ($runnable instanceof Runnable) {
             $runnable->run();
         }
+    }
+    
+    /**
+     * Load bootstrap file
+     * 
+     * @param $bootstrap
+     * @return bool
+     */
+    private function bootstrap($bootstrap) {
+
+        if($bootstrap === false) {
+            return false;
+        }
+
+        if(!file_exists($bootstrap)) {
+            self::$console->writeLn("File not found: $bootstrap, continuing anyway");
+            return false;
+        }
+
+        if(!is_readable($bootstrap)) {
+            self::$console->writeLn("File not readable: $bootstrap, continuing anyway");
+            return false;
+        }
+
+        if(! @include_once($bootstrap)) {
+            self::$console->writeLn("Unable to include: $bootstrap, continuing anyway");
+            return false;
+        }
+
+        return true;
+
     }
 }
