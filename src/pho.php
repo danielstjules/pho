@@ -20,8 +20,8 @@ function describe($title, \Closure $closure)
 }
 
 /**
- * Calls the runner's xdescribe() method, creating a pending test suite with the provided
- * closure.
+ * Calls the runner's xdescribe() method, creating a pending test suite with
+ * the provided closure.
  *
  * @param string   $title   A title associated with this suite
  * @param \Closure $closure The closure associated with the suite, which may
@@ -57,7 +57,8 @@ function xcontext($title, \Closure $closure)
 }
 
 /**
- * Calls the runner's it() method, creating a test spec with the provided closure.
+ * Calls the runner's it() method, creating a test spec with the provided
+ * closure.
  *
  * @param string   $title   A title associated with this spec
  * @param \Closure $closure The closure associated with the spec
@@ -68,7 +69,8 @@ function it($title, \Closure $closure = null)
 }
 
 /**
- * Calls the runner's xit() method, creating a pending test spec with the provided closure.
+ * Calls the runner's xit() method, creating a pending test spec with the
+ * provided closure.
  *
  * @param string   $title   A title associated with this spec
  * @param \Closure $closure The closure associated with the spec

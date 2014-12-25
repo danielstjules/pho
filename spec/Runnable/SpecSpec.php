@@ -68,91 +68,70 @@ describe('Spec', function() {
     });
 
     describe('isPassed', function() {
-        context('when passed', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
-                $this->spec->run();
-            });
-            it('return true', function() {
-                expect($this->spec->isPassed())->toBeTrue();
-            });
+        it('returns true when the spec passed', function() {
+            $spec = new Spec('SpecTitle', function(){}, $this->suite);
+            $spec->run();
+
+            expect($spec->isPassed())->toBeTrue();
         });
-        context('when not passed', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', function() {
-                    throw new Exception('faild');
-                }, $this->suite);
-                $this->spec->run();
-            });
-            it('return false', function() {
-                expect($this->spec->isPassed())->toBeFalse();
-            });
+
+        it('returns false when the spec did not pass', function() {
+            $spec = new Spec('SpecTitle', function() {
+                throw new Exception('failed');
+            }, $this->suite);
+            $spec->run();
+
+            expect($spec->isPassed())->toBeFalse();
         });
     });
 
     describe('isFailed', function() {
-        context('when failed', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', function() {
-                    throw new Exception('faild');
-                }, $this->suite);
-                $this->spec->run();
-            });
-            it('return true', function() {
-                expect($this->spec->isFailed())->toBeTrue();
-            });
+        it('returns true when the spec failed', function() {
+            $spec = new Spec('SpecTitle', function() {
+                throw new Exception('failed');
+            }, $this->suite);
+            $spec->run();
+
+            expect($spec->isFailed())->toBeTrue();
         });
-        context('when not failed', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
-                $this->spec->run();
-            });
-            it('return false', function() {
-                expect($this->spec->isFailed())->toBeFalse();
-            });
+
+        it('returns false when the spec did not fail', function() {
+            $spec = new Spec('SpecTitle', function(){}, $this->suite);
+            $spec->run();
+
+            expect($spec->isFailed())->toBeFalse();
         });
     });
 
     describe('isIncomplete', function() {
-        context('when incomplete', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', null, $this->suite);
-                $this->spec->run();
-            });
-            it('return true', function() {
-                expect($this->spec->isIncomplete())->toBeTrue();
-            });
+        it('returns true when the spec is incomplete', function() {
+            $spec = new Spec('SpecTitle', null, $this->suite);
+            $spec->run();
+
+            expect($spec->isIncomplete())->toBeTrue();
         });
-        context('when not incomplete', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
-                $this->spec->run();
-            });
-            it('return false', function() {
-                expect($this->spec->isIncomplete())->toBeFalse();
-            });
+
+        it('returns false when the spec is not incomplete', function() {
+            $spec = new Spec('SpecTitle', function(){}, $this->suite);
+            $spec->run();
+
+            expect($spec->isIncomplete())->toBeFalse();
         });
     });
 
     describe('isPending', function() {
-        context('when pending', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', null, $this->suite);
-                $this->spec->setPending();
-            });
-            it('return true', function() {
-                expect($this->spec->isPending())->toBeTrue();
-            });
+        it('returns true when the spec is pending', function() {
+            $spec = new Spec('SpecTitle', null, $this->suite);
+            $spec->setPending();
+
+            expect($spec->isPending())->toBeTrue();
         });
-        context('when not pending', function() {
-            before(function() {
-                $this->spec = new Spec('SpecTitle', function(){}, $this->suite);
-                $this->spec->run();
-            });
-            it('return false', function() {
-                expect($this->spec->isPending())->toBeFalse();
-            });
+
+        it('returns false when the spec is not pending', function() {
+            $spec = new Spec('SpecTitle', function(){}, $this->suite);
+            $spec->run();
+
+            expect($spec->isPending())->toBeFalse();
         });
     });
-
 });

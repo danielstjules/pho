@@ -101,7 +101,8 @@ class Runner
     }
 
     /**
-     * Constructs a new Spec, adding it to the list of specs in the current suite and mark it as pending.
+     * Constructs a new Spec, adding it to the list of specs in the current
+     * suite and mark it as pending.
      *
      * @param string   $title   A title to be associated with the spec
      * @param \Closure $closure The closure to invoke when the spec is ran
@@ -168,8 +169,11 @@ class Runner
      */
     public function run()
     {
-        $this->bootstrap(self::$console->options['bootstrap']);
-        
+        if (self::$console->options['bootstrap'] &&
+            !$this->loadBootstrap(self::$console->options['bootstrap'])) {
+            return;
+        }
+
         // Get and instantiate the reporter class, load files
         $reporterClass = self::$console->getReporterClass();
         $this->reporter = new $reporterClass(self::$console);
@@ -217,7 +221,8 @@ class Runner
             }
 
             // Run pho in another process and echo its stdout
-            $process = proc_open("{$_SERVER['SCRIPT_FILENAME']} {$optionString} {$paths}", $descriptor, $pipes);
+            $procStr = "{$_SERVER['SCRIPT_FILENAME']} {$optionString} {$paths}";
+            $process = proc_open($procStr, $descriptor, $pipes);
 
             if (is_resource($process)) {
                 while ($buffer = fread($pipes[1], 16)) {
@@ -360,35 +365,25 @@ class Runner
             $runnable->run();
         }
     }
-    
+
     /**
-     * Load bootstrap file
-     * 
-     * @param $bootstrap
-     * @return bool
+     * Loads a bootstrap file given its string path.
+     *
+     * @param  string $bootstrap Path to the bootstrap file to load
+     * @return bool   Whether or not the file was successfully loaded
      */
-    private function bootstrap($bootstrap) {
-
-        if($bootstrap === false) {
-            return false;
+    private function loadBootstrap($bootstrap)
+    {
+        if (!file_exists($bootstrap)) {
+            self::$console->writeLn("Bootstrap file not found: $bootstrap");
+        } else if(!is_readable($bootstrap)) {
+            self::$console->writeLn("Bootstrap file not readable: $bootstrap");
+        } else if(!@include_once($bootstrap)) {
+            self::$console->writeLn("Unable to include bootstrap: $bootstrap");
+        } else {
+            return true;
         }
 
-        if(!file_exists($bootstrap)) {
-            self::$console->writeLn("File not found: $bootstrap, continuing anyway");
-            return false;
-        }
-
-        if(!is_readable($bootstrap)) {
-            self::$console->writeLn("File not readable: $bootstrap, continuing anyway");
-            return false;
-        }
-
-        if(! @include_once($bootstrap)) {
-            self::$console->writeLn("Unable to include: $bootstrap, continuing anyway");
-            return false;
-        }
-
-        return true;
-
+        return false;
     }
 }
