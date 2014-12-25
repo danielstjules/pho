@@ -2,10 +2,6 @@
 
 BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
 
-Note: While the public API is stable, the internals are currently being rewritten.
-I intend to make that dev branch public soon. Once available, I'd be happy to
-once again accept PRs, but specifically on that development branch. Thanks!
-
 [![Build Status](https://travis-ci.org/danielstjules/pho.svg?branch=master)](https://travis-ci.org/danielstjules/pho)
 
  * [Installation](#installation)
