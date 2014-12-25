@@ -49,7 +49,7 @@ describe('Suite', function() {
         });
 
         it('returns null if not found in parents', function() use ($child) {
-            expect($child->randomkey)->toBeNull();
+            expect($child->randomkey)->toBe(null);
         });
     });
 

@@ -179,25 +179,13 @@ expect(new User())->notToBeAnInstanceOf('Post');
 #### Strict Equality Matching
 
 ``` php
-expect(1)->toBe(1);
-expect(1)->not()->toBe(2);
-expect(1)->notToBe(2);
+expect(true)->toBe(true);
+expect(true)->not()->toBe(false);
+expect(true)->notToBe(false);
 
 expect(['foo'])->toEqual(['foo']); // Alias for toBe
 expect(['foo'])->not()->toEqual(true);
 expect(['foo'])->notToEqual(true);
-
-expect(null)->toBeNull();
-expect('pho')->not()->toBeNull();
-expect('pho')->notToBeNull();
-
-expect(true)->toBeTrue();
-expect(1)->not()->toBeTrue();
-expect(1)->notToBeTrue();
-
-expect(false)->toBeFalse();
-expect(0)->not()->toBeFalse();
-expect(0)->notToBeFalse();
 ```
 
 #### Loose Equality Matching

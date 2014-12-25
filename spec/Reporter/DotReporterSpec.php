@@ -21,7 +21,7 @@ describe('DotReporter', function() {
     });
 
     it('implements the ReporterInterface', function() {
-        expect($this->reporter instanceof ReporterInterface)->toBeTrue();
+        expect($this->reporter instanceof ReporterInterface)->toBe(true);
     });
 
     context('beforeSpec', function() {

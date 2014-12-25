@@ -19,7 +19,7 @@ describe('ListReporter', function() {
 
     it('implements the ReporterInterface', function() {
         $reporter = new ListReporter($this->console);
-        expect($reporter instanceof ReporterInterface)->toBeTrue();
+        expect($reporter instanceof ReporterInterface)->toBe(true);
     });
 
     context('beforeSpec', function() {

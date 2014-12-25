@@ -72,7 +72,7 @@ describe('Spec', function() {
             $spec = new Spec('SpecTitle', function(){}, $this->suite);
             $spec->run();
 
-            expect($spec->isPassed())->toBeTrue();
+            expect($spec->isPassed())->toBe(true);
         });
 
         it('returns false when the spec did not pass', function() {
@@ -81,7 +81,7 @@ describe('Spec', function() {
             }, $this->suite);
             $spec->run();
 
-            expect($spec->isPassed())->toBeFalse();
+            expect($spec->isPassed())->toBe(false);
         });
     });
 
@@ -92,14 +92,14 @@ describe('Spec', function() {
             }, $this->suite);
             $spec->run();
 
-            expect($spec->isFailed())->toBeTrue();
+            expect($spec->isFailed())->toBe(true);
         });
 
         it('returns false when the spec did not fail', function() {
             $spec = new Spec('SpecTitle', function(){}, $this->suite);
             $spec->run();
 
-            expect($spec->isFailed())->toBeFalse();
+            expect($spec->isFailed())->toBe(false);
         });
     });
 
@@ -108,14 +108,14 @@ describe('Spec', function() {
             $spec = new Spec('SpecTitle', null, $this->suite);
             $spec->run();
 
-            expect($spec->isIncomplete())->toBeTrue();
+            expect($spec->isIncomplete())->toBe(true);
         });
 
         it('returns false when the spec is not incomplete', function() {
             $spec = new Spec('SpecTitle', function(){}, $this->suite);
             $spec->run();
 
-            expect($spec->isIncomplete())->toBeFalse();
+            expect($spec->isIncomplete())->toBe(false);
         });
     });
 
@@ -124,14 +124,14 @@ describe('Spec', function() {
             $spec = new Spec('SpecTitle', null, $this->suite);
             $spec->setPending();
 
-            expect($spec->isPending())->toBeTrue();
+            expect($spec->isPending())->toBe(true);
         });
 
         it('returns false when the spec is not pending', function() {
             $spec = new Spec('SpecTitle', function(){}, $this->suite);
             $spec->run();
 
-            expect($spec->isPending())->toBeFalse();
+            expect($spec->isPending())->toBe(false);
         });
     });
 });

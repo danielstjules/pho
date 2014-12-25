@@ -8,7 +8,7 @@ describe('RunnableException', function() {
     $exception = new RunnableException($caught);
 
     it('extends Exception', function() use ($exception) {
-        expect($exception instanceof Exception)->toBeTrue();
+        expect($exception instanceof Exception)->toBe(true);
     });
 
     it('uses the exception class as the type', function() use ($exception) {

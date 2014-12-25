@@ -31,19 +31,19 @@ describe('ConsoleOption', function() {
         });
 
         it('return value', function() use ($option, $optInfo) {
-            expect($option->getValue())->toBeFalse();
+            expect($option->getValue())->toBe(false);
         });
     });
 
     context('acceptArguments', function() {
         it('returns true if an argument name was defined', function () {
             $option = new ConsoleOption('sname', 'lname', 'desc', 'argname');
-            expect($option->acceptsArguments())->toBeTrue();
+            expect($option->acceptsArguments())->toBe(true);
         });
 
         it('returns true if an argument name was not defined', function () {
             $option = new ConsoleOption('sname', 'lname', 'desc');
-            expect($option->acceptsArguments())->toBeFalse();
+            expect($option->acceptsArguments())->toBe(false);
         });
     });
 
@@ -59,7 +59,7 @@ describe('ConsoleOption', function() {
             $option = new ConsoleOption('sname', 'lname', 'desc');
             $value = 'test';
             $option->setValue($value);
-            expect($option->getValue())->toBeTrue();
+            expect($option->getValue())->toBe(true);
         });
     });
 });
