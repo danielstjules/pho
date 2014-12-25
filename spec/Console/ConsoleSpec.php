@@ -11,6 +11,7 @@ describe('Console', function() {
             expect($console->options)->toEqual([
                 'ascii'     => false,
                 'help'      => false,
+                'bootstrap' => false,
                 'filter'    => false,
                 'reporter'  => 'dot',
                 'stop'      => true,

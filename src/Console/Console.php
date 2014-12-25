@@ -21,6 +21,7 @@ class Console
     private $availableOptions = [
         'ascii'     => ['--ascii',     '-a', 'Show ASCII art on completion'],
         'help'      => ['--help',      '-h', 'Output usage information'],
+        'bootstrap' => ['--bootstrap', '-b', 'Bootstrap file to load', 'bootstrap'],
         'filter'    => ['--filter',    '-f', 'Run specs containing a pattern', 'pattern'],
         'reporter'  => ['--reporter',  '-r', 'Specify the reporter to use', 'name'],
         'stop'      => ['--stop',      '-s', 'Stop on failure'],
@@ -31,7 +32,6 @@ class Console
         // TODO: Implement options below
         // 'no-color'  => ['--no-color',  '-n', 'Disable terminal colors'],
         // 'generate'  => ['--generate',  '-g', 'Generate suites for classes in path', 'path'],
-        // 'bootstrap' => ['--bootstrap', '-b', 'Bootstrap file to load', 'bootstrap'],
         // 'processes' => ['--processes', '-p', 'Number of processes to use', 'processes'],
         // 'verbose'   => ['--verbose',   '-V', 'Enable verbose output']
     ];
