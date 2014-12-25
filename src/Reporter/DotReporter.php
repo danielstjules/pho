@@ -55,15 +55,15 @@ class DotReporter extends AbstractReporter implements ReporterInterface
     {
         $this->lineLength += 1;
 
-        if ($spec->getResult() === Spec::FAILED) {
+        if ($spec->isFailed()) {
             $this->failedSpecs[] = $spec;
             $failure = $this->formatter->red('F');
             $this->console->write($failure);
-        } else if ($spec->getResult() === Spec::INCOMPLETE) {
+        } else if ($spec->isIncomplete()) {
             $this->incompleteSpecs[] = $spec;
             $incomplete = $this->formatter->cyan('I');
             $this->console->write($incomplete);
-        } else if ($spec->getResult() === Spec::PENDING) {
+        } else if ($spec->isPending()) {
             $this->pendingSpecs[] = $spec;
             $pending = $this->formatter->yellow('P');
             $this->console->write($pending);

@@ -87,6 +87,46 @@ class Spec extends Runnable
     }
 
     /**
+     * Return true if that passes the spec
+     *
+     * @return bool
+     */
+    public function isPassed()
+    {
+        return $this->getResult() === self::PASSED;
+    }
+
+    /**
+     * Return true if that is failing the spec
+     *
+     * @return bool
+     */
+    public function isFailed()
+    {
+        return $this->getResult() === self::FAILED;
+    }
+
+    /**
+     * Return true if the incomplete
+     *
+     * @return bool
+     */
+    public function isIncomplete()
+    {
+        return $this->getResult() === self::INCOMPLETE;
+    }
+
+    /**
+     * Return true if the pending
+     *
+     * @return bool
+     */
+    public function isPending()
+    {
+        return $this->pending === true;
+    }
+
+    /**
      * Returns a string containing the spec's name, preceeded by the names of
      * all parent suites.
      *
