@@ -141,6 +141,48 @@ class Expectation
     }
 
     /**
+     * Tests whether or not $actual is null.
+     *
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeNull()
+    {
+        $matcher = new StrictEqualityMatcher(null);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual is true.
+     *
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeTrue()
+    {
+        $matcher = new StrictEqualityMatcher(true);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
+     * Tests whether or not $actual is false.
+     *
+     * @returns Expectation          The current expectation
+     * @throws  ExpectationException If the positive or negative match fails
+     */
+    public function toBeFalse()
+    {
+        $matcher = new StrictEqualityMatcher(false);
+        $this->test($matcher);
+
+        return $this;
+    }
+
+    /**
      * Tests whether or not $actual is loosely equal to a given value.
      *
      * @param   mixed                $value The expected value
