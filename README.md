@@ -1,14 +1,13 @@
 ![pho](http://danielstjules.com/github/pho-logo.png)
 
-BDD test framework for PHP, inspired by Jasmine and RSpec. Work in progress.
-
-Note: While the public API is stable, the internals are currently being rewritten.
-I intend to make that dev branch public soon. Once available, I'd be happy to
-once again accept PRs, but specifically on that development branch. Thanks!
+BDD test framework for PHP, inspired by Jasmine and RSpec. Features a familiar
+syntax, and a watch command to automatically re-run specs during development.
+It can also be extended with custom matchers and reporters.
 
 [![Build Status](https://travis-ci.org/danielstjules/pho.svg?branch=master)](https://travis-ci.org/danielstjules/pho)
 
  * [Installation](#installation)
+ * [Usage](#usage)
  * [Writing Specs](#writing-specs)
  * [Running Specs](#running-specs)
  * [Expectations/Matchers](#expectationsmatchers)
@@ -16,7 +15,6 @@ once again accept PRs, but specifically on that development branch. Thanks!
  * [Reporters](#reporters)
  * [Mocking](#mocking)
  * [Namespace](#namespace)
- * [Options](#options)
 
 ## Installation
 
@@ -34,6 +32,25 @@ $ php composer.phar global require danielstjules/pho:dev-master
 
 ```
 export PATH=$HOME/.composer/vendor/bin:$PATH
+```
+
+## Usage
+
+``` bash
+Usage: pho [options] [files]
+
+Options
+
+   -a   --ascii                     Show ASCII art on completion
+   -b   --bootstrap   <bootstrap>   Bootstrap file to load
+   -f   --filter      <pattern>     Run specs containing a pattern
+   -h   --help                      Output usage information
+   -n   --namespace                 Only use namespaced functions
+   -r   --reporter    <name>        Specify the reporter to use
+   -s   --stop                      Stop on failure
+   -v   --version                   Display version number
+   -w   --watch                     Watch files for changes and rerun specs
+   -C   --no-color                  Disable terminal colors
 ```
 
 ## Writing Specs
@@ -448,22 +465,4 @@ pho\describe('A suite', function() {
         pho\expect(false)->not()->toBe(false);
     });
 });
-```
-
-## Options
-
-```
-$ bin/pho --help
-Usage: pho [options] [files]
-
-Options
-
-   -a   --ascii                   Show ASCII art on completion
-   -h   --help                    Output usage information
-   -f   --filter      <pattern>   Run specs containing a pattern
-   -r   --reporter    <name>      Specify the reporter to use
-   -s   --stop                    Stop on failure
-   -v   --version                 Display version number
-   -w   --watch                   Watch files for changes and rerun specs
-   -n   --namespace               Only use namespaced functions
 ```

@@ -10,14 +10,14 @@ describe('Console', function() {
 
             expect($console->options)->toEqual([
                 'ascii'     => false,
-                'help'      => false,
                 'bootstrap' => false,
                 'filter'    => false,
+                'help'      => false,
+                'namespace' => false,
                 'reporter'  => 'dot',
                 'stop'      => true,
                 'version'   => false,
                 'watch'     => false,
-                'namespace' => false,
                 'no-color'  => false
             ]);
         });

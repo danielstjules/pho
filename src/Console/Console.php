@@ -25,14 +25,14 @@ class Console
 
     private $availableOptions = [
         'ascii'     => ['--ascii',     '-a', 'Show ASCII art on completion'],
-        'help'      => ['--help',      '-h', 'Output usage information'],
         'bootstrap' => ['--bootstrap', '-b', 'Bootstrap file to load', 'bootstrap'],
         'filter'    => ['--filter',    '-f', 'Run specs containing a pattern', 'pattern'],
+        'help'      => ['--help',      '-h', 'Output usage information'],
+        'namespace' => ['--namespace', '-n', 'Only use namespaced functions'],
         'reporter'  => ['--reporter',  '-r', 'Specify the reporter to use', 'name'],
         'stop'      => ['--stop',      '-s', 'Stop on failure'],
         'version'   => ['--version',   '-v', 'Display version number'],
         'watch'     => ['--watch',     '-w', 'Watch files for changes and rerun specs'],
-        'namespace' => ['--namespace', '-n', 'Only use namespaced functions'],
         'no-color'  => ['--no-color',  '-C', 'Disable terminal colors'],
 
         // TODO: Implement options below
