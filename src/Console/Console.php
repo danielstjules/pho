@@ -33,10 +33,9 @@ class Console
         'version'   => ['--version',   '-v', 'Display version number'],
         'watch'     => ['--watch',     '-w', 'Watch files for changes and rerun specs'],
         'namespace' => ['--namespace', '-n', 'Only use namespaced functions'],
+        'no-color'  => ['--no-color',  '-C', 'Disable terminal colors'],
 
         // TODO: Implement options below
-        // 'no-color'  => ['--no-color',  '-n', 'Disable terminal colors'],
-        // 'generate'  => ['--generate',  '-g', 'Generate suites for classes in path', 'path'],
         // 'processes' => ['--processes', '-p', 'Number of processes to use', 'processes'],
         // 'verbose'   => ['--verbose',   '-V', 'Enable verbose output']
     ];

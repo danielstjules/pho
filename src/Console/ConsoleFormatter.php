@@ -3,35 +3,47 @@
 namespace pho\Console;
 
 /**
- * Console formater class
+ * Console formatter class
  *
  * @package pho\Console
- * @method string black(string $input) Set string color for console output to black
- * @method string grey(string $input) Set string color for console output to grey
- * @method string red(string $input) Set string color for console output to red
- * @method string green(string $input) Set string color for console output to green
- * @method string cyan(string $input) Set string color for console output to cyan
- * @method string yellow(string $input) Set string color for console output to yellow
- * @method string white(string $input) Set string color for console output to white
- * @method string bold(string $input) Set string style for console output to bold
- * @method string italic(string $input) Set string style for console output to italic
+ * @method void   disableColors()       Disable color output
+ * @method string black(string $input)  Set string color for output to black
+ * @method string grey(string $input)   Set string color for output to grey
+ * @method string red(string $input)    Set string color for output to red
+ * @method string green(string $input)  Set string color for output to green
+ * @method string cyan(string $input)   Set string color for output to cyan
+ * @method string yellow(string $input) Set string color for output to yellow
+ * @method string white(string $input)  Set string color for output to white
+ * @method string bold(string $input)   Set string style for output to bold
+ * @method string italic(string $input) Set string style for output to italic
  */
 class ConsoleFormatter
 {
-    private static $foregroundColours = [
-        'black' => ["\033[30m", "\033[0m"],
-        'grey'  => ["\033[90m", "\033[0m"],
-        'red'   => ["\033[31m", "\033[0m"],
-        'green' => ["\033[32m", "\033[0m"],
-        'cyan'  => ["\033[36m", "\033[0m"],
-        'yellow'  => ["\033[33m", "\033[0m"],
-        'white' => ["\033[37m", "\033[0m"],
+    private static $foregroundColors = [
+        'black'  => ["\033[30m", "\033[0m"],
+        'grey'   => ["\033[90m", "\033[0m"],
+        'red'    => ["\033[31m", "\033[0m"],
+        'green'  => ["\033[32m", "\033[0m"],
+        'cyan'   => ["\033[36m", "\033[0m"],
+        'yellow' => ["\033[33m", "\033[0m"],
+        'white'  => ["\033[37m", "\033[0m"],
     ];
 
     private static $styles = [
         'bold'   => ["\x1b[1m", "\x1b[22m"],
         'italic' => ["\x1b[3m", "\x1b[23m"],
     ];
+
+    private $enabled = true;
+
+    /**
+     * Disables string formatting using ANSI escape sequences. After being
+     * invoked, any calls to a color or style function will result in the plain
+     * string being returned.
+     */
+    public function disableANSI() {
+        $this->enabled = false;
+    }
 
     /**
      * Given a multidimensional array, formats the text such that each entry
@@ -74,16 +86,16 @@ class ConsoleFormatter
     }
 
     /**
-     * Sets the text colour to one of those defined in $foregroundColours.
+     * Sets the text color to one of those defined in $foregroundColors.
      *
-     * @param  string $colour A colour corresponding to one of the keys in the
-     *                        $foregroundColours array
+     * @param  string $color A color corresponding to one of the keys in the
+     *                        $foregroundColors array
      * @param  string $text   The text to be modified
      * @return string The original text surrounded by ANSI escape codes
      */
-    private function applyForeground($colour, $text)
+    private function applyForeground($color, $text)
     {
-        list($startCode, $endCode) = self::$foregroundColours[$colour];
+        list($startCode, $endCode) = self::$foregroundColors[$color];
 
         return $startCode . $text . $endCode;
     }
@@ -104,19 +116,22 @@ class ConsoleFormatter
     }
 
     /**
-     * Applies the passed text colour or style to the string.
+     * Applies the passed text color or style to the string. If disabled,
+     * it simply returns the passed string.
      *
-     * @param  string $method A colour corresponding to one of the keys in the
-     *                        $foregroundColours array
+     * @param  string $method A color corresponding to one of the keys in the
+     *                        $foregroundColors array
      * @param  array  $args   An array with a single element: the text to modify
      * @return string The original text surrounded by ANSI escape codes
      *
      * @throws \Exception If $method doesn't correspond to any of the text
-     *                    colours or styles defined in this class
+     *                    colors or styles defined in this class
      */
     public function __call($method, $args)
     {
-        if (array_key_exists($method, self::$foregroundColours)) {
+        if (!$this->enabled) {
+            return $args[0];
+        } elseif (array_key_exists($method, self::$foregroundColors)) {
             return $this->applyForeground($method, $args[0]);
         } elseif (array_key_exists($method, self::$styles)) {
             return $this->applyStyle($method, $args[0]);

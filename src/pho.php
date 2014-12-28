@@ -138,6 +138,11 @@ function expect($actual)
 $console = new Console(array_slice($argv, 1), 'php://stdout');
 $console->parseArguments();
 
+// Disable color output if necessary
+if ($console->options['no-color']) {
+    $console->formatter->disableANSI();
+}
+
 // Exit if necessary
 if ($console->getErrorStatus() !== null) {
     exit($console->getErrorStatus());

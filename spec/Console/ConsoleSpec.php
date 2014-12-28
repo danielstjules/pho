@@ -17,7 +17,8 @@ describe('Console', function() {
                 'stop'      => true,
                 'version'   => false,
                 'watch'     => false,
-                'namespace' => false
+                'namespace' => false,
+                'no-color'  => false
             ]);
         });
 

@@ -74,4 +74,15 @@ describe('ConsoleFormatter', function() {
             expect($formattedText)->toEqual("\x1b[3mtest\x1b[23m");
         });
     });
+
+    context('disableANSI', function() {
+        it('disables formatting using ANSI escape codes', function() {
+            $str = 'test';
+            $formatter = new ConsoleFormatter;
+            $formatter->disableANSI();
+
+            expect($formatter->green($str))->toEqual($str);
+            expect($formatter->italic($str))->toEqual($str);
+        });
+    });
 });
