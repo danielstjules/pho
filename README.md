@@ -55,8 +55,10 @@ Options
 
 ## Writing Specs
 
-Pho exposes 8 functions for organizing and writing your tests: `describe`,
-`context`, `it`, `before`, `after`, `beforeEach`, `afterEach` and `expect`.
+Pho exposes a DSL for organizing and writing your tests, which includes the
+following functions: `describe`, `context`, `it`, `before`, `after`, `beforeEach`,
+`afterEach` and `expect`. Equivalent functions for disabling specs and suites
+also exist via `xdescribe`, `xcontext` and `xit`.
 
 To create a suite, `describe` and `context` can be used by passing them a
 string and function. Both are interchangeable, though context is more often
