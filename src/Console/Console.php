@@ -21,7 +21,7 @@ class Console
 
     private $paths;
 
-    private $errorStatus;
+    private $exitStatus;
 
     private $availableOptions = [
         'ascii'     => ['--ascii',     '-a', 'Show ASCII art on completion'],
@@ -114,9 +114,19 @@ class Console
      *
      * @return mixed An integer error status, or null
      */
-    public function getErrorStatus()
+    public function getExitStatus()
     {
-        return $this->errorStatus;
+        return $this->exitStatus;
+    }
+
+    /**
+     * Sets the error code to be returned.
+     *
+     * @param int $exitStatus An integer return code or exit status
+     */
+    public function setExitStatus($exitStatus)
+    {
+        $this->exitStatus = $exitStatus;
     }
 
     /**
@@ -148,7 +158,7 @@ class Console
 
             foreach ($this->paths as $path) {
                 if (!file_exists($path)) {
-                    $this->errorStatus = 1;
+                    $this->exitStatus = 1;
                     $this->writeLn("The file or path \"{$path}\" doesn't exist");
                 }
             }
@@ -156,13 +166,13 @@ class Console
 
         // Render help or version text if necessary, and display errors
         if ($this->options['help']) {
-            $this->errorStatus = 0;
+            $this->exitStatus = 0;
             $this->printHelp();
         } elseif ($this->options['version']) {
-            $this->errorStatus = 0;
+            $this->exitStatus = 0;
             $this->printVersion();
         } elseif ($this->optionParser->getInvalidArguments()) {
-            $this->errorStatus = 1;
+            $this->exitStatus = 1;
             foreach ($this->optionParser->getInvalidArguments() as $invalidArg) {
                 $this->writeLn("$invalidArg is not a valid option");
             }

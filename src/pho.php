@@ -144,8 +144,8 @@ if ($console->options['no-color']) {
 }
 
 // Exit if necessary
-if ($console->getErrorStatus() !== null) {
-    exit($console->getErrorStatus());
+if ($console->getExitStatus() !== null) {
+    exit($console->getExitStatus());
 }
 
 // Load global namespaced functions if required
@@ -157,3 +157,4 @@ if (!$console->options['namespace']) {
 // Start the runner
 Runner::$console = $console;
 Runner::getInstance()->run();
+exit($console->getExitStatus());

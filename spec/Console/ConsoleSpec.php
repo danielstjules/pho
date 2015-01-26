@@ -35,7 +35,7 @@ describe('Console', function() {
             });
 
             it('sets the error status to 0', function() {
-                expect($this->console->getErrorStatus())->toEqual(0);
+                expect($this->console->getExitStatus())->toEqual(0);
             });
 
             it('prints the option list and help', function() {
@@ -59,7 +59,7 @@ describe('Console', function() {
             });
 
             it('sets the error status to 0', function() {
-                expect($this->console->getErrorStatus())->toEqual(0);
+                expect($this->console->getExitStatus())->toEqual(0);
             });
 
             it('prints version info', function() {
@@ -81,7 +81,7 @@ describe('Console', function() {
             });
 
             it('sets the error status to 1', function() {
-                expect($this->console->getErrorStatus())->toEqual(1);
+                expect($this->console->getExitStatus())->toEqual(1);
             });
 
             it('lists the invalid option', function() {
@@ -103,7 +103,7 @@ describe('Console', function() {
             });
 
             it('sets the error status to 1', function() {
-                expect($this->console->getErrorStatus())->toEqual(1);
+                expect($this->console->getExitStatus())->toEqual(1);
             });
 
             it('lists the invalid path', function() {

@@ -316,10 +316,15 @@ class Runner
             $this->reporter->afterSpec($spec);
             $this->runAfterEachHooks($suite);
 
-            if (self::$console->options['stop'] && $spec->exception) {
-                $this->reporter->afterRun();
-                exit(1);
+            if ($spec->exception) {
+                self::$console->setExitStatus(1);
+
+                if (self::$console->options['stop']) {
+                    $this->reporter->afterRun();
+                    exit(1);
+                }
             }
+
         }
     }
 
