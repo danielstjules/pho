@@ -1,3 +1,7 @@
+### 1.1.1 (2015-01-25)
+
+  * Fix exit code on spec failure
+
 ### 1.1.0 (2014-12-28)
 
   * toContain/notToContain accepts multiple args

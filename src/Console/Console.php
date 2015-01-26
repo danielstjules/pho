@@ -9,7 +9,7 @@ use pho\Exception\ReporterNotFoundException;
 
 class Console
 {
-    const VERSION = '1.1.0';
+    const VERSION = '1.1.1';
 
     const DEFAULT_REPORTER = 'pho\\Reporter\\DotReporter';
 
