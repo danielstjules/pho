@@ -124,6 +124,7 @@ function afterEach(\Closure $closure)
  * Creates and returns a new Expectation for the supplied value.
  *
  * @param mixed $actual The value to test
+ * @return Expectation
  */
 function expect($actual)
 {
