@@ -135,6 +135,38 @@ function expect($actual)
     return new Expectation($actual);
 }
 
+/**
+ * Given a list of valid paths, recurses through directories and returns a list
+ * of files to load.
+ *
+ * @param  array $paths An array of strings referring to valid file paths
+ * @return array Paths to individual files
+ */
+function expandPaths($paths)
+{
+    $expanded = [];
+
+    foreach ($paths as $path) {
+        if (is_file($path)) {
+            array_push($expanded, $path);
+            continue;
+        }
+
+        $path = realpath($path);
+        $dirIterator = new \RecursiveDirectoryIterator($path);
+        $iterator = new \RecursiveIteratorIterator($dirIterator);
+
+        $files = new \RegexIterator($iterator, '/^.+Spec\.php$/i',
+            \RecursiveRegexIterator::GET_MATCH);
+
+        foreach ($files as $filename => $file) {
+            array_push($expanded, $filename);
+        }
+    }
+
+    return $expanded;
+}
+
 // Create a new Console and parse arguments
 $console = new Console(array_slice($argv, 1), 'php://stdout');
 $console->parseArguments();
@@ -152,6 +184,13 @@ if ($console->getExitStatus() !== null) {
 // Load global namespaced functions if required
 if (!$console->options['namespace']) {
     $path = dirname(__FILE__) . '/globalPho.php';
+    require_once($path);
+}
+
+// Files must be required directly rather than from function
+// invocation to preserve any loaded globals
+$paths = expandPaths($console->getPaths());
+foreach ($paths as $path) {
     require_once($path);
 }
 

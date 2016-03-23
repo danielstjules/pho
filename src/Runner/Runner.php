@@ -178,13 +178,10 @@ class Runner
         $reporterClass = self::$console->getReporterClass();
         $this->reporter = new $reporterClass(self::$console);
 
-        $this->loadFiles(self::$console->getPaths());
         $this->reporter->beforeRun();
-
         foreach ($this->suites as $suite) {
             $this->runSuite($suite);
         }
-
         $this->reporter->afterRun();
 
         if (self::$console->options['watch']) {
@@ -237,33 +234,6 @@ class Runner
 
         // Ever vigilant
         $watcher->watch();
-    }
-
-    /**
-     * Given a list of valid paths, calls require_once to load files while also
-     * recursively loading any files found in directories.
-     *
-     * @param array $paths An array of strings referring to valid file paths
-     */
-    public function loadFiles($paths)
-    {
-        foreach($paths as $path) {
-            if (is_file($path)) {
-                require_once($path);
-                continue;
-            }
-
-            $path = realpath($path);
-            $dirIterator = new \RecursiveDirectoryIterator($path);
-            $iterator = new \RecursiveIteratorIterator($dirIterator);
-
-            $files = new \RegexIterator($iterator, '/^.+Spec\.php$/i',
-                \RecursiveRegexIterator::GET_MATCH);
-
-            foreach ($files as $filename => $file) {
-                require_once($filename);
-            }
-        }
     }
 
     /**
