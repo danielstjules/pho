@@ -1,3 +1,7 @@
+### 1.1.2 (2016-03-23)
+
+  * Preserve globals when using pho
+
 ### 1.1.1 (2015-01-25)
 
   * Fix exit code on spec failure
