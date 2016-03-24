@@ -194,10 +194,10 @@ if ($bootstrap) {
     if (!file_exists($bootstrap)) {
         $console->writeLn("Bootstrap file not found: $bootstrap");
         exit(1);
-    } else if(!is_readable($bootstrap)) {
+    } else if (!is_readable($bootstrap)) {
         $console->writeLn("Bootstrap file not readable: $bootstrap");
         exit(1);
-    } else if(!@include_once($bootstrap)) {
+    } else if (!@include_once($bootstrap)) {
         $console->writeLn("Unable to include bootstrap: $bootstrap");
         exit(1);
     }
