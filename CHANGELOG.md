@@ -1,3 +1,7 @@
+### 1.1.3 (2016-03-24)
+
+  * Preserve globals in bootstrapped files
+
 ### 1.1.2 (2016-03-23)
 
   * Preserve globals when using pho
