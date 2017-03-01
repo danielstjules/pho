@@ -20,18 +20,17 @@ It can also be extended with custom matchers and reporters.
 
 The following instructions outline installation using Composer. If you don't
 have Composer, you can download it from [http://getcomposer.org/](http://getcomposer.org/)
+If you're new to composer, make sure to add the vendor bin to your PATH:
 
- * Run either of the following commands, depending on your environment:
-
-```
-$ composer global require danielstjules/pho:dev-master
-$ php composer.phar global require danielstjules/pho:dev-master
-```
-
-* Edit your `~/.bash_profile` or `~/.profile` and add:
-
-```
+``` bash
+# Append the following to your profile file, for example in ~/.profile
 export PATH=$HOME/.composer/vendor/bin:$PATH
+```
+
+To install pho, run:
+
+``` bash
+composer global require danielstjules/pho
 ```
 
 ## Usage
