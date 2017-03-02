@@ -134,7 +134,9 @@ Hooks are available for running functions as setups and teardowns. `before` is
 ran prior to any specs in a suite, and `after`, once all in the suite have been
 ran. `beforeEach` and `afterEach` both run their closures once per spec. Note
 that `beforeEach` and `afterEach` are both stackable, and will apply to specs
-within nested suites.
+within nested suites. Furthermore, Global hooks may be defined in your bootstrap
+file. For example, an afterEach hook in a bootstrap file will run after every
+test in your suite.
 
 ``` php
 describe('Suite with Hooks', function() {

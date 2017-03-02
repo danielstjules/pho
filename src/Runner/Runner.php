@@ -20,6 +20,21 @@ class Runner
 
     private $current;
 
+    private $root;
+
+    /**
+     * Creates a new Runner.
+     */
+    public function __construct()
+    {
+        // Add a root suite, useful for defining hooks in a bootstrap
+        $this->root = new Suite('', function() {
+            // no-op
+        }, null);
+
+        $this->current = $this->root;
+    }
+
     /**
      * Returns the singleton instance.
      *
@@ -48,8 +63,7 @@ class Runner
         $previous = $this->current;
         $suite = new Suite($title, $closure, $previous);
 
-        // If current is null, this is the root suite for the file
-        if ($this->current === null) {
+        if ($this->current === $this->root) {
             $this->suites[] = $suite;
         } else {
             $this->current->addSuite($suite);
@@ -61,11 +75,7 @@ class Runner
     }
 
     /**
-     * Constructs a test Suite, assigning it the given title and anonymous
-     * function. If it's a child of another suite, a reference to the parent
-     * suite is stored. This is done by tracking the current and previously
-     * defined suites.
-     * After all, mark the Suit as pending.
+     * Creates a suite and marks it as pending.
      *
      * @param string   $title   A title to be associated with the suite
      * @param \Closure $closure The closure to invoke when the suite is ran
@@ -89,7 +99,8 @@ class Runner
     }
 
     /**
-     * Constructs a new Spec, adding it to the list of specs in the current suite.
+     * Constructs a new Spec, adding it to the list of specs in the current
+     * suite.
      *
      * @param string   $title   A title to be associated with the spec
      * @param \Closure $closure The closure to invoke when the spec is ran
