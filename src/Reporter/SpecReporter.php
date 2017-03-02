@@ -68,10 +68,10 @@ class SpecReporter extends AbstractReporter implements ReporterInterface
         if ($spec->isFailed()) {
             $this->failures[] = $spec;
             $title = $this->formatter->red($spec->getTitle());
-        } else if ($spec->isIncomplete()) {
+        } elseif ($spec->isIncomplete()) {
             $this->incompleteSpecs[] = $spec;
             $title = $this->formatter->cyan($spec->getTitle());
-        } else if ($spec->isPending()) {
+        } elseif ($spec->isPending()) {
             $this->pendingSpecs[] = $spec;
             $title = $this->formatter->yellow($spec->getTitle());
         } else {
