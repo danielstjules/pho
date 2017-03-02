@@ -1,3 +1,9 @@
+### 1.2.0 (2017-03-02)
+
+  * Add support for global hooks
+  * Add support for failures via before/after hooks
+  * Support failing specs from beforeEach & afterEach hooks
+
 ### 1.1.3 (2016-03-24)
 
   * Preserve globals in bootstrapped files
