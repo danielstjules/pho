@@ -113,4 +113,15 @@ class Spec extends Runnable
     {
         return $this->pending === true;
     }
+
+    /**
+     * Sets the spec exception, also marking it as failed.
+     *
+     * @param \Exception The exception
+     */
+    public function setException(\Exception $exception)
+    {
+        $this->exception = $exception;
+        $this->result = self::FAILED;
+    }
 }

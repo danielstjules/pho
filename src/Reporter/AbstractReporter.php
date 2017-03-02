@@ -66,7 +66,7 @@ abstract class AbstractReporter
     public function beforeSuite(Suite $suite)
     {
         $hook = $suite->getHook('before');
-        if ($hook && $hook->exception) {
+        if ($hook && $hook->getException()) {
             $this->handleHookFailure($hook);
         }
     }
@@ -79,7 +79,7 @@ abstract class AbstractReporter
     public function afterSuite(Suite $suite)
     {
         $hook = $suite->getHook('after');
-        if ($hook && $hook->exception) {
+        if ($hook && $hook->getException()) {
             $this->handleHookFailure($hook);
         }
     }
@@ -107,7 +107,7 @@ abstract class AbstractReporter
         foreach ($this->failures as $spec) {
             $failedText = $this->formatter->red("\n\"$spec\" FAILED");
             $this->console->writeLn($failedText);
-            $this->console->writeLn($spec->exception);
+            $this->console->writeLn($spec->getException());
         }
 
         if ($this->startTime) {

@@ -8,7 +8,7 @@ use pho\Exception\RunnableException;
 
 abstract class Runnable
 {
-    public $exception;
+    protected $exception;
 
     protected $closure;
 
@@ -47,6 +47,16 @@ abstract class Runnable
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Returns the exception of the spec.
+     *
+     * @return \Exception The exception
+     */
+    public function getException()
+    {
+        return $this->exception;
     }
 
     /**

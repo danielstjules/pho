@@ -30,7 +30,7 @@ describe('Runnable', function() {
             $runnable = new MockRunnable($closure, $this->suite);
             $runnable->run();
 
-            expect($runnable->exception->getType())->toEqual('E_USER_NOTICE');
+            expect($runnable->getException()->getType())->toEqual('E_USER_NOTICE');
         });
 
         it('catches and stores ExpectationExceptions', function() {
@@ -40,7 +40,7 @@ describe('Runnable', function() {
             $runnable = new MockRunnable($closure, $this->suite);
             $runnable->run();
 
-            expect($runnable->exception->getMessage())->toEqual('test');
+            expect($runnable->getException()->getMessage())->toEqual('test');
         });
 
         it('catches and stores all other exceptions', function() {
@@ -50,7 +50,7 @@ describe('Runnable', function() {
             $runnable = new MockRunnable($closure, $this->suite);
             $runnable->run();
 
-            expect($runnable->exception->getMessage())->toEqual('test exception');
+            expect($runnable->getException()->getMessage())->toEqual('test exception');
         });
     });
 });

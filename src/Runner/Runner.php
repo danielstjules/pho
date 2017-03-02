@@ -288,13 +288,13 @@ class Runner
                 continue;
             }
 
-            $this->runBeforeEachHooks($suite);
             $this->reporter->beforeSpec($spec);
 
+            $this->runBeforeEachHooks($suite, $spec);
             $this->runRunnable($spec);
+            $this->runAfterEachHooks($suite, $spec);
 
             $this->reporter->afterSpec($spec);
-            $this->runAfterEachHooks($suite);
         }
     }
 
@@ -304,14 +304,19 @@ class Runner
      * from outer suite to inner suites.
      *
      * @param Suite $suite The suite with the hooks to run
+     * @param Spec  $spec  The spec to assign any hook failures
      */
-    private function runBeforeEachHooks(Suite $suite)
+    private function runBeforeEachHooks(Suite $suite, Spec $spec)
     {
         if ($suite->getParent()) {
-            $this->runBeforeEachHooks($suite->getParent());
+            $this->runBeforeEachHooks($suite->getParent(), $spec);
         }
 
-        $this->runRunnable($suite->getHook('beforeEach'));
+        $hook = $suite->getHook('beforeEach');
+        $this->runRunnable($hook);
+        if (!$spec->getException() && $hook) {
+            $spec->setException($hook->getException());
+        }
     }
 
     /**
@@ -320,13 +325,18 @@ class Runner
      * suites to outer suites.
      *
      * @param Suite $suite The suite with the hooks to run
+     * @param Spec  $spec  The spec to assign any hook failures
      */
-    private function runAfterEachHooks(Suite $suite)
+    private function runAfterEachHooks(Suite $suite, Spec $spec)
     {
-        $this->runRunnable($suite->getHook('afterEach'));
+        $hook = $suite->getHook('afterEach');
+        $this->runRunnable($hook);
+        if (!$spec->getException() && $hook) {
+            $spec->setException($hook->getException());
+        }
 
         if ($suite->getParent()) {
-            $this->runAfterEachHooks($suite->getParent());
+            $this->runAfterEachHooks($suite->getParent(), $spec);
         }
     }
 
@@ -336,10 +346,10 @@ class Runner
      */
     private function runRunnable($runnable)
     {
-        if (!$runnable instanceof Runnable) return;
+        if (!$runnable) return;
 
         $runnable->run();
-        if ($runnable->exception) {
+        if ($runnable->getException()) {
             self::$console->setExitStatus(1);
             if (self::$console->options['stop']) {
                 $this->reporter->afterRun();
