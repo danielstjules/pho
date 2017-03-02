@@ -429,24 +429,19 @@ Pho doesn't currently provide mocks/stubs out of the box. Instead, it's suggeste
 that a mocking framework such as [prophecy](https://github.com/phpspec/prophecy)
 or [mockery](https://github.com/padraic/mockery) be used.
 
-*Note*: Tests cannot be failed within a test hook. If you need to check
-mock object expectations after running a spec, make sure you do so within the
-spec body. In the following example this is achieved using the `$teardown`
-closure, although the name is not significant.
+*Note*: Tests can be failed from a test hook. If you need to check mock object
+expectations after running a spec, you can do so from an afterEach hook.
 
 ```php
 describe('A suite', function() {
-    // Any last checks that could fail a test would go here
-    $this->teardown = function() {
+    afterEach(function() {
         Mockery::close();
-    };
+    });
 
     it('should check mock object expectations', function() {
         $mock = Mockery::mock('simplemock');
         $mock->shouldReceive('foo')->with(5)->once()->andReturn(10);
         expect($mock->foo(5))->toBe(10);
-
-        $this->teardown();
     });
 });
 ```
