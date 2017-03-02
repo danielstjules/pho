@@ -3,7 +3,8 @@
 use pho\Suite\Suite;
 
 describe('Suite', function() {
-    $parent = new Suite('Parent', function() {});
+    $root = new Suite('Root', function() {});
+    $parent = new Suite('Parent', function() {}, $root);
     $child = new Suite('Child', function() {}, $parent);
 
     context('__toString', function() use ($child, $parent) {

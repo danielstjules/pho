@@ -159,7 +159,7 @@ class Suite
      */
     public function __toString()
     {
-        if ($this->parent) {
+        if ($this->parent && $this->parent->parent) {
             return "{$this->parent} {$this->title}";
         }
 
