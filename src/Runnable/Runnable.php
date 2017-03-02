@@ -14,6 +14,8 @@ abstract class Runnable
 
     protected $suite;
 
+    protected $title;
+
     /**
      * Invokes a Runnable object's $closure, setting an error handler and
      * catching all uncaught exceptions.
@@ -35,6 +37,16 @@ abstract class Runnable
 
             restore_error_handler();
         }
+    }
+
+    /**
+     * Returns the title of the spec.
+     *
+     * @return string The title
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -61,5 +73,16 @@ abstract class Runnable
     public function handleException(\Exception $exception)
     {
         $this->exception = new RunnableException($exception);
+    }
+
+    /**
+     * Returns a string containing the spec's name, preceeded by the names of
+     * all parent suites.
+     *
+     * @return string A human readable description of the spec
+     */
+    public function __toString()
+    {
+        return "{$this->suite} {$this->title}";
     }
 }

@@ -133,8 +133,9 @@ class Runner
      */
     public function before(\Closure $closure)
     {
-        $before = new Hook($closure, $this->current);
-        $this->current->setHook('before', $before);
+        $key = 'before';
+        $before = new Hook($key, $closure, $this->current);
+        $this->current->setHook($key, $before);
     }
 
     /**
@@ -145,8 +146,9 @@ class Runner
      */
     public function after(\Closure $closure)
     {
-        $after = new Hook($closure, $this->current);
-        $this->current->setHook('after', $after);
+        $key = 'after';
+        $after = new Hook($key, $closure, $this->current);
+        $this->current->setHook($key, $after);
     }
 
     /**
@@ -157,8 +159,9 @@ class Runner
      */
     public function beforeEach(\Closure $closure)
     {
-        $beforeEach = new Hook($closure, $this->current);
-        $this->current->setHook('beforeEach', $beforeEach);
+        $key = 'beforeEach';
+        $beforeEach = new Hook($key, $closure, $this->current);
+        $this->current->setHook($key, $beforeEach);
     }
 
     /**
@@ -169,8 +172,9 @@ class Runner
      */
     public function afterEach(\Closure $closure)
     {
-        $afterEach = new Hook($closure, $this->current);
-        $this->current->setHook('afterEach', $afterEach);
+        $key = 'afterEach';
+        $afterEach = new Hook($key, $closure, $this->current);
+        $this->current->setHook($key, $afterEach);
     }
 
     /**
@@ -291,16 +295,6 @@ class Runner
 
             $this->reporter->afterSpec($spec);
             $this->runAfterEachHooks($suite);
-
-            if ($spec->exception) {
-                self::$console->setExitStatus(1);
-
-                if (self::$console->options['stop']) {
-                    $this->reporter->afterRun();
-                    exit(1);
-                }
-            }
-
         }
     }
 
@@ -342,8 +336,15 @@ class Runner
      */
     private function runRunnable($runnable)
     {
-        if ($runnable instanceof Runnable) {
-            $runnable->run();
+        if (!$runnable instanceof Runnable) return;
+
+        $runnable->run();
+        if ($runnable->exception) {
+            self::$console->setExitStatus(1);
+            if (self::$console->options['stop']) {
+                $this->reporter->afterRun();
+                exit(1);
+            }
         }
     }
 }

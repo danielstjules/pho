@@ -4,6 +4,7 @@ namespace pho\Reporter;
 
 use pho\Console\Console;
 use pho\Runnable\Spec;
+use pho\Runnable\Hook;
 
 class DotReporter extends AbstractReporter implements ReporterInterface
 {
@@ -38,7 +39,7 @@ class DotReporter extends AbstractReporter implements ReporterInterface
      */
     public function beforeSpec(Spec $spec)
     {
-        $this->specCount += 1;
+        parent::beforeSpec($spec);
 
         if ($this->lineLength == self::$maxPerLine) {
             $this->console->writeLn('');
@@ -56,7 +57,7 @@ class DotReporter extends AbstractReporter implements ReporterInterface
         $this->lineLength += 1;
 
         if ($spec->isFailed()) {
-            $this->failedSpecs[] = $spec;
+            $this->failures[] = $spec;
             $failure = $this->formatter->red('F');
             $this->console->write($failure);
         } else if ($spec->isIncomplete()) {
@@ -80,5 +81,19 @@ class DotReporter extends AbstractReporter implements ReporterInterface
     {
         $this->console->writeLn('');
         parent::afterRun();
+    }
+
+    /**
+     * If a given hook failed, adds it to list of failures and prints the
+     * result.
+     *
+     * @param Hook $hook The failed hook
+     */
+    protected function handleHookFailure(Hook $hook)
+    {
+        $this->lineLength += 1;
+        $this->failures[] = $hook;
+        $failure = $this->formatter->red('F');
+        $this->console->write($failure);
     }
 }

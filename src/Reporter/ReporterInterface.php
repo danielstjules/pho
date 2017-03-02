@@ -5,6 +5,7 @@ namespace pho\Reporter;
 use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
+use pho\Runnable\Hook;
 
 interface ReporterInterface
 {

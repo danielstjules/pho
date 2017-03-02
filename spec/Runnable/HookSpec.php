@@ -17,7 +17,7 @@ describe('Hook', function() {
             $closure = function() {
                 echo $this->key;
             };
-            $hook = new Hook($closure, $this->suite);
+            $hook = new Hook('fake', $closure, $this->suite);
             $hook->run();
         };
 

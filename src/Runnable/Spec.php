@@ -14,8 +14,6 @@ class Spec extends Runnable
 
     const PENDING = 'pending';
 
-    private $title;
-
     private $result;
 
     private $pending;
@@ -68,16 +66,6 @@ class Spec extends Runnable
     }
 
     /**
-     * Returns the title of the spec.
-     *
-     * @return string The title
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * Returns the result of the spec, which after running, is one of PASSED,
      * FAILED, or INCOMPLETE.
      */
@@ -124,16 +112,5 @@ class Spec extends Runnable
     public function isPending()
     {
         return $this->pending === true;
-    }
-
-    /**
-     * Returns a string containing the spec's name, preceeded by the names of
-     * all parent suites.
-     *
-     * @return string A human readable description of the spec
-     */
-    public function __toString()
-    {
-        return "{$this->suite} {$this->title}";
     }
 }

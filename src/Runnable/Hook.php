@@ -11,11 +11,13 @@ class Hook extends Runnable
      * ie: before, after, beforeEach, and afterEach. The closure is also bound
      * to the suite.
      *
+     * @param string   $title   Title of the hook
      * @param \Closure $closure The closure to invoke when the hook is called
      * @param Suite    $suite   The suite within which this spec was defined
      */
-    public function __construct(\Closure $closure, Suite $suite)
+    public function __construct($title, \Closure $closure, Suite $suite)
     {
+        $this->title = "{$title} hook";
         $this->suite = $suite;
         $this->closure = $closure->bindTo($suite);
     }

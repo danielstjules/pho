@@ -5,6 +5,7 @@ namespace pho\Reporter;
 use pho\Console\Console;
 use pho\Suite\Suite;
 use pho\Runnable\Spec;
+use pho\Runnable\Hook;
 
 class ListReporter extends AbstractReporter implements ReporterInterface
 {
@@ -33,6 +34,7 @@ class ListReporter extends AbstractReporter implements ReporterInterface
         }
 
         $this->depth += 1;
+        parent::beforeSuite($suite);
     }
 
     /**
@@ -43,16 +45,7 @@ class ListReporter extends AbstractReporter implements ReporterInterface
     public function afterSuite(Suite $suite)
     {
         $this->depth -= 1;
-    }
-
-    /**
-     * Ran before an individual spec.
-     *
-     * @param Spec $spec The spec before which to run this method
-     */
-    public function beforeSpec(Spec $spec)
-    {
-        $this->specCount += 1;
+        parent::afterSuite($suite);
     }
 
     /**
@@ -64,7 +57,7 @@ class ListReporter extends AbstractReporter implements ReporterInterface
     public function afterSpec(Spec $spec)
     {
         if ($spec->isFailed()) {
-            $this->failedSpecs[] = $spec;
+            $this->failures[] = $spec;
             $title = $this->formatter->red($spec);
         } else if ($spec->isIncomplete()) {
             $this->incompleteSpecs[] = $spec;
@@ -76,6 +69,19 @@ class ListReporter extends AbstractReporter implements ReporterInterface
             $title = $this->formatter->grey($spec);
         }
 
+        $this->console->writeLn($title);
+    }
+
+    /**
+     * If a given hook failed, adds it to list of failures and prints the
+     * result.
+     *
+     * @param Hook $hook The failed hook
+     */
+    protected function handleHookFailure(Hook $hook)
+    {
+        $this->failures[] = $hook;
+        $title = $this->formatter->red($hook);
         $this->console->writeLn($title);
     }
 }
