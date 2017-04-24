@@ -119,7 +119,7 @@ class Spec extends Runnable
      *
      * @param \Exception The exception
      */
-    public function setException(\Exception $exception)
+    public function setException(\Exception $exception = null)
     {
         $this->exception = $exception;
         $this->result = self::FAILED;

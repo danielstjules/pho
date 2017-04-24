@@ -134,4 +134,25 @@ describe('Spec', function() {
             expect($spec->isPending())->toBe(false);
         });
     });
+
+    describe('setException', function() {
+        it('accepts a null value', function() {
+            $spec = new Spec('spec', null, $this->suite);
+            $spec->setException(null);
+            expect($spec->getException())->toBe(null);
+        });
+
+        it('updates the stored exception', function() {
+            $error = new \Exception('foo');
+            $spec = new Spec('spec', null, $this->suite);
+            $spec->setException($error);
+            expect($spec->getException())->toBe($error);
+        });
+
+        it('updates the spec result to FAILED', function() {
+            $spec = new Spec('spec', null, $this->suite);
+            $spec->setException(new \Exception('foo'));
+            expect($spec->getResult())->toBe(Spec::FAILED);
+        });
+    });
 });
