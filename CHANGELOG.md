@@ -1,3 +1,7 @@
+### 1.2.1 (2017-04-24)
+
+  * Fix E_RECOVERABLE_ERROR from succeeding hook
+
 ### 1.2.0 (2017-03-02)
 
   * Add support for global hooks
